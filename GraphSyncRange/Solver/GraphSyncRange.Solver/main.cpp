@@ -6,6 +6,7 @@
 #include <memory>
 #include <algorithm>
 #include <queue>
+#include <map>
 #include <cassert>
 
 using namespace std;
@@ -41,7 +42,7 @@ namespace util
 
 	vector<Factorial::IdType> Factorial::values = generateFactorials();
 
-	template<typename TVal>
+	template <typename TVal>
 	TVal FastPower(TVal val, int p) {
 		if (p == 0) return 1;
 		if (p == 1) return val;
@@ -49,6 +50,49 @@ namespace util
 			return val * FastPower(val * val, p / 2);
 		return FastPower(val * val, p / 2);
 	}
+
+	class Permutation {
+	public:
+		using IdType = Factorial::IdType;
+
+	private:
+
+		static vector<vector<vector<int>>> permutations;
+		static vector<map<vector<int>, IdType>> permutationIds;
+	public:
+
+		static void Generate(int pSize) {
+			if (permutations.size() < pSize + 1) {
+				permutations.resize(pSize + 1);
+				permutationIds.resize(pSize + 1);
+			}
+
+			vector<int> permutation(pSize);
+			for (int i = 0; i < pSize; ++i) {
+				permutation[i] = i;
+			}
+
+			permutations[pSize].reserve(Factorial::Of(pSize));
+			int id = 0;
+			do {
+				permutations[pSize].push_back(permutation);
+				permutationIds[pSize][permutation] = id;
+				++id;
+			}
+			while (next_permutation(permutation.begin(), permutation.end()));
+		}
+
+		static const vector<int>& ById(int pSize, int id) {
+			return permutations[pSize][id];
+		}
+
+		static IdType GetId(const vector<int>& p) {
+			return permutationIds[p.size()][p];
+		}
+	};
+
+	vector<vector<vector<int>>> Permutation::permutations;
+	vector<map<vector<int>, Permutation::IdType>> Permutation::permutationIds;
 
 	struct LazyPermutation {
 		using IdType = Factorial::IdType;
@@ -59,36 +103,12 @@ namespace util
 			: permutationId(permutation_id) {}
 
 		explicit LazyPermutation(const vector<int>& p) {
-			int n = p.size();
-			vector<int> pool(n);
-			for (int i = 0; i < n; ++i) {
-				pool[i] = i;
-			}
-			IdType currentId = 0;
-			for (int i = 0; i < n; ++i) {
-				auto it = find(pool.begin(), pool.end(), p[i]);
-				int idx = it - pool.begin();
-				pool.erase(it);
-				currentId += idx * Factorial::Of(n - i - 1);
-			}
-			permutationId = currentId;
+			permutationId = Permutation::GetId(p);
+			return;
 		}
 
 		vector<int> GetPermutation(int pSize) const {
-			vector<int> permutation(pSize), pool(pSize);
-			for (int i = 0; i < pSize; ++i) {
-				pool[i] = i;
-			}
-			IdType currentId = permutationId;
-			for (int i = 0; i < pSize; ++i) {
-				int idx = currentId / Factorial::Of(pSize - i - 1);
-				permutation[i] = pool[idx];
-
-				pool.erase(pool.begin() + idx);
-
-				currentId %= Factorial::Of(pSize - i - 1);
-			}
-			return permutation;
+			return Permutation::ById(pSize, permutationId);
 		}
 
 		bool NextPermutation(int pSize) {
@@ -275,7 +295,7 @@ namespace graph
 	void PrintPermutation(const util::LazyPermutation& lazyPermutation, int pSize) {
 		printf(" (%d :", lazyPermutation.permutationId);
 		auto p = lazyPermutation.GetPermutation(pSize);
-		for(auto x : p) {
+		for (auto x : p) {
 			printf(" %d", x);
 		}
 		printf(") ");
@@ -283,7 +303,7 @@ namespace graph
 
 	void PrintColoring(const GraphColoring& coloring) {
 		printf(" {%d :", coloring.GetId());
-		for(auto& edgeColor : coloring.edgeColors) {
+		for (auto& edgeColor : coloring.edgeColors) {
 			PrintPermutation(edgeColor, coloring.nEdges);
 		}
 		printf("} ");
@@ -303,8 +323,9 @@ namespace graph
 	}
 
 	void FindSyncRange(const Graph& graph) {
-		PrintGraph(graph);
-		printf(" -> ");
+
+		//		PrintGraph(graph);
+		//		printf(" -> ");
 		using ColoringIdType = GraphColoring::IdType;
 
 		int n = graph.VerticesCount();
@@ -312,12 +333,13 @@ namespace graph
 
 		auto totalColoringsCount = GraphColoring::ColoringsCount(n, k);
 		auto syncColoringIds = GenerateSyncColorings(graph);
-		if(syncColoringIds.size() == 0) {
-			printf("No sync colorings found\n");
+
+		if (syncColoringIds.size() == 0) {
+			//			printf("No sync colorings found\n");
 			return;
 		}
-		if(syncColoringIds.size() == totalColoringsCount) {
-			printf("All colorings are sync\n");
+		if (syncColoringIds.size() == totalColoringsCount) {
+			//			printf("All colorings are sync\n");
 			return;
 		}
 
@@ -326,7 +348,7 @@ namespace graph
 		queue<ColoringIdType> q;
 
 		ColoringIdType coloringsProcessed = 0;;
-		for(auto& coloringId : syncColoringIds) {
+		for (auto& coloringId : syncColoringIds) {
 			q.push(coloringId);
 			distance[coloringId] = 0;
 			parent[coloringId] = coloringId;
@@ -334,10 +356,10 @@ namespace graph
 		}
 
 		int farthestColoringId = -1;
-		while(coloringsProcessed < totalColoringsCount && !q.empty()) {
+		while (coloringsProcessed < totalColoringsCount && !q.empty()) {
 			auto coloringId = q.front();
 			q.pop();
-			
+
 			auto coloring = GraphColoring(n, k, coloringId);
 			// generate neighbors
 			for (int v = 0; v < n; ++v) { // select vertex
@@ -366,10 +388,13 @@ namespace graph
 
 		assert(farthestColoringId != -1); // neighbors generation failed
 
+		if (distance[farthestColoringId] < 2) return;
+		PrintGraph(graph);
+		printf(" -> ");
 		printf("MaxDistance : %d from ", distance[farthestColoringId]);
 		PrintColoring(GraphColoring(n, k, farthestColoringId));
 		auto coloringId = farthestColoringId;
-		while(parent[coloringId] != coloringId) {
+		while (parent[coloringId] != coloringId) {
 			coloringId = parent[coloringId];
 		}
 		printf(" to ");
@@ -411,14 +436,20 @@ unique_ptr<Graph> StartGraph(int nVertices, int outDegree) {
 }
 
 int main(void) {
-	freopen("input.txt", "rt", stdin);
+	//	freopen("input.txt", "rt", stdin);
 	freopen("output.txt", "wt", stdout);
 
-	auto g = StartGraph(4, 2);
+	int n, k;
+	cin >> n >> k;
+	//	n = 3;
+	//	k = 3;
+
+	util::Permutation::Generate(k);
+	auto g = StartGraph(n, k);
 	do {
 		FindSyncRange(*g);
-	} while (NextGraph(*g));
-	
+	}
+	while (NextGraph(*g));
 
 	return 0;
 }
