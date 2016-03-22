@@ -289,7 +289,22 @@ namespace graph
 		printf("} ");
 	}
 
+	void PrintGraph(const Graph& graph) {
+		printf(" {");
+		for (int v = 0; v < graph.VerticesCount(); ++v) {
+			printf("%d : (", v);
+			for (int i = 0; i < graph.edges[v].size(); ++i) {
+				if (i > 0) printf(", ");
+				printf("%d", graph.edges[v][i]);
+			}
+			printf("), ");
+		}
+		printf("} ");
+	}
+
 	void FindSyncRange(const Graph& graph) {
+		PrintGraph(graph);
+		printf(" -> ");
 		using ColoringIdType = GraphColoring::IdType;
 
 		int n = graph.VerticesCount();
@@ -372,12 +387,38 @@ void print(const vector<int>& v) {
 	printf("\n");
 }
 
+bool NextGraph(Graph& graph) {
+	int n = graph.VerticesCount();
+	int k = graph.OutDegree();
+	for (int v = 0; v < n; ++v) {
+		for (int e = 0; e < k; ++e) {
+			graph.edges[v][e] = (graph.edges[v][e] + 1) % n;
+			if (graph.edges[v][e] != 0)
+				return true;
+		}
+	}
+	return false;
+}
+
+unique_ptr<Graph> StartGraph(int nVertices, int outDegree) {
+	auto g = make_unique<Graph>(nVertices);
+	for (int v = 0; v < nVertices; ++v) {
+		for (int e = 0; e < outDegree; ++e) {
+			g->AddEdge(v, 0);
+		}
+	}
+	return g;
+}
+
 int main(void) {
 	freopen("input.txt", "rt", stdin);
 	freopen("output.txt", "wt", stdout);
 
-	auto g = ReadGraph();
-	FindSyncRange(*g);
+	auto g = StartGraph(4, 2);
+	do {
+		FindSyncRange(*g);
+	} while (NextGraph(*g));
+	
 
 	return 0;
 }
