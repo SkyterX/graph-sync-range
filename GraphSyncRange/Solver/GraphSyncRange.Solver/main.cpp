@@ -216,6 +216,60 @@ namespace graph
 		}
 	};
 
+	struct StrongConnectivityChecker {
+
+		const Graph& graph;
+
+		explicit StrongConnectivityChecker(const Graph& graph)
+			: graph(graph) {}
+
+		bool Check() {
+			int n = graph.VerticesCount();
+			depth.assign(n, -1);
+			fup.assign(n, -1);
+
+			dfs(0);
+			for (int v = 0; v < n; ++v) {
+				if (fup[v] != 0)
+					return false;
+			}
+			return true;
+		}
+
+	private:
+		vector<int> depth;
+		vector<int> fup;
+
+		void dfs(int v, int curDepth = 0) {
+			depth[v] = curDepth;
+			fup[v] = curDepth;
+			for (auto& to : graph.edges[v]) {
+				if (depth[to] != -1)
+					fup[v] = min(fup[v], depth[to]);
+				else {
+					dfs(to, curDepth + 1);
+					fup[v] = min(fup[v], fup[to]);
+				}
+			}
+		}
+	};
+
+	bool IsEulerian(const Graph& graph) {
+		if (graph.OutDegree() % 2 == 1) return false;
+		int n = graph.VerticesCount();
+		vector<int> inDegree(n, 0);
+		for (int v = 0; v < n; ++v) {
+			for (auto& to : graph.edges[v]) {
+				++inDegree[to];
+			}
+		}
+		for (int v = 0; v < n; ++v) {
+			if (inDegree[v] % 2 == 1)
+				return false;
+		}
+		return true;
+	}
+
 	bool IsSynchronizing(const Automata& a) {
 		int n = a.VerticesCount();
 		int k = a.OutDegree();
@@ -441,13 +495,15 @@ int main(void) {
 
 	int n, k;
 	cin >> n >> k;
-	//	n = 3;
-	//	k = 3;
+//	n = 4;
+//	k = 2;
 
 	util::Permutation::Generate(k);
 	auto g = StartGraph(n, k);
 	do {
-		FindSyncRange(*g);
+		if (StrongConnectivityChecker(*g).Check()) {
+			FindSyncRange(*g);
+		}
 	}
 	while (NextGraph(*g));
 
