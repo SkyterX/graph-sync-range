@@ -201,21 +201,6 @@ namespace graph
 		}
 	};
 
-	struct Automata : public Graph {
-		Automata(const Graph& graph, const GraphColoring& coloring)
-			: Graph(graph.VerticesCount()) {
-			int n = graph.VerticesCount();
-			int k = graph.OutDegree();
-			for (int i = 0; i < n; ++i) {
-				auto permutation = coloring.edgeColors[i].GetPermutation(k);
-				edges[i].resize(k);
-				for (int j = 0; j < k; ++j) {
-					edges[i][j] = graph.edges[i][permutation[j]];
-				}
-			}
-		}
-	};
-
 	struct StrongConnectivityChecker {
 
 		const Graph& graph;
@@ -275,32 +260,59 @@ namespace graph
 		vector<bool> used;
 		int n, k;
 		int targetNodesCount;
+		Graph automata;
+
+		// Inversed P^2(A) graph of tuples and singletons
+		// For simplicity of indexing tuples, graph is of double size than needed
 		Graph pg;
 
 	public:
-		// Inversed P^2(A) graph of tuples and singletons
-		// For simplicity of indexing tuples, graph is of double size than needed
+
 		explicit SynchronizationChecker(int nVertices, int outDegree)
 			: n(nVertices), k(outDegree),
 			  targetNodesCount(nVertices * (nVertices + 1) / 2),
+			  automata(nVertices),
 			  pg(nVertices * (nVertices + 1)) {
 			used.resize(pg.VerticesCount());
+			for (int v = 0; v < n; ++v) {
+				automata.edges[v].resize(k);
+			}
 		}
 
-		bool IsSynchronizing(const Automata& a) {
+
+		bool IsSynchronizing(const Graph& graph, const GraphColoring& coloring) {
+			Clear();
+			BuildAutomata(graph, coloring);
+			BuildPGraph();
+			return CheckReachability();
+		}
+
+	private:
+		void Clear() {
 			// Clear graph and queue
 			for (int v = 0; v < pg.VerticesCount(); ++v) {
 				pg.edges[v].clear();
 			}
 			while (!q.empty())
 				q.pop();
+		}
 
+		void BuildAutomata(const Graph& graph, const GraphColoring& coloring) {
+			for (int v = 0; v < n; ++v) {
+				auto permutation = coloring.edgeColors[v].GetPermutation(k);
+				for (int j = 0; j < k; ++j) {
+					automata.edges[v][j] = graph.edges[v][permutation[j]];
+				}
+			}
+		}
+
+		void BuildPGraph() {
 			for (int v = 0; v < n; ++v) {
 				// singleton vertex is tuple (v, v) and has index v * n + v
 				int w = v * n + v;
 				for (int i = 0; i < k; ++i) {
 					// Inversing singleton edges
-					pg.AddEdge(a.edges[v][i], w);
+					pg.AddEdge(automata.edges[v][i], w);
 				}
 			}
 
@@ -309,8 +321,8 @@ namespace graph
 					// tuple vertex (v, u) has index v*n + u
 					int w = v * n + u;
 					for (int i = 0; i < k; ++i) {
-						int vTo = a.edges[v][i];
-						int uTo = a.edges[u][i];
+						int vTo = automata.edges[v][i];
+						int uTo = automata.edges[u][i];
 						// min/max used because tuples are unordered
 						int wTo = min(vTo, uTo) * n + max(vTo, uTo);
 						// Inversing tuple edge (v, u) -> (vTo, uTo)
@@ -318,8 +330,9 @@ namespace graph
 					}
 				}
 			}
+		}
 
-
+		bool CheckReachability() {
 			// Checking that every node in P^2(A) is reachable from singletons using BFS
 			int visitedCount = 0;
 			used.assign(pg.VerticesCount(), false);
@@ -355,8 +368,7 @@ namespace graph
 		auto syncChecker = SynchronizationChecker(n, k);
 		GraphColoring::IdType id = 0;
 		do {
-			auto automata = Automata(graph, coloring);
-			if (syncChecker.IsSynchronizing(automata)) {
+			if (syncChecker.IsSynchronizing(graph, coloring)) {
 				syncColorings.push_back(id);
 			}
 			++id;
