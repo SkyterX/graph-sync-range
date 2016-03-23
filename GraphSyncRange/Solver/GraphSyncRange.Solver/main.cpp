@@ -270,74 +270,93 @@ namespace graph
 		return true;
 	}
 
-	bool IsSynchronizing(const Automata& a) {
-		int n = a.VerticesCount();
-		int k = a.OutDegree();
+	class SynchronizationChecker {
+		queue<int> q;
+		vector<bool> used;
+		int n, k;
+		int targetNodesCount;
+		Graph pg;
 
+	public:
 		// Inversed P^2(A) graph of tuples and singletons
 		// For simplicity of indexing tuples, graph is of double size than needed
-		auto pg = Graph(n * (n + 1));
-
-		for (int v = 0; v < n; ++v) {
-			// singleton vertex is tuple (v, v) and has index v * n + v
-			int w = v * n + v;
-			for (int i = 0; i < k; ++i) {
-				// Inversing singleton edges
-				pg.AddEdge(a.edges[v][i], w);
-			}
+		explicit SynchronizationChecker(int nVertices, int outDegree)
+			: n(nVertices), k(outDegree),
+			  targetNodesCount(nVertices * (nVertices + 1) / 2),
+			  pg(nVertices * (nVertices + 1)) {
+			used.resize(pg.VerticesCount());
 		}
 
-		for (int v = 0; v < n - 1; ++v) {
-			for (int u = v + 1; u < n; ++u) {
-				// tuple vertex (v, u) has index v*n + u
-				int w = v * n + u;
+		bool IsSynchronizing(const Automata& a) {
+			// Clear graph and queue
+			for (int v = 0; v < pg.VerticesCount(); ++v) {
+				pg.edges[v].clear();
+			}
+			while (!q.empty())
+				q.pop();
+
+			for (int v = 0; v < n; ++v) {
+				// singleton vertex is tuple (v, v) and has index v * n + v
+				int w = v * n + v;
 				for (int i = 0; i < k; ++i) {
-					int vTo = a.edges[v][i];
-					int uTo = a.edges[u][i];
-					// min/max used because tuples are unordered
-					int wTo = min(vTo, uTo) * n + max(vTo, uTo);
-					// Inversing tuple edge (v, u) -> (vTo, uTo)
-					pg.AddEdge(wTo, w);
+					// Inversing singleton edges
+					pg.AddEdge(a.edges[v][i], w);
 				}
 			}
-		}
 
-		// Checking that every node in P^2(A) is reachable from singletons using BFS
-		queue<int> q;
-		vector<bool> used(pg.VerticesCount());
-		int visitedCount = 0;
-		for (int v = 0; v < n; ++v) {
-			// Start BFS from singletons
-			int w = v * n + v;
-			q.push(w);
-			used[w] = true;
-			++visitedCount;
-		}
+			for (int v = 0; v < n - 1; ++v) {
+				for (int u = v + 1; u < n; ++u) {
+					// tuple vertex (v, u) has index v*n + u
+					int w = v * n + u;
+					for (int i = 0; i < k; ++i) {
+						int vTo = a.edges[v][i];
+						int uTo = a.edges[u][i];
+						// min/max used because tuples are unordered
+						int wTo = min(vTo, uTo) * n + max(vTo, uTo);
+						// Inversing tuple edge (v, u) -> (vTo, uTo)
+						pg.AddEdge(wTo, w);
+					}
+				}
+			}
 
-		while (!q.empty()) {
-			int v = q.front();
-			q.pop();
-			for (auto& to : pg.edges[v]) {
-				if (used[to]) continue;
-				q.push(to);
-				used[to] = true;
+
+			// Checking that every node in P^2(A) is reachable from singletons using BFS
+			int visitedCount = 0;
+			used.assign(pg.VerticesCount(), false);
+			for (int v = 0; v < n; ++v) {
+				// Start BFS from singletons
+				int w = v * n + v;
+				q.push(w);
+				used[w] = true;
 				++visitedCount;
 			}
-		}
 
-		// actual number of nodes
-		return visitedCount == n * (n + 1) / 2;
-	}
+			while (visitedCount < targetNodesCount && !q.empty()) {
+				int v = q.front();
+				q.pop();
+				for (auto& to : pg.edges[v]) {
+					if (used[to]) continue;
+					q.push(to);
+					used[to] = true;
+					++visitedCount;
+				}
+			}
+
+			// actual number of nodes
+			return visitedCount == targetNodesCount;
+		}
+	};
 
 	vector<GraphColoring::IdType> GenerateSyncColorings(const Graph& graph) {
 		vector<GraphColoring::IdType> syncColorings;
 		int n = graph.VerticesCount();
 		int k = graph.OutDegree();
 		auto coloring = GraphColoring(n, k);
+		auto syncChecker = SynchronizationChecker(n, k);
 		GraphColoring::IdType id = 0;
 		do {
 			auto automata = Automata(graph, coloring);
-			if (IsSynchronizing(automata)) {
+			if (syncChecker.IsSynchronizing(automata)) {
 				syncColorings.push_back(id);
 			}
 			++id;
@@ -494,16 +513,16 @@ int main(void) {
 	freopen("output.txt", "wt", stdout);
 
 	int n, k;
-	cin >> n >> k;
-//	n = 4;
-//	k = 2;
+	//	cin >> n >> k;
+	n = 3;
+	k = 3;
 
 	util::Permutation::Generate(k);
 	auto g = StartGraph(n, k);
 	do {
-		if (StrongConnectivityChecker(*g).Check()) {
-			FindSyncRange(*g);
-		}
+		//		if (StrongConnectivityChecker(*g).Check()) {
+		FindSyncRange(*g);
+		//		}
 	}
 	while (NextGraph(*g));
 
