@@ -553,28 +553,51 @@ private:
 	}
 };
 
-bool NextGraph(Graph& graph) {
-	int n = graph.VerticesCount();
-	int k = graph.OutDegree();
-	for (int v = 0; v < n; ++v) {
-		for (int e = 0; e < k; ++e) {
-			graph.edges[v][e] = (graph.edges[v][e] + 1) % n;
-			if (graph.edges[v][e] != 0)
+
+class SimpleGraphEnumerator {
+
+	int n, k;
+	vector<vector<int>> edgeVariants;
+	vector<int> currentId;
+
+public:
+	Graph Current;
+
+	SimpleGraphEnumerator(int nVertices, int outDegree)
+		:n(nVertices), k(outDegree), Current(nVertices) {
+		currentId.assign(n, 0);
+		GenerateEdgeVariants();
+		for (int v = 0; v < n; ++v) {
+			Current.edges[v] = edgeVariants[0];
+		}
+	}
+
+	bool MoveNext() {
+		for (int v = 0; v < n; ++v) {
+			currentId[v] = (currentId[v] + 1) % edgeVariants.size();
+			Current.edges[v] = edgeVariants[currentId[v]];
+			if (currentId[v] != 0)
 				return true;
 		}
+		return false;
 	}
-	return false;
-}
 
-unique_ptr<Graph> StartGraph(int nVertices, int outDegree) {
-	auto g = make_unique<Graph>(nVertices);
-	for (int v = 0; v < nVertices; ++v) {
-		for (int e = 0; e < outDegree; ++e) {
-			g->AddEdge(v, 0);
+private:
+	void GenerateEdgeVariants() {
+		vector<bool> v(n, false);
+		fill_n(v.begin(), k, true);
+
+		do {
+			vector<int> edges;
+			for (int i = 0; i < v.size(); ++i) {
+				if (v[i])
+					edges.push_back(i);
+			}
+			edgeVariants.push_back(edges);
 		}
+		while (prev_permutation(v.begin(), v.end()));
 	}
-	return g;
-}
+};
 
 int main(void) {
 	//	freopen("input.txt", "rt", stdin);
@@ -587,7 +610,7 @@ int main(void) {
 
 	util::Permutation::Generate(k);
 
-	auto enumerator = GraphEnumerator(n, k);
+	auto enumerator = SimpleGraphEnumerator(n, k);
 	do {
 		auto& graph = enumerator.Current;
 		if (StrongConnectivityChecker(graph).Check()) {
