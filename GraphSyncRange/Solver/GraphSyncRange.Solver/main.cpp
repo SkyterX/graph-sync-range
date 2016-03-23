@@ -407,6 +407,12 @@ namespace graph
 		printf("} ");
 	}
 
+	Graph minGraph(0);
+	double minSyncRatio = 1.0;
+	double sumSyncRatio = 0.0;
+	double sumSqrSyncRatio = 0.0;
+	double cntGraphs = 0;
+
 	void FindSyncRange(const Graph& graph) {
 
 		//		PrintGraph(graph);
@@ -423,6 +429,15 @@ namespace graph
 			//			printf("No sync colorings found\n");
 			return;
 		}
+		double syncRatio = (0.0 + syncColoringIds.size()) / totalColoringsCount;
+		if (syncRatio < minSyncRatio) {
+			minGraph = graph;
+			minSyncRatio = syncRatio;
+		}
+		sumSyncRatio += syncRatio;
+		sumSqrSyncRatio += syncRatio * syncRatio;
+		++cntGraphs;
+
 		if (syncColoringIds.size() == totalColoringsCount) {
 			//			printf("All colorings are sync\n");
 			return;
@@ -568,7 +583,7 @@ int main(void) {
 	int n, k;
 	cin >> n >> k;
 	//	n = 3;
-	//	k = 3;
+	//	k = 2;
 
 	util::Permutation::Generate(k);
 
@@ -581,6 +596,17 @@ int main(void) {
 	}
 	while (enumerator.MoveNext());
 
+	if (cntGraphs > 0) {
+		printf("\nTotal sync grahs : %d\n", (int)cntGraphs);
+		double mean = sumSyncRatio / cntGraphs;
+		double variance = (sumSqrSyncRatio - sumSyncRatio * sumSyncRatio / cntGraphs) / (cntGraphs - 1);
+		double stdDeviation = sqrt(variance);
+		printf("Sync ratio Mean     : %lf\n", mean);
+		printf("Sync ratio Variance : %lf\n", variance);
+		printf("Sync ratio Std Dev  : %lf\n", stdDeviation);
+		printf("Sync ratio Min      : %lf\n", minSyncRatio);
+		PrintGraph(minGraph);
+	}
 
 	return 0;
 }
