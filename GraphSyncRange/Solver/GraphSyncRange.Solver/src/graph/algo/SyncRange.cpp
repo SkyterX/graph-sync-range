@@ -26,6 +26,12 @@ namespace graph
 		return syncColorings;
 	}
 
+	Graph minGraph(0);
+	double minSyncRatio = 1.0;
+	double sumSyncRatio = 0.0;
+	double sumSqrSyncRatio = 0.0;
+	double cntGraphs = 0;
+
 	void FindSyncRange(const Graph& graph) {
 
 		//		PrintGraph(graph);
@@ -43,13 +49,13 @@ namespace graph
 			return;
 		}
 		double syncRatio = (0.0 + syncColoringIds.size()) / totalColoringsCount;
-//		if (syncRatio < minSyncRatio) {
-//			minGraph = graph;
-//			minSyncRatio = syncRatio;
-//		}
-//		sumSyncRatio += syncRatio;
-//		sumSqrSyncRatio += syncRatio * syncRatio;
-//		++cntGraphs;
+		if (syncRatio < minSyncRatio) {
+			minGraph = graph;
+			minSyncRatio = syncRatio;
+		}
+		sumSyncRatio += syncRatio;
+		sumSqrSyncRatio += syncRatio * syncRatio;
+		++cntGraphs;
 
 		if (syncColoringIds.size() == totalColoringsCount) {
 			//			printf("All colorings are sync\n");

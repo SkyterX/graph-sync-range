@@ -25,17 +25,17 @@ void FindMaxSyncRange(int n, int k) {
 	}
 	while (enumerator.MoveNext());
 
-	//	if (cntGraphs > 0) {
-	//		printf("\nTotal sync grahs : %d\n", (int)cntGraphs);
-	//		double mean = sumSyncRatio / cntGraphs;
-	//		double variance = (sumSqrSyncRatio - sumSyncRatio * sumSyncRatio / cntGraphs) / (cntGraphs - 1);
-	//		double stdDeviation = sqrt(variance);
-	//		printf("Sync ratio Mean     : %lf\n", mean);
-	//		printf("Sync ratio Variance : %lf\n", variance);
-	//		printf("Sync ratio Std Dev  : %lf\n", stdDeviation);
-	//		printf("Sync ratio Min      : %lf\n", minSyncRatio);
-	//		PrintGraph(minGraph);
-	//	}
+		if (cntGraphs > 0) {
+			printf("\nTotal sync grahs : %d\n", (int)cntGraphs);
+			double mean = sumSyncRatio / cntGraphs;
+			double variance = (sumSqrSyncRatio - sumSyncRatio * sumSyncRatio / cntGraphs) / (cntGraphs - 1);
+			double stdDeviation = sqrt(variance);
+			printf("Sync ratio Mean     : %lf\n", mean);
+			printf("Sync ratio Variance : %lf\n", variance);
+			printf("Sync ratio Std Dev  : %lf\n", stdDeviation);
+			printf("Sync ratio Min      : %lf\n", minSyncRatio);
+			PrintGraph(minGraph);
+		}
 }
 
 void FindMaxSyncRangeInteractive() {
