@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\src">
+      <UniqueIdentifier>{07644200-1d9e-4ca8-b146-1e2b4ba0fadc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\src\util">
+      <UniqueIdentifier>{dac32a1b-d0be-4b65-9bf4-72c534f21ce3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\src\graph">
+      <UniqueIdentifier>{111f8355-dcd1-4ce2-be6c-4d95ae618672}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\src\graph\algo">
+      <UniqueIdentifier>{f72212db-febe-4e51-a9d4-87304fed1239}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\tests">
+      <UniqueIdentifier>{558b9019-daec-4568-a804-32168da9bd01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\tests\util">
+      <UniqueIdentifier>{078153f9-be83-4507-b5ae-68d9b3fd5e89}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GraphSyncRange.Solver\src\util\Factorial.cpp">
+      <Filter>Source Files\src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GraphSyncRange.Solver\src\util\UtilIO.cpp">
+      <Filter>Source Files\src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GraphSyncRange.Solver\src\util\MathUtils.hpp">
+      <Filter>Source Files\src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GraphSyncRange.Solver\src\util\Permutations.cpp">
+      <Filter>Source Files\src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GraphSyncRange.Solver\src\graph\Graph.cpp">
+      <Filter>Source Files\src\graph</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GraphSyncRange.Solver\src\graph\GraphColoring.cpp">
+      <Filter>Source Files\src\graph</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GraphSyncRange.Solver\src\graph\GraphIO.cpp">
+      <Filter>Source Files\src\graph</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\Eulerian.cpp">
+      <Filter>Source Files\src\graph\algo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\GraphEnumeration.cpp">
+      <Filter>Source Files\src\graph\algo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\StrongConnectivity.cpp">
+      <Filter>Source Files\src\graph\algo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\Synchronization.cpp">
+      <Filter>Source Files\src\graph\algo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\SyncRange.cpp">
+      <Filter>Source Files\src\graph\algo</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\util\Factorial_Tests.cpp">
+      <Filter>Source Files\tests\util</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

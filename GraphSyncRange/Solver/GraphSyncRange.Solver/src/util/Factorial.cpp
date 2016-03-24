@@ -21,5 +21,9 @@ namespace util
 		return values[n];
 	}
 
+	const vector<Factorial::IdType>& Factorial::All() {
+		return values;
+	}
+
 	vector<Factorial::IdType> Factorial::values = generateFactorials();
 }

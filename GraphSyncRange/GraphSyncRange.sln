@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solver", "Solver", "{C024A6
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphSyncRange.Solver", "Solver\GraphSyncRange.Solver\GraphSyncRange.Solver.vcxproj", "{60CF3CF9-F7B3-421F-9D51-CA064B4F61DD}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphSyncRange.Solver.Tests", "Solver\GraphSyncRange.Solver.Tests\GraphSyncRange.Solver.Tests.vcxproj", "{1EF6FD51-0F8A-49EB-A0A9-B05F4A5B86EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -23,6 +25,14 @@ Global
 		{60CF3CF9-F7B3-421F-9D51-CA064B4F61DD}.Release|x64.Build.0 = Release|x64
 		{60CF3CF9-F7B3-421F-9D51-CA064B4F61DD}.Release|x86.ActiveCfg = Release|Win32
 		{60CF3CF9-F7B3-421F-9D51-CA064B4F61DD}.Release|x86.Build.0 = Release|Win32
+		{1EF6FD51-0F8A-49EB-A0A9-B05F4A5B86EF}.Debug|x64.ActiveCfg = Debug|x64
+		{1EF6FD51-0F8A-49EB-A0A9-B05F4A5B86EF}.Debug|x64.Build.0 = Debug|x64
+		{1EF6FD51-0F8A-49EB-A0A9-B05F4A5B86EF}.Debug|x86.ActiveCfg = Debug|Win32
+		{1EF6FD51-0F8A-49EB-A0A9-B05F4A5B86EF}.Debug|x86.Build.0 = Debug|Win32
+		{1EF6FD51-0F8A-49EB-A0A9-B05F4A5B86EF}.Release|x64.ActiveCfg = Release|x64
+		{1EF6FD51-0F8A-49EB-A0A9-B05F4A5B86EF}.Release|x64.Build.0 = Release|x64
+		{1EF6FD51-0F8A-49EB-A0A9-B05F4A5B86EF}.Release|x86.ActiveCfg = Release|Win32
+		{1EF6FD51-0F8A-49EB-A0A9-B05F4A5B86EF}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

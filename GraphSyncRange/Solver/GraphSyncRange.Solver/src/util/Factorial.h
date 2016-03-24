@@ -16,5 +16,6 @@ namespace util
 	public:
 
 		static IdType Of(int n);
+		static const std::vector<IdType>& All();
 	};
 }
