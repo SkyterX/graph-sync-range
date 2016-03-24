@@ -107,7 +107,7 @@ namespace graph
 
 		assert(farthestColoringId != -1); // neighbors generation failed
 
-		if (distance[farthestColoringId] < 2) return;
+		if (distance[farthestColoringId] < 3) return;
 		PrintGraph(graph);
 		printf(" -> ");
 		printf("MaxDistance : %d from ", distance[farthestColoringId]);

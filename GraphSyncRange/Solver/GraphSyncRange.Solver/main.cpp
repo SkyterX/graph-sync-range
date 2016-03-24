@@ -57,9 +57,9 @@ void FindGraphSyncRange() {
 
 int main(void) {
 //	freopen("input.txt", "rt", stdin);
-	freopen("output.txt", "wt", stdout);
+//	freopen("output.txt", "wt", stdout);
 
-	FindMaxSyncRangeInteractive();
+	FindMaxSyncRange(10, 2);
 
 	return 0;
 }
