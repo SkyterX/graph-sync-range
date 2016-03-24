@@ -83,5 +83,8 @@
     <ClCompile Include="tests\util\Factorial_Tests.cpp">
       <Filter>Source Files\tests\util</Filter>
     </ClCompile>
+    <ClCompile Include="tests\util\Permutations_Tests.cpp">
+      <Filter>Source Files\tests\util</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
