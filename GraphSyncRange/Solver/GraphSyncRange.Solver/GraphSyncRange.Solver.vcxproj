@@ -119,7 +119,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\graph\algo\Eulerian.cpp" />
+    <ClCompile Include="src\graph\algo\StrongConnectivity.cpp" />
+    <ClCompile Include="src\graph\algo\Synchronization.cpp" />
+    <ClCompile Include="src\graph\algo\SyncRange.cpp" />
+    <ClCompile Include="src\graph\Graph.cpp" />
+    <ClCompile Include="src\graph\GraphColoring.cpp" />
+    <ClCompile Include="src\graph\GraphIO.cpp" />
     <ClCompile Include="src\util\Factorial.cpp" />
+    <ClCompile Include="src\util\UtilIO.cpp" />
     <ClCompile Include="src\util\MathUtils.hpp" />
     <ClCompile Include="src\util\Permutations.cpp" />
   </ItemGroup>
@@ -128,9 +136,18 @@
     <Text Include="output.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\graph\algo\Eulerian.h" />
+    <ClInclude Include="src\graph\algo\StrongConnectivity.h" />
+    <ClInclude Include="src\graph\algo\Synchronization.h" />
+    <ClInclude Include="src\graph\algo\SyncRange.h" />
+    <ClInclude Include="src\graph\graph-all.h" />
+    <ClInclude Include="src\graph\Graph.h" />
+    <ClInclude Include="src\graph\GraphColoring.h" />
+    <ClInclude Include="src\graph\GraphIO.h" />
     <ClInclude Include="src\util\Factorial.h" />
+    <ClInclude Include="src\util\UtilIO.h" />
     <ClInclude Include="src\util\Permutations.h" />
-    <ClInclude Include="src\util\utils.h" />
+    <ClInclude Include="src\util\util-all.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

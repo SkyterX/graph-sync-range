@@ -19,6 +19,18 @@
     <Filter Include="Header Files\util">
       <UniqueIdentifier>{5178b3ca-b300-4762-aebe-ea3030db9727}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\graph">
+      <UniqueIdentifier>{38b1efe7-c31c-4165-bac7-20b56491a966}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graph">
+      <UniqueIdentifier>{382ac7c0-69fe-469e-a5ab-26a6a1cb5aa2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\graph\algo">
+      <UniqueIdentifier>{3ced92e5-7e2f-444b-90fd-7c47439fcab2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graph\algo">
+      <UniqueIdentifier>{db4f9a6e-0cdf-4e58-af59-6f3332b44387}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -32,6 +44,30 @@
     </ClCompile>
     <ClCompile Include="src\util\MathUtils.hpp">
       <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graph\Graph.cpp">
+      <Filter>Source Files\graph</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graph\GraphColoring.cpp">
+      <Filter>Source Files\graph</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graph\algo\StrongConnectivity.cpp">
+      <Filter>Source Files\graph\algo</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graph\algo\Eulerian.cpp">
+      <Filter>Source Files\graph\algo</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graph\algo\Synchronization.cpp">
+      <Filter>Source Files\graph\algo</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graph\GraphIO.cpp">
+      <Filter>Source Files\graph</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\UtilIO.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graph\algo\SyncRange.cpp">
+      <Filter>Source Files\graph\algo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -49,8 +85,35 @@
     <ClInclude Include="src\util\Factorial.h">
       <Filter>Header Files\util</Filter>
     </ClInclude>
-    <ClInclude Include="src\util\utils.h">
+    <ClInclude Include="src\graph\graph-all.h">
+      <Filter>Header Files\graph</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\util-all.h">
       <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graph\Graph.h">
+      <Filter>Header Files\graph</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graph\GraphColoring.h">
+      <Filter>Header Files\graph</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graph\algo\StrongConnectivity.h">
+      <Filter>Header Files\graph\algo</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graph\algo\Eulerian.h">
+      <Filter>Header Files\graph\algo</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graph\algo\Synchronization.h">
+      <Filter>Header Files\graph\algo</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graph\GraphIO.h">
+      <Filter>Header Files\graph</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\UtilIO.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graph\algo\SyncRange.h">
+      <Filter>Header Files\graph\algo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
