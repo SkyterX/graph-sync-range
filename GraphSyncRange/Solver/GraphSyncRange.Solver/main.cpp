@@ -6,121 +6,11 @@
 #include <memory>
 #include <algorithm>
 #include <queue>
-#include <map>
 #include <cassert>
+#include <util/utils.h>
+#include <util/MathUtils.hpp>
 
 using namespace std;
-
-namespace util
-{
-	class Factorial {
-	public:
-		using IdType = int;
-
-	private:
-
-		static vector<IdType> generateFactorials() {
-			vector<IdType> f = {1};
-			auto maxValue = numeric_limits<IdType>::max();
-			IdType n = 1, nF = 1;
-			while (nF <= maxValue / n) {
-				nF *= n;
-				f.push_back(nF);
-				++n;
-			}
-			return f;
-		}
-
-		static vector<IdType> values;
-
-	public:
-
-		static IdType Of(int n) {
-			return values[n];
-		}
-	};
-
-	vector<Factorial::IdType> Factorial::values = generateFactorials();
-
-	template <typename TVal>
-	TVal FastPower(TVal val, int p) {
-		if (p == 0) return 1;
-		if (p == 1) return val;
-		if (p % 2 == 1)
-			return val * FastPower(val * val, p / 2);
-		return FastPower(val * val, p / 2);
-	}
-
-	class Permutation {
-	public:
-		using IdType = Factorial::IdType;
-
-	private:
-
-		static vector<vector<vector<int>>> permutations;
-		static vector<map<vector<int>, IdType>> permutationIds;
-	public:
-
-		static void Generate(int pSize) {
-			if (permutations.size() < pSize + 1) {
-				permutations.resize(pSize + 1);
-				permutationIds.resize(pSize + 1);
-			}
-
-			vector<int> permutation(pSize);
-			for (int i = 0; i < pSize; ++i) {
-				permutation[i] = i;
-			}
-
-			permutations[pSize].reserve(Factorial::Of(pSize));
-			int id = 0;
-			do {
-				permutations[pSize].push_back(permutation);
-				permutationIds[pSize][permutation] = id;
-				++id;
-			}
-			while (next_permutation(permutation.begin(), permutation.end()));
-		}
-
-		static const vector<int>& ById(int pSize, int id) {
-			return permutations[pSize][id];
-		}
-
-		static IdType GetId(const vector<int>& p) {
-			return permutationIds[p.size()][p];
-		}
-	};
-
-	vector<vector<vector<int>>> Permutation::permutations;
-	vector<map<vector<int>, Permutation::IdType>> Permutation::permutationIds;
-
-	struct LazyPermutation {
-		using IdType = Factorial::IdType;
-
-		IdType permutationId;
-
-		explicit LazyPermutation(IdType permutation_id = 0)
-			: permutationId(permutation_id) {}
-
-		explicit LazyPermutation(const vector<int>& p) {
-			permutationId = Permutation::GetId(p);
-			return;
-		}
-
-		vector<int> GetPermutation(int pSize) const {
-			return Permutation::ById(pSize, permutationId);
-		}
-
-		bool NextPermutation(int pSize) {
-			permutationId = (permutationId + 1) % Factorial::Of(pSize);
-			return permutationId != 0;
-		}
-
-		static IdType PermutationsCount(int pSize) {
-			return Factorial::Of(pSize);
-		}
-	};
-}
 
 namespace graph
 {
@@ -600,24 +490,29 @@ private:
 };
 
 int main(void) {
-	//	freopen("input.txt", "rt", stdin);
+	freopen("input.txt", "rt", stdin);
 	freopen("output.txt", "wt", stdout);
 
-	int n, k;
-	cin >> n >> k;
+	//	int n, k;
+	//	cin >> n >> k;
 	//	n = 3;
 	//	k = 2;
 
-	util::Permutation::Generate(k);
+	auto g = ReadGraph();
+	int n = g->VerticesCount();
+	int k = g->OutDegree();
 
-	auto enumerator = SimpleGraphEnumerator(n, k);
-	do {
-		auto& graph = enumerator.Current;
-		if (StrongConnectivityChecker(graph).Check()) {
-			FindSyncRange(graph);
-		}
-	}
-	while (enumerator.MoveNext());
+	util::Permutation::Generate(k);
+	FindSyncRange(*g);
+	//
+	//	auto enumerator = SimpleGraphEnumerator(n, k);
+	//	do {
+	//		auto& graph = enumerator.Current;
+	//		if (StrongConnectivityChecker(graph).Check()) {
+	//			FindSyncRange(graph);
+	//		}
+	//	}
+	//	while (enumerator.MoveNext());
 
 	if (cntGraphs > 0) {
 		printf("\nTotal sync grahs : %d\n", (int)cntGraphs);
