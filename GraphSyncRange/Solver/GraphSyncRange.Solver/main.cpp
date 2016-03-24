@@ -35,7 +35,8 @@ void FindMaxSyncRange(int n, int k) {
 			printf("Sync ratio Std Dev  : %lf\n", stdDeviation);
 			printf("Sync ratio Min      : %lf\n", minSyncRatio);
 			PrintGraph(minGraph);
-		}
+			printf("\n");
+		}		
 }
 
 void FindMaxSyncRangeInteractive() {
@@ -55,10 +56,10 @@ void FindGraphSyncRange() {
 }
 
 int main(void) {
-	freopen("input.txt", "rt", stdin);
+//	freopen("input.txt", "rt", stdin);
 	freopen("output.txt", "wt", stdout);
 
-	FindGraphSyncRange();
+	FindMaxSyncRangeInteractive();
 
 	return 0;
 }

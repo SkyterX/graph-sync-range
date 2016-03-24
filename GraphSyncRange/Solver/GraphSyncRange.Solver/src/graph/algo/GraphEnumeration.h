@@ -7,6 +7,7 @@ namespace graph
 		int n, k;
 		std::vector<std::vector<int>> edgeVariants;
 		std::vector<int> currentId;
+		size_t totalGraphs, graphsEnumerated;
 
 	public:
 		Graph Current;
@@ -23,6 +24,7 @@ namespace graph
 		int n, k;
 		std::vector<std::vector<int>> edgeVariants;
 		std::vector<int> currentId;
+		size_t totalGraphs, graphsEnumerated;
 
 	public:
 		Graph Current;
