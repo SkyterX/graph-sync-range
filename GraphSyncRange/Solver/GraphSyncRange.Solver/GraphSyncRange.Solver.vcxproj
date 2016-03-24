@@ -120,6 +120,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\graph\algo\Eulerian.cpp" />
+    <ClCompile Include="src\graph\algo\GraphEnumeration.cpp" />
     <ClCompile Include="src\graph\algo\StrongConnectivity.cpp" />
     <ClCompile Include="src\graph\algo\Synchronization.cpp" />
     <ClCompile Include="src\graph\algo\SyncRange.cpp" />
@@ -137,6 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\graph\algo\Eulerian.h" />
+    <ClInclude Include="src\graph\algo\GraphEnumeration.h" />
     <ClInclude Include="src\graph\algo\StrongConnectivity.h" />
     <ClInclude Include="src\graph\algo\Synchronization.h" />
     <ClInclude Include="src\graph\algo\SyncRange.h" />

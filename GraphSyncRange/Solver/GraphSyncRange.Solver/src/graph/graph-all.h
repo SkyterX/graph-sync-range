@@ -8,3 +8,4 @@
 #include <graph/algo/Eulerian.h>
 #include <graph/algo/Synchronization.h>
 #include <graph/algo/SyncRange.h>
+#include <graph/algo/GraphEnumeration.h>
