@@ -11,3 +11,17 @@
 #include "CppUnitTest.h"
 
 // TODO: reference additional headers your program requires here
+
+#include <cstdio>
+#include <string>
+#include <vector>
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+#include <set>
+#include <map>
+#include <list>
+#include <deque>
+#include <memory>
+
+#define _CRT_SECURE_NO_WARNINGS

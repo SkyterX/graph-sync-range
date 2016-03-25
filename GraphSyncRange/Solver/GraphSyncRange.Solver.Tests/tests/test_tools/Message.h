@@ -1,6 +1,5 @@
 #pragma once
 
-
 namespace test_tools
 {
 	class Message
