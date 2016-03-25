@@ -4,7 +4,7 @@ using namespace std;
 
 namespace graph
 {
-	Graph::Graph(int nVertices) {
+	Graph::Graph(int nVertices ) {
 		edges.resize(nVertices);
 	}
 

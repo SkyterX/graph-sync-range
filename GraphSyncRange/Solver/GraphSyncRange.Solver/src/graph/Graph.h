@@ -6,7 +6,7 @@ namespace graph
 	struct Graph {
 		std::vector<std::vector<int>> edges;
 
-		explicit Graph(int nVertices);
+		explicit Graph(int nVertices = 0);
 
 		void AddEdge(int from, int to);
 

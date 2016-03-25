@@ -19,7 +19,7 @@ void FindMaxSyncRange(int n, int k) {
 	auto enumerator = SimpleGraphEnumerator(n, k);
 	do {
 		auto& graph = enumerator.Current;
-		if (StrongConnectivityChecker(graph).Check()) {
+		if (StrongConnectivityChecker_Simple().IsStronglyConnected(graph)) {
 			FindSyncRange(graph);
 		}
 	}
