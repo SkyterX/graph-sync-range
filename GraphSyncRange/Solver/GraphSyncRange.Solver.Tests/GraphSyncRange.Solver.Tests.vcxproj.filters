@@ -37,6 +37,12 @@
     <Filter Include="Source Files\tests\test_tools">
       <UniqueIdentifier>{b781ce0f-d564-45c2-b49a-a1b97e45b41f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\tests\graph">
+      <UniqueIdentifier>{da7787fc-3813-4850-b2cc-80979347af29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\tests\graph\algo">
+      <UniqueIdentifier>{1216fad8-5592-466e-891d-2ee43f7518d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -106,6 +112,9 @@
     </ClCompile>
     <ClCompile Include="tests\util\MathUtils_Tests.cpp">
       <Filter>Source Files\tests\util</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\graph\algo\StrongConnectivity_Tests.cpp">
+      <Filter>Source Files\tests\graph\algo</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
