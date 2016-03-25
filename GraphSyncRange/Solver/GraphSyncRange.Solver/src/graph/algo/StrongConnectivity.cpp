@@ -36,18 +36,6 @@ namespace graph
 
 namespace graph
 {
-	template <typename SCCBuilder>
-	bool StrongConnectivityChecker<SCCBuilder>::IsStronglyConnected(const Graph& graph) {
-		vector<int> components = builder.FindComponents(graph);
-		return all_of(components.begin(), components.end(),
-		              [](int x) {
-			              return x == 0;
-		              });
-	}
-}
-
-namespace graph
-{
 	vector<int> StronglyConnectedComponentsBuilder_KosarajuSharir::FindComponents(const Graph& graph) {
 		this->graph = &graph;
 
@@ -66,6 +54,7 @@ namespace graph
 		}
 
 		topologicalOrder.clear();
+		componentIds.assign(n, 0);
 	}
 
 	void StronglyConnectedComponentsBuilder_KosarajuSharir::BuildReverseGraph() {

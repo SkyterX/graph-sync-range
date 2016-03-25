@@ -1,6 +1,7 @@
 #pragma once
 #include <graph/Graph.h>
 #include <vector>
+#include <algorithm>
 
 namespace graph
 {
@@ -16,9 +17,16 @@ namespace graph
 		void dfs(int v, int curDepth = 0);
 	};
 
-	template<typename SCCBuilder>
+	template <typename SCCBuilder>
 	struct StrongConnectivityChecker {
-		bool IsStronglyConnected(const Graph& graph);
+		bool IsStronglyConnected(const Graph& graph) {
+			std::vector<int> components = builder.FindComponents(graph);
+			return std::all_of(components.begin(), components.end(),
+							   [](int x) {
+								   return x == 0;
+							   });
+		}
+
 	private:
 		SCCBuilder builder;
 	};
@@ -42,7 +50,7 @@ namespace graph
 		void BuildComponentsRecursive(int v, int componentId);
 	};
 
-	template<>
 	StrongConnectivityChecker<StronglyConnectedComponentsBuilder_KosarajuSharir>;
 
+	using StrongConnectivityChecker_KosarajuSharir = StrongConnectivityChecker<StronglyConnectedComponentsBuilder_KosarajuSharir>;
 }
