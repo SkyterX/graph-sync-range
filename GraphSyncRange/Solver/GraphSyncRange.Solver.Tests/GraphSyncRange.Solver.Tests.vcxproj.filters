@@ -31,6 +31,12 @@
     <Filter Include="Source Files\tests\util">
       <UniqueIdentifier>{078153f9-be83-4507-b5ae-68d9b3fd5e89}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\test_tools">
+      <UniqueIdentifier>{d3b009a8-21e0-4e64-8a57-441eed05d673}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\tests\test_tools">
+      <UniqueIdentifier>{b781ce0f-d564-45c2-b49a-a1b97e45b41f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -38,6 +44,12 @@
     </ClInclude>
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\test_tools\all-test-tools.h">
+      <Filter>Header Files\test_tools</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\test_tools\Message.h">
+      <Filter>Header Files\test_tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +97,9 @@
     </ClCompile>
     <ClCompile Include="tests\util\Permutations_Tests.cpp">
       <Filter>Source Files\tests\util</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\test_tools\Message.cpp">
+      <Filter>Source Files\tests\test_tools</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

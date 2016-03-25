@@ -167,9 +167,12 @@
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\GraphColoring.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\GraphIO.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\util\MathUtils.hpp" />
+    <ClCompile Include="tests\test_tools\Message.cpp" />
     <ClCompile Include="tests\util\Permutations_Tests.cpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="tests\test_tools\all-test-tools.h" />
+    <ClInclude Include="tests\test_tools\Message.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\GraphSyncRange.Solver\src\util\Factorial.cpp" />
