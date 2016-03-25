@@ -1,5 +1,6 @@
 #include <util/Factorial.h>
 #include <vector>
+#include <cassert>
 
 using namespace std;
 
@@ -18,6 +19,7 @@ namespace util
 	}
 
 	Factorial::IdType Factorial::Of(int n) {
+		assert(0 <= n && n < values.size());
 		return values[n];
 	}
 

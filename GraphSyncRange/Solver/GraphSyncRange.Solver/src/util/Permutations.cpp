@@ -1,5 +1,6 @@
 #include <util/Permutations.h>
 #include <algorithm>
+#include <cassert>
 
 using namespace std;
 
@@ -30,10 +31,13 @@ namespace util
 	}
 
 	const vector<int>& Permutation::ById(int pSize, int id) {
+		assert(0 < pSize && pSize < permutations.size());
+		assert(0 <= id && pSize < permutations[pSize].size());
 		return permutations[pSize][id];
 	}
 
 	Permutation::IdType Permutation::GetId(const vector<int>& p) {
+		assert(0 < p.size() && p.size() < permutationIds.size());
 		return permutationIds[p.size()][p];
 	}
 }
