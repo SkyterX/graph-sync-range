@@ -23,5 +23,6 @@
 #include <list>
 #include <deque>
 #include <memory>
+#include <cmath>
 
 #define _CRT_SECURE_NO_WARNINGS

@@ -104,5 +104,8 @@
     <ClCompile Include="tests\test_tools\Message.cpp">
       <Filter>Source Files\tests\test_tools</Filter>
     </ClCompile>
+    <ClCompile Include="tests\util\MathUtils_Tests.cpp">
+      <Filter>Source Files\tests\util</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
