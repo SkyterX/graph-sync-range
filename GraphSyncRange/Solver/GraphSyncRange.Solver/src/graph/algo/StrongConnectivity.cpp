@@ -9,26 +9,28 @@ namespace graph
 	bool StrongConnectivityChecker_Simple::IsStronglyConnected(const Graph& graph) {
 		int n = graph.VerticesCount();
 		this->graph = &graph;
-		depth.assign(n, -1);
-		fup.assign(n, -1);
+		tin.assign(n, -1);
+		lowLink.assign(n, -1);
+		timer = 0;
 
 		dfs(0);
 		for (int v = 0; v < n; ++v) {
-			if (fup[v] != 0)
+			if (lowLink[v] != 0 && lowLink[v] == tin[v])
 				return false;
 		}
 		return true;
 	}
 
 	void StrongConnectivityChecker_Simple::dfs(int v, int curDepth) {
-		depth[v] = curDepth;
-		fup[v] = curDepth;
+		tin[v] = timer;
+		lowLink[v] = timer;
+		++timer;
 		for (auto& to : graph->edges[v]) {
-			if (depth[to] != -1)
-				fup[v] = min(fup[v], depth[to]);
+			if (tin[to] != -1)
+				lowLink[v] = min(lowLink[v], tin[to]);
 			else {
 				dfs(to, curDepth + 1);
-				fup[v] = min(fup[v], fup[to]);
+				lowLink[v] = min(lowLink[v], lowLink[to]);
 			}
 		}
 	}

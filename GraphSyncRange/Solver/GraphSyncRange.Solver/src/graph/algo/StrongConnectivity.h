@@ -11,8 +11,9 @@ namespace graph
 
 	private:
 		const Graph* graph;
-		std::vector<int> depth;
-		std::vector<int> fup;
+		std::vector<int> tin;
+		std::vector<int> lowLink;
+		int timer;
 
 		void dfs(int v, int curDepth = 0);
 	};
