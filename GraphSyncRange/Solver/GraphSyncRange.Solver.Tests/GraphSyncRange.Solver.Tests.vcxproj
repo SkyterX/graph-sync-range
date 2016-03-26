@@ -167,6 +167,7 @@
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\Eulerian.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\GraphEnumeration.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\StrongConnectivity.cpp" />
+    <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\StronglyConnectedComponents.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\Synchronization.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\SyncRange.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\Graph.cpp" />

@@ -72,6 +72,9 @@
     <ClCompile Include="src\graph\algo\GraphEnumeration.cpp">
       <Filter>Source Files\graph\algo</Filter>
     </ClCompile>
+    <ClCompile Include="src\graph\algo\StronglyConnectedComponents.cpp">
+      <Filter>Source Files\graph\algo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="output.txt">
@@ -119,6 +122,9 @@
       <Filter>Header Files\graph\algo</Filter>
     </ClInclude>
     <ClInclude Include="src\graph\algo\GraphEnumeration.h">
+      <Filter>Header Files\graph\algo</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graph\algo\StronglyConnectedComponents.h">
       <Filter>Header Files\graph\algo</Filter>
     </ClInclude>
   </ItemGroup>
