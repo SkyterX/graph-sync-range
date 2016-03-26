@@ -175,6 +175,7 @@
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\GraphIO.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\util\MathUtils.hpp" />
     <ClCompile Include="tests\graph\algo\StrongConnectivity_Tests.cpp" />
+    <ClCompile Include="tests\graph\algo\StronglyConnectedComponents_Tests.cpp" />
     <ClCompile Include="tests\test_tools\Message.cpp" />
     <ClCompile Include="tests\util\MathUtils_Tests.cpp" />
     <ClCompile Include="tests\util\Permutations_Tests.cpp" />

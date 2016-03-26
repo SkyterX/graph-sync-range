@@ -1,9 +1,13 @@
 #include <graph/algo/StronglyConnectedComponents.h>
+#include <algorithm>
 
 using namespace std;
 
 namespace graph
 {
+	StronglyConnectedComponentsBuilder_KosarajuSharir::StronglyConnectedComponentsBuilder_KosarajuSharir()
+		:graph(nullptr) {}
+
 	vector<int> StronglyConnectedComponentsBuilder_KosarajuSharir::FindComponents(const Graph& graph) {
 		this->graph = &graph;
 
@@ -69,5 +73,66 @@ namespace graph
 			if (!visited[to])
 				BuildComponentsRecursive(to, componentId);
 		}
+	}
+}
+
+namespace graph
+{
+	vector<int> StronglyConnectedComponentsBuilder_Tarjan::FindComponents(const Graph& graph) {
+		this->graph = &graph;
+		Clean();
+		BuildComponents();
+		return componentIds;
+	}
+
+	void StronglyConnectedComponentsBuilder_Tarjan::Clean() {
+		auto n = graph->VerticesCount();
+		index.assign(n, -1);
+		lowLink.assign(n, -1);
+		componentIds.assign(n, -1);
+		onStack.assign(n, false);
+
+		while (!vertexStack.empty())
+			vertexStack.pop();
+	}
+
+	void StronglyConnectedComponentsBuilder_Tarjan::BuildComponents() {
+		currentIndex = 0;
+		nextComponentId = 0;
+		for (int v = 0; v < graph->VerticesCount(); ++v) {
+			if (index[v] == -1)
+				BuildComponentsRecursive(v);
+		}
+	}
+
+	void StronglyConnectedComponentsBuilder_Tarjan::BuildComponentsRecursive(int v) {
+		index[v] = currentIndex;
+		lowLink[v] = currentIndex;
+		++currentIndex;
+		vertexStack.push(v);
+		onStack[v] = true;
+		for (auto& to : graph->edges[v]) {
+			if (index[to] == -1) {
+				BuildComponentsRecursive(to);
+				lowLink[v] = min(lowLink[v], lowLink[to]);
+			}
+			else if (onStack[to]) {
+				lowLink[v] = min(lowLink[v], index[to]);
+			}
+		}
+
+		if (lowLink[v] == index[v]) {
+			componentIds[v] = nextComponentId;
+			int w;
+			do {
+				w = vertexStack.top();
+				onStack[w] = false;
+				componentIds[w] = nextComponentId;
+				vertexStack.pop();
+			}
+			while (w != v);
+			++nextComponentId;
+		}
+
 	}
 }

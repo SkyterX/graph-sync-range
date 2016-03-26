@@ -29,5 +29,7 @@ namespace graph
 	};
 
 	template struct StrongConnectivityChecker<StronglyConnectedComponentsBuilder_KosarajuSharir>;
+	template struct StrongConnectivityChecker<StronglyConnectedComponentsBuilder_Tarjan>;
 	using StrongConnectivityChecker_KosarajuSharir = StrongConnectivityChecker<StronglyConnectedComponentsBuilder_KosarajuSharir>;
+	using StrongConnectivityChecker_Tarjan = StrongConnectivityChecker<StronglyConnectedComponentsBuilder_Tarjan>;
 }
