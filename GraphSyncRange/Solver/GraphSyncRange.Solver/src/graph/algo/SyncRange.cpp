@@ -46,7 +46,7 @@ namespace graph
 
 		if (syncColoringIds.size() == 0) {
 			//			printf("No sync colorings found\n");
-			return;
+			throw;
 		}
 		double syncRatio = (0.0 + syncColoringIds.size()) / totalColoringsCount;
 		if (syncRatio < minSyncRatio) {

@@ -17,16 +17,22 @@ void FindMaxSyncRange(int n, int k) {
 	Permutation::Generate(k);
 
 	auto enumerator = SimpleGraphEnumerator(n, k);
+	StrongConnectivityChecker_Simple sccChecker;
+	AperiodicityChecker aperiodicityChecker;
+	
+	size_t totalGraphs = 0;
 	do {
 		auto& graph = enumerator.Current;
-		if (StrongConnectivityChecker_Simple().IsStronglyConnected(graph)) {
-			FindSyncRange(graph);
+		if (sccChecker.IsStronglyConnected(graph)) {
+			if (aperiodicityChecker.IsAperiodic(graph)) {
+				FindSyncRange(graph);
+			}
 		}
 	}
 	while (enumerator.MoveNext());
 
 		if (cntGraphs > 0) {
-			printf("\nTotal sync grahs : %d\n", (int)cntGraphs);
+			printf("\nTotal sync grahs : %d of %lu\n", (int)cntGraphs, totalGraphs);
 			double mean = sumSyncRatio / cntGraphs;
 			double variance = (sumSqrSyncRatio - sumSyncRatio * sumSyncRatio / cntGraphs) / (cntGraphs - 1);
 			double stdDeviation = sqrt(variance);
@@ -59,7 +65,8 @@ int main(void) {
 //	freopen("input.txt", "rt", stdin);
 //	freopen("output.txt", "wt", stdout);
 
-	FindMaxSyncRange(10, 2);
+	FindMaxSyncRangeInteractive();
+//	FindMaxSyncRange(6, 2);
 
 	return 0;
 }

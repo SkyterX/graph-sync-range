@@ -32,7 +32,7 @@ namespace util
 
 	const vector<int>& Permutation::ById(int pSize, int id) {
 		assert(0 < pSize && pSize < permutations.size());
-		assert(0 <= id && pSize < permutations[pSize].size());
+		assert(0 <= id && id < permutations[pSize].size());
 		return permutations[pSize][id];
 	}
 
