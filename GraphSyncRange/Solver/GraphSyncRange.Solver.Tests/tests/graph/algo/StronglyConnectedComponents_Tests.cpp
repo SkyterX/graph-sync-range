@@ -41,7 +41,7 @@ namespace graph_algo_tests
 
 			SimpleGraphEnumerator graphEnumerator(TestGraphSize, 2);
 			vector<int> tResult, ksResult;
-			Timer::DurationType tTime, ksTime;
+			Timer::DurationType tTime(0), ksTime(0);
 			do {
 				tTime += Timer::Duration(tFunc, graphEnumerator.Current, tResult);
 				ksTime += Timer::Duration(ksFunc, graphEnumerator.Current, ksResult);
