@@ -125,5 +125,8 @@
     <ClCompile Include="tests\graph\algo\StronglyConnectedComponents_Tests.cpp">
       <Filter>Source Files\tests\graph\algo</Filter>
     </ClCompile>
+    <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\Aperiodicity.cpp">
+      <Filter>Source Files\src\graph\algo</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

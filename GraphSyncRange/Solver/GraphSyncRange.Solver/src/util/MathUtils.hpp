@@ -8,4 +8,13 @@ namespace util
 			return val * FastPower(val * val, p / 2);
 		return FastPower(val * val, p / 2);
 	}
+
+	template<typename TVal> 
+	TVal GCD(TVal x, TVal y) {
+		while(y) {
+			x %= y;
+			swap(x, y);
+		}
+		return x;
+	}
 }

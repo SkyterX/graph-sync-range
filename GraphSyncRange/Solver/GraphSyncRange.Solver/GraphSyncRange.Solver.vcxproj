@@ -142,6 +142,7 @@
     <Text Include="output.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\graph\algo\Aperiodicity.h" />
     <ClInclude Include="src\graph\algo\Eulerian.h" />
     <ClInclude Include="src\graph\algo\GraphEnumeration.h" />
     <ClInclude Include="src\graph\algo\StrongConnectivity.h" />
