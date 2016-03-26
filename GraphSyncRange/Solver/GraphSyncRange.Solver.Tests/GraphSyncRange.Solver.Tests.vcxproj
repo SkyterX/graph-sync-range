@@ -183,6 +183,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="tests\test_tools\all-test-tools.h" />
     <ClInclude Include="tests\test_tools\Message.h" />
+    <ClInclude Include="tests\test_tools\TimeLapse.hpp" />
     <ClInclude Include="tests\test_tools\ToStringExtensions.hpp" />
   </ItemGroup>
   <ItemGroup>

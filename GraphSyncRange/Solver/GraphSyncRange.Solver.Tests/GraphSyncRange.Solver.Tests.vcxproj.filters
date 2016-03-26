@@ -60,6 +60,9 @@
     <ClInclude Include="tests\test_tools\ToStringExtensions.hpp">
       <Filter>Source Files\tests\test_tools</Filter>
     </ClInclude>
+    <ClInclude Include="tests\test_tools\TimeLapse.hpp">
+      <Filter>Header Files\test_tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
