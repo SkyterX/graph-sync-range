@@ -10,10 +10,10 @@ using namespace std;
 
 namespace util_tests
 {
-	TEST_CLASS(FastPower_Test) {
+	TEST_CLASS(FastPower_Tests) {
 	public:
 
-		TEST_METHOD(FastPower_Tests) {
+		TEST_METHOD(FastPower_Test) {
 			Simple_Tests<short>();
 			Simple_Tests<int>();
 
@@ -45,6 +45,42 @@ namespace util_tests
 			auto actual = static_cast<double>(FastPower(val, p));
 
 			Assert::AreEqual(expected, actual);
+		}
+	};
+
+	TEST_CLASS(GCD_Tests) {
+		
+		static const size_t MaxValue = 50;
+
+		TEST_METHOD(GCD_Test) {
+			TypedGCDTest<int>();
+			TypedGCDTest<size_t>();
+		}
+
+		template<typename TVal>
+		void TypedGCDTest() {
+			TVal zero = 0;
+			Assert::AreEqual(zero, GCD(zero, zero));
+			for (TVal x = 1; x < MaxValue; ++x) {
+				TVal gZero = GCD(x, zero);
+				Assert::IsTrue(gZero == zero || x % gZero == zero);
+				gZero = GCD(zero, x);
+				Assert::IsTrue(gZero == zero || x % gZero == zero);
+
+				for (TVal y = 1; y < MaxValue; ++y) {
+					TVal g = GCD(x, y);
+					Assert::IsTrue(g <= x);
+					Assert::IsTrue(g <= y);
+					Assert::AreEqual(zero, x % g);
+					Assert::AreEqual(zero, y % g);
+					for (TVal d = g + 1; d < x && d < y; ++d) {
+						if(y % d == zero)
+							Assert::AreNotEqual(zero, x % d);
+						if(x % d == zero)
+							Assert::AreNotEqual(zero, y % d);
+					}
+				}
+			}
 		}
 	};
 }

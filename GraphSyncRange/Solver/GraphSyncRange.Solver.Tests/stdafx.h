@@ -24,5 +24,6 @@
 #include <deque>
 #include <memory>
 #include <cmath>
+#include <chrono>
 
 #define _CRT_SECURE_NO_WARNINGS
