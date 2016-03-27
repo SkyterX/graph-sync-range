@@ -154,6 +154,7 @@
     <ClInclude Include="src\graph\algo\SyncRange.h" />
     <ClInclude Include="src\graph\graph-all.h" />
     <ClInclude Include="src\graph\Graph.h" />
+    <ClInclude Include="src\graph\Graph6Reader.h" />
     <ClInclude Include="src\graph\GraphColoring.h" />
     <ClInclude Include="src\graph\GraphIO.h" />
     <ClInclude Include="src\util\Factorial.h" />

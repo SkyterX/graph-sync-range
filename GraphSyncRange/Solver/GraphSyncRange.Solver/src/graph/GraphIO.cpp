@@ -2,20 +2,24 @@
 
 #include <graph/GraphIO.h>
 #include <util/UtilIO.h>
+#include <algorithm>
 
 using namespace std;
 using namespace util;
 
 namespace graph
 {
-	unique_ptr<Graph> ReadGraph() {
+	unique_ptr<Graph> ReadGraph(FILE* inputFile) {
 		int n, m;
-		scanf("%d%d", &n, &m);
+		fscanf_s(inputFile, "%d%d", &n, &m);
 		auto g = make_unique<Graph>(n);
 		for (int i = 0; i < m; ++i) {
 			int u, v;
-			scanf("%d%d", &u, &v);
+			fscanf_s(inputFile, "%d%d", &u, &v);
 			g->AddEdge(u - 1, v - 1);
+		}
+		for (int v = 0; v < n; ++v) {
+			sort(g->edges[v].begin(), g->edges[v].end());
 		}
 
 		return g;

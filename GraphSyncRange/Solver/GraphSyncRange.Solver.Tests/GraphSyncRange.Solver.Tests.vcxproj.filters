@@ -128,5 +128,11 @@
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\Aperiodicity.cpp">
       <Filter>Source Files\src\graph\algo</Filter>
     </ClCompile>
+    <ClCompile Include="tests\graph\Graph6Reader_Tests.cpp">
+      <Filter>Source Files\tests\graph</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GraphSyncRange.Solver\src\graph\Graph6Reader.cpp">
+      <Filter>Source Files\src\graph</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

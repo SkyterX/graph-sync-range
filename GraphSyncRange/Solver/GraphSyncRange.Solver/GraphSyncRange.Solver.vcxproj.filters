@@ -133,5 +133,8 @@
     <ClInclude Include="src\graph\algo\Aperiodicity.h">
       <Filter>Header Files\graph\algo</Filter>
     </ClInclude>
+    <ClInclude Include="src\graph\Graph6Reader.h">
+      <Filter>Header Files\graph</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
