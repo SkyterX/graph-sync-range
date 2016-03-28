@@ -3,7 +3,7 @@
 #include <util/MathUtils.hpp>
 #include <test_tools/Message.h>
 #include <experimental/generator>
-#include <graph/algo/GraphEnumeration.h>
+#include <graph/Graph6Reader.h>
 #include <graph/algo/StrongConnectivity.h>
 #include <functional>
 #include <test_tools/TimeLapse.hpp>
@@ -20,8 +20,7 @@ namespace graph_algo_tests
 	TEST_CLASS(StronglyConnectedComponents_Tests) {
 	public:
 
-		static const int TestGraphSize = 5;
-		static const int TestGraphDegree = 2;
+		static constexpr char* graphsFileName = R"(TestData\directed_6_2.d6)";
 
 		TEST_METHOD(Compare_Tarjan_KosarajuSharir_Test) {
 
@@ -39,15 +38,14 @@ namespace graph_algo_tests
 						result = KosarajuSharirSCCBuilder.FindComponents(g);
 					};
 
-			SimpleGraphEnumerator graphEnumerator(TestGraphSize, 2);
+			Graph6Reader reader(graphsFileName);
 			vector<int> tResult, ksResult;
 			Timer::DurationType tTime(0), ksTime(0);
-			do {
-				tTime += Timer::Duration(tFunc, graphEnumerator.Current, tResult);
-				ksTime += Timer::Duration(ksFunc, graphEnumerator.Current, ksResult);
+			while(reader.MoveNext()) {
+				tTime += Timer::Duration(tFunc, reader.Current, tResult);
+				ksTime += Timer::Duration(ksFunc, reader.Current, ksResult);
 				CompareSCC(tResult, ksResult);
 			}
-			while (graphEnumerator.MoveNext());
 
 			Message::WriteLineF("Tarjan          : %lld", chrono::duration_cast<ResultTime>(tTime).count());
 			Message::WriteLineF("Kosaraju-Sharir : %lld", chrono::duration_cast<ResultTime>(ksTime).count());
@@ -55,8 +53,8 @@ namespace graph_algo_tests
 
 		void CompareSCC(const vector<int>& expected, const vector<int>& actual) {
 			vector<int> componentsMap;
-			componentsMap.assign(TestGraphSize, -1);
-			for (int v = 0; v < TestGraphSize; ++v) {
+			componentsMap.assign(expected.size(), -1);
+			for (int v = 0; v < expected.size(); ++v) {
 				if (componentsMap[actual[v]] != -1)
 					Assert::AreEqual(componentsMap[actual[v]], expected[v]);
 				componentsMap[actual[v]] = expected[v];

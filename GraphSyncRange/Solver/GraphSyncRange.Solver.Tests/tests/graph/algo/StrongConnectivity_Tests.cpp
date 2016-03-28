@@ -3,7 +3,7 @@
 #include <util/MathUtils.hpp>
 #include <test_tools/Message.h>
 #include <experimental/generator>
-#include <graph/algo/GraphEnumeration.h>
+#include <graph/Graph6Reader.h>
 #include <graph/algo/StrongConnectivity.h>
 #include <test_tools/TimeLapse.hpp>
 
@@ -19,8 +19,7 @@ namespace graph_algo_tests
 	TEST_CLASS(StrongConnectivity_Tests) {
 	public:
 
-		static const int TestGraphSize = 5;
-		static const int TestGraphDegree = 2;
+		static constexpr char* graphsFileName = R"(TestData\directed_6_2.d6)";
 
 		TEST_METHOD(SimpleChecker_Test) {
 
@@ -31,20 +30,19 @@ namespace graph_algo_tests
 			StrongConnectivityChecker_KosarajuSharir validator;
 
 			Timer::DurationType cTime(0), vTime(0);
-			SimpleGraphEnumerator graphEnumerator(TestGraphSize, 2);
-			do {
+			Graph6Reader reader(graphsFileName);
+			while (reader.MoveNext()) {
 				bool expected, actual;
 				vTime += Timer::Duration(
 					[&validator](const Graph& graph, bool& result) {
 						result = validator.IsStronglyConnected(graph);
-					}, graphEnumerator.Current, expected);
+					}, reader.Current, expected);
 				cTime += Timer::Duration(
 					[&checker](const Graph& graph, bool& result) {
 						result = checker.IsStronglyConnected(graph);
-					}, graphEnumerator.Current, actual);
+					}, reader.Current, actual);
 				Assert::AreEqual(expected, actual);
 			}
-			while (graphEnumerator.MoveNext());
 
 			Message::WriteLineF("Checker   : %lld", chrono::duration_cast<ResultTime>(cTime).count());
 			Message::WriteLineF("Validator : %lld", chrono::duration_cast<ResultTime>(vTime).count());
