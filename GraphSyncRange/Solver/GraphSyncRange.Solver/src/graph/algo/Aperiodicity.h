@@ -16,4 +16,8 @@ namespace graph
 
 		void BuildDepth(int v, int currentDepth);
 	};
+
+	struct AperiodicityChecker_Matrix {
+		bool IsAperiodic(const Graph& graph);
+	};
 }

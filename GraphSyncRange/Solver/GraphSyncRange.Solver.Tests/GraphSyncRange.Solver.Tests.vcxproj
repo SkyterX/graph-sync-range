@@ -176,6 +176,7 @@
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\GraphColoring.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\GraphIO.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\util\MathUtils.hpp" />
+    <ClCompile Include="tests\graph\algo\Aperiodicity_Tests.cpp" />
     <ClCompile Include="tests\graph\algo\StrongConnectivity_Tests.cpp" />
     <ClCompile Include="tests\graph\algo\StronglyConnectedComponents_Tests.cpp" />
     <ClCompile Include="tests\graph\Graph6Reader_Tests.cpp" />
