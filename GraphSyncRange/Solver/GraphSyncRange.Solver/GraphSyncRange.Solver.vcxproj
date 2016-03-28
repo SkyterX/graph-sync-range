@@ -133,6 +133,7 @@
     <ClCompile Include="src\graph\algo\Synchronization.cpp" />
     <ClCompile Include="src\graph\algo\SyncRange.cpp" />
     <ClCompile Include="src\graph\Graph.cpp" />
+    <ClCompile Include="src\graph\Graph6Reader.cpp" />
     <ClCompile Include="src\graph\GraphColoring.cpp" />
     <ClCompile Include="src\graph\GraphIO.cpp" />
     <ClCompile Include="src\util\Factorial.cpp" />

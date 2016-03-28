@@ -78,6 +78,9 @@
     <ClCompile Include="src\graph\algo\Aperiodicity.cpp">
       <Filter>Source Files\graph\algo</Filter>
     </ClCompile>
+    <ClCompile Include="src\graph\Graph6Reader.cpp">
+      <Filter>Source Files\graph</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="output.txt">

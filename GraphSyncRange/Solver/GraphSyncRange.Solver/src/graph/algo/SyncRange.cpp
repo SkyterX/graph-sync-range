@@ -32,7 +32,7 @@ namespace graph
 	double sumSqrSyncRatio = 0.0;
 	double cntGraphs = 0;
 
-	void FindSyncRange(const Graph& graph) {
+	void FindSyncRange(const Graph& graph, int minRange) {
 
 		//		PrintGraph(graph);
 		//		printf(" -> ");
@@ -107,7 +107,7 @@ namespace graph
 
 		assert(farthestColoringId != -1); // neighbors generation failed
 
-		if (distance[farthestColoringId] < 3) return;
+		if (distance[farthestColoringId] < minRange) return;
 		PrintGraph(graph);
 		printf(" -> ");
 		printf("MaxDistance : %d from ", distance[farthestColoringId]);
