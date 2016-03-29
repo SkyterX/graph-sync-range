@@ -137,5 +137,8 @@
     <ClCompile Include="tests\graph\algo\Aperiodicity_Tests.cpp">
       <Filter>Source Files\tests\graph\algo</Filter>
     </ClCompile>
+    <ClCompile Include="tests\graph\GraphColoring_Tests.cpp">
+      <Filter>Source Files\tests\graph</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

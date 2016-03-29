@@ -180,6 +180,7 @@
     <ClCompile Include="tests\graph\algo\StrongConnectivity_Tests.cpp" />
     <ClCompile Include="tests\graph\algo\StronglyConnectedComponents_Tests.cpp" />
     <ClCompile Include="tests\graph\Graph6Reader_Tests.cpp" />
+    <ClCompile Include="tests\graph\GraphColoring_Tests.cpp" />
     <ClCompile Include="tests\test_tools\Message.cpp" />
     <ClCompile Include="tests\util\MathUtils_Tests.cpp" />
     <ClCompile Include="tests\util\Permutations_Tests.cpp" />
