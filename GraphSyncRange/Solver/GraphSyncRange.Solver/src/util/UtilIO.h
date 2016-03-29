@@ -1,5 +1,5 @@
 #pragma once
-#include <util/Permutations.h>"
+#include <util/Permutations.h>
 
 namespace util
 {
