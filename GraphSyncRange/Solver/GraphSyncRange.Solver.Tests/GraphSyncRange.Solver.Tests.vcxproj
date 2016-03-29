@@ -181,6 +181,7 @@
     <ClCompile Include="tests\graph\algo\Eulerianicity_Tests.cpp" />
     <ClCompile Include="tests\graph\algo\StrongConnectivity_Tests.cpp" />
     <ClCompile Include="tests\graph\algo\StronglyConnectedComponents_Tests.cpp" />
+    <ClCompile Include="tests\graph\algo\Synchronicity_Tests.cpp" />
     <ClCompile Include="tests\graph\algo\SynchronizingWord_Tests.cpp" />
     <ClCompile Include="tests\graph\Graph6Reader_Tests.cpp" />
     <ClCompile Include="tests\graph\GraphColoring_Tests.cpp" />

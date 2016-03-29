@@ -149,5 +149,8 @@
     <ClCompile Include="tests\graph\algo\SynchronizingWord_Tests.cpp">
       <Filter>Source Files\tests\graph\algo</Filter>
     </ClCompile>
+    <ClCompile Include="tests\graph\algo\Synchronicity_Tests.cpp">
+      <Filter>Source Files\tests\graph\algo</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
