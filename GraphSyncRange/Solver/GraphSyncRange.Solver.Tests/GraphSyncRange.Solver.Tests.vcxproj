@@ -170,6 +170,7 @@
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\StrongConnectivity.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\StronglyConnectedComponents.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\Synchronization.cpp" />
+    <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\SynchronizingWord.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\SyncRange.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\Graph.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\Graph6Reader.cpp" />
@@ -180,6 +181,7 @@
     <ClCompile Include="tests\graph\algo\Eulerianicity_Tests.cpp" />
     <ClCompile Include="tests\graph\algo\StrongConnectivity_Tests.cpp" />
     <ClCompile Include="tests\graph\algo\StronglyConnectedComponents_Tests.cpp" />
+    <ClCompile Include="tests\graph\algo\SynchronizingWord_Tests.cpp" />
     <ClCompile Include="tests\graph\Graph6Reader_Tests.cpp" />
     <ClCompile Include="tests\graph\GraphColoring_Tests.cpp" />
     <ClCompile Include="tests\test_tools\Message.cpp" />

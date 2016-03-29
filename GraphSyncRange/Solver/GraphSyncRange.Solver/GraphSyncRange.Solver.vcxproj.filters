@@ -81,6 +81,9 @@
     <ClCompile Include="src\graph\Graph6Reader.cpp">
       <Filter>Source Files\graph</Filter>
     </ClCompile>
+    <ClCompile Include="src\graph\algo\SynchronizingWord.cpp">
+      <Filter>Source Files\graph\algo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="output.txt">
@@ -138,6 +141,9 @@
     </ClInclude>
     <ClInclude Include="src\graph\Graph6Reader.h">
       <Filter>Header Files\graph</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graph\algo\SynchronizingWord.h">
+      <Filter>Header Files\graph\algo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

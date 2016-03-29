@@ -143,5 +143,11 @@
     <ClCompile Include="tests\graph\algo\Eulerianicity_Tests.cpp">
       <Filter>Source Files\tests\graph\algo</Filter>
     </ClCompile>
+    <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\SynchronizingWord.cpp">
+      <Filter>Source Files\src\graph\algo</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\graph\algo\SynchronizingWord_Tests.cpp">
+      <Filter>Source Files\tests\graph\algo</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
