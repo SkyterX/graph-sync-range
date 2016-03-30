@@ -4,7 +4,6 @@
 #include <experimental/generator>
 #include <graph/Graph6Reader.h>
 #include <graph/algo/SynchronizingWord.h>
-#include <graph/algo/StrongConnectivity.h>
 #include <graph/algo/Synchronization.h>
 #include <test_tools/TimeLapse.hpp>
 
@@ -20,7 +19,7 @@ namespace graph_algo_tests
 	TEST_CLASS(Synchronicity_Tests) {
 	public:
 
-		static constexpr char* graphsFileName = R"(TestData\directed_6_2.d6)";
+		static constexpr char* graphsFileName = R"(TestData\directed_6_2_scc.d6)";
 
 		TEST_METHOD(Synchronicity_Test) {
 			using Timer = Measure<chrono::nanoseconds>;
@@ -37,7 +36,6 @@ namespace graph_algo_tests
 
 			Permutation::Generate(k);
 
-			StrongConnectivityChecker_Simple scChecker;
 			ShortestSynchronizingWordBuilder_BruteForce builder(n, k);
 			SynchronizationChecker syncChecker(n, k);
 			GraphColoring coloring(n, k);
@@ -49,8 +47,6 @@ namespace graph_algo_tests
 					while (graph.edges[v].size() < k)
 						graph.AddEdge(v, v);
 				}
-				if (!scChecker.IsStronglyConnected(graph))
-					continue;
 
 				bool expected, actual;
 				vTime += Timer::Duration(

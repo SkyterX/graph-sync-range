@@ -20,6 +20,7 @@ namespace graph_algo_tests
 	public:
 
 		static constexpr char* graphsFileName = R"(TestData\directed_6_2.d6)";
+		static constexpr char* scGraphsFileName = R"(TestData\directed_6_2_scc.d6)";
 
 		TEST_METHOD(SimpleChecker_Test) {
 
@@ -48,5 +49,12 @@ namespace graph_algo_tests
 			Message::WriteLineF("Validator : %lld", chrono::duration_cast<ResultTime>(vTime).count());
 		}
 
+		TEST_METHOD(SimpleChecker_SCGraphsFile_Test) {
+			StrongConnectivityChecker_Simple checker;
+			Graph6Reader reader(scGraphsFileName);
+			while (reader.MoveNext()) {
+				Assert::IsTrue(checker.IsStronglyConnected(reader.Current));
+			}
+		}
 	};
 }

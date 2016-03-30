@@ -5,7 +5,6 @@
 #include <experimental/generator>
 #include <graph/Graph6Reader.h>
 #include <graph/algo/Aperiodicity.h>
-#include <graph/algo/StrongConnectivity.h>
 #include <test_tools/TimeLapse.hpp>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -20,7 +19,7 @@ namespace graph_algo_tests
 	TEST_CLASS(Aperiodicity_Tests) {
 	public:
 
-		static constexpr char* graphsFileName = R"(TestData\directed_6_2.d6)";
+		static constexpr char* graphsFileName = R"(TestData\directed_6_2_scc.d6)";
 
 		TEST_METHOD(Aperiodicity_GraphsFile_Test) {
 
@@ -31,11 +30,8 @@ namespace graph_algo_tests
 			AperiodicityChecker_Matrix validator;
 
 			Timer::DurationType cTime(0), vTime(0);
-			StrongConnectivityChecker_Simple scChecker;
 			Graph6Reader reader(graphsFileName);
 			while (reader.MoveNext()) {
-				if (!scChecker.IsStronglyConnected(reader.Current))
-					continue;
 				bool expected, actual;
 				vTime += Timer::Duration(
 					[&validator](const Graph& graph, bool& result) {

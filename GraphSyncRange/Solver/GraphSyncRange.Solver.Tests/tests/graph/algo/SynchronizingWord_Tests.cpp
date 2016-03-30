@@ -4,7 +4,6 @@
 #include <experimental/generator>
 #include <graph/Graph6Reader.h>
 #include <graph/algo/SynchronizingWord.h>
-#include <graph/algo/StrongConnectivity.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace test_tools;
@@ -19,7 +18,7 @@ namespace graph_algo_tests
 	public:
 
 		static constexpr int CernyGraphSize = 7;
-		static constexpr char* graphsFileName = R"(TestData\directed_6_2.d6)";
+		static constexpr char* graphsFileName = R"(TestData\directed_6_2_scc.d6)";
 
 		TEST_METHOD(SynchronizingWord_BruteForceBuilder_Cerny_Test) {
 			const int n = CernyGraphSize;
@@ -55,7 +54,6 @@ namespace graph_algo_tests
 
 			Permutation::Generate(k);
 
-			StrongConnectivityChecker_Simple scChecker;
 			ShortestSynchronizingWordBuilder_BruteForce builder(n, k);
 			GraphColoring coloring(n, k);
 
@@ -67,8 +65,6 @@ namespace graph_algo_tests
 					while (graph.edges[v].size() < k)
 						graph.AddEdge(v, v);
 				}
-				if (!scChecker.IsStronglyConnected(graph))
-					continue;
 
 				auto syncWord = builder.FindSynchronizingWord(graph, coloring);
 				if (syncWord.size() == 0) continue;
