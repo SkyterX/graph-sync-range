@@ -1,11 +1,10 @@
 #pragma once
 #include <graph/Graph.h>
-#include <graph/GraphColoring.h>
+#include <graph/enumeration/SyncColoringsEnumeration.h>
 
 namespace graph
 {
 	void FindSyncRange(const Graph& graph, int minRange = 3);
-	std::vector<GraphColoring::IdType> GenerateSyncColorings(const Graph& graph);
 
 	extern Graph minGraph;
 	extern double minSyncRatio;

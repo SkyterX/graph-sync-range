@@ -31,6 +31,12 @@
     <Filter Include="Source Files\graph\algo">
       <UniqueIdentifier>{db4f9a6e-0cdf-4e58-af59-6f3332b44387}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\graph\enumeration">
+      <UniqueIdentifier>{363f09ff-9ee9-450a-ab49-2d836130e17b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\graph\enumeration">
+      <UniqueIdentifier>{8966189f-d5a6-4c18-a852-cf655f84c347}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -69,9 +75,6 @@
     <ClCompile Include="src\graph\algo\SyncRange.cpp">
       <Filter>Source Files\graph\algo</Filter>
     </ClCompile>
-    <ClCompile Include="src\graph\algo\GraphEnumeration.cpp">
-      <Filter>Source Files\graph\algo</Filter>
-    </ClCompile>
     <ClCompile Include="src\graph\algo\StronglyConnectedComponents.cpp">
       <Filter>Source Files\graph\algo</Filter>
     </ClCompile>
@@ -83,6 +86,12 @@
     </ClCompile>
     <ClCompile Include="src\graph\algo\SynchronizingWord.cpp">
       <Filter>Source Files\graph\algo</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graph\enumeration\SyncColoringsEnumeration.cpp">
+      <Filter>Source Files\graph\enumeration</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graph\enumeration\GraphEnumeration.cpp">
+      <Filter>Source Files\graph\enumeration</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -130,9 +139,6 @@
     <ClInclude Include="src\graph\algo\SyncRange.h">
       <Filter>Header Files\graph\algo</Filter>
     </ClInclude>
-    <ClInclude Include="src\graph\algo\GraphEnumeration.h">
-      <Filter>Header Files\graph\algo</Filter>
-    </ClInclude>
     <ClInclude Include="src\graph\algo\StronglyConnectedComponents.h">
       <Filter>Header Files\graph\algo</Filter>
     </ClInclude>
@@ -144,6 +150,12 @@
     </ClInclude>
     <ClInclude Include="src\graph\algo\SynchronizingWord.h">
       <Filter>Header Files\graph\algo</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graph\enumeration\GraphEnumeration.h">
+      <Filter>Header Files\graph\enumeration</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graph\enumeration\SyncColoringsEnumeration.h">
+      <Filter>Header Files\graph\enumeration</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

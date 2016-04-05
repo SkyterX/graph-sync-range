@@ -9,6 +9,7 @@
 #include <graph/algo/Eulerian.h>
 #include <graph/algo/Synchronization.h>
 #include <graph/algo/SyncRange.h>
-#include <graph/algo/GraphEnumeration.h>
 #include <graph/algo/StronglyConnectedComponents.h>
 #include <graph/algo/Aperiodicity.h>
+
+#include <graph/enumeration/GraphEnumeration.h>

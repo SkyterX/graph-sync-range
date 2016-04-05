@@ -1,6 +1,6 @@
 #include <vector>
 #include <algorithm>
-#include <graph/algo/GraphEnumeration.h>
+#include <graph/enumeration/GraphEnumeration.h>
 #include <graph/Graph.h>
 #include <util/MathUtils.hpp>
 

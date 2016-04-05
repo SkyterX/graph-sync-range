@@ -43,6 +43,9 @@
     <Filter Include="Source Files\tests\graph\algo">
       <UniqueIdentifier>{1216fad8-5592-466e-891d-2ee43f7518d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\src\graph\enumeration">
+      <UniqueIdentifier>{1ab89af6-ecd9-4a51-83ba-966dc1050eb3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -90,9 +93,6 @@
       <Filter>Source Files\src\graph</Filter>
     </ClCompile>
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\Eulerian.cpp">
-      <Filter>Source Files\src\graph\algo</Filter>
-    </ClCompile>
-    <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\GraphEnumeration.cpp">
       <Filter>Source Files\src\graph\algo</Filter>
     </ClCompile>
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\StrongConnectivity.cpp">
@@ -151,6 +151,12 @@
     </ClCompile>
     <ClCompile Include="tests\graph\algo\Synchronicity_Tests.cpp">
       <Filter>Source Files\tests\graph\algo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GraphSyncRange.Solver\src\graph\enumeration\SyncColoringsEnumeration.cpp">
+      <Filter>Source Files\src\graph\enumeration</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GraphSyncRange.Solver\src\graph\enumeration\GraphEnumeration.cpp">
+      <Filter>Source Files\src\graph\enumeration</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

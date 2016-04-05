@@ -9,22 +9,7 @@ using namespace util;
 
 namespace graph
 {
-	vector<GraphColoring::IdType> GenerateSyncColorings(const Graph& graph) {
-		vector<GraphColoring::IdType> syncColorings;
-		int n = graph.VerticesCount();
-		int k = graph.OutDegree();
-		auto coloring = GraphColoring(n, k);
-		auto syncChecker = SynchronizationChecker(n, k);
-		GraphColoring::IdType id = 0;
-		do {
-			if (syncChecker.IsSynchronizing(graph, coloring)) {
-				syncColorings.push_back(id);
-			}
-			++id;
-		}
-		while (coloring.NextColoring());
-		return syncColorings;
-	}
+
 
 	Graph minGraph(0);
 	double minSyncRatio = 1.0;
