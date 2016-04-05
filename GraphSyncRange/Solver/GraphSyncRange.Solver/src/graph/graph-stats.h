@@ -1,7 +1,5 @@
 #pragma once
 
-#define COLLECT_TIME_STATS
-
 #include <chrono>
 #include <cassert>
 
@@ -14,15 +12,24 @@ namespace graph
 	}
 }
 
-#ifdef COLLECT_TIME_STATS
-#define StartTimer() graph::stats::ClockType::time_point __GraphStatsStartTimeVar = graph::stats::ClockType::now()
-#define GetTime() std::chrono::duration_cast<graph::stats::TimeMeasure>(graph::stats::ClockType::now() - __GraphStatsStartTimeVar)
-#define UpdateTimer(Timer) Timer += std::chrono::duration_cast<graph::stats::TimeMeasure>(graph::stats::ClockType::now() - __GraphStatsStartTimeVar)
+#ifndef NO_TIME_STATS
+
+#define UpdateTimestampVar(timestampVariable) timestampVariable = graph::stats::ClockType::now()
+#define CreateTimestampVar(timestampVariable) graph::stats::ClockType::time_point UpdateTimestampVar(timestampVariable)
+#define GetTimeByVar(timestampVariable) std::chrono::duration_cast<graph::stats::TimeMeasure>(graph::stats::ClockType::now() - timestampVariable)
+#define UpdateTimerByVar(Timer, timestampVariable) Timer += GetTimeByVar(timestampVariable)
 
 #else
 
-#define StartTimer() ((void)0)
-#define GetTime() graph::stats::ClockType::duration()
-#define UpdateTimer(Timer) ((void)0)
+#define UpdateTimestampVar(timestampVariable) ((void)0)
+#define CreateTimestampVar(timestampVariable) ((void)0)
+#define GetTimeByVar(timestampVariable) graph::stats::ClockType::duration()
+#define UpdateTimerByVar(Timer, timestampVariable) ((void)0)
 
 #endif
+
+#define DefaultTimestamp __GraphStatsStartTimeVar
+#define UpdateTimestamp() UpdateTimestampVar(DefaultTimestamp)
+#define CreateTimestamp() CreateTimestampVar(DefaultTimestamp)
+#define GetTime() GetTimeByVar(DefaultTimestamp)
+#define UpdateTimer(Timer) UpdateTimerByVar(Timer, DefaultTimestamp)

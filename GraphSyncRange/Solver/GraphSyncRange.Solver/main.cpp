@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <util/util-all.h>
 #include <graph/graph-all.h>
+#include <chrono>
 
 using namespace std;
 
@@ -18,7 +19,7 @@ size_t totalGraphs = 0;
 TimeMeasure TotalTime;
 
 void FindMaxSyncRange(int n, int k) {
-	StartTimer();
+	CreateTimestamp();
 
 	Permutation::Generate(k);
 
@@ -53,7 +54,7 @@ void FindGraphSyncRange() {
 	int n = g->VerticesCount();
 	int k = g->OutDegree();
 
-	StartTimer();
+	CreateTimestamp();
 
 	Permutation::Generate(k);
 	FindSyncRange(*g);
@@ -63,7 +64,7 @@ void FindGraphSyncRange() {
 
 
 void FindMaxSyncRangeFile(const char* fileName) {
-	StartTimer();
+	CreateTimestamp();
 
 	Graph6Reader reader(fileName);
 
@@ -78,10 +79,19 @@ void FindMaxSyncRangeFile(const char* fileName) {
 	StrongConnectivityChecker_Simple sccChecker;
 	AperiodicityChecker aperiodicityChecker;
 
-	
+	CreateTimestampVar(cycleStart);
 	totalGraphs = 0;
+	size_t skipGraphs = 30000000;
 	do {
 		++totalGraphs;
+		if (totalGraphs > skipGraphs)
+			break;
+		if(totalGraphs % 100000 == 0) {
+			auto endTime = chrono::system_clock::now();
+			auto duration = GetTimeByVar(cycleStart);
+			UpdateTimestampVar(cycleStart);
+			fprintf(stderr, "Processed %lu in %llds\n", totalGraphs, duration.count());
+		}
 		auto& graph = reader.Current;
 		if (aperiodicityChecker.IsAperiodic(graph)) {
 			for (int v = 0; v < graph.VerticesCount(); ++v) {
@@ -122,8 +132,8 @@ int main(void) {
 	//	freopen("input.txt", "rt", stdin);
 	//	freopen("output.txt", "wt", stdout);
 
-	FindMaxSyncRangeFile(R"(D:\Projects\Study\graphs\directed_7_2_scc.d6)");
-	//	FindMaxSyncRange(6, 2);
+	FindMaxSyncRangeFile(R"(D:\Projects\Diploma\graphs\directed_9_2_scc.d6)");
+//	FindMaxSyncRange(6, 2);
 
 	PrintStats();
 

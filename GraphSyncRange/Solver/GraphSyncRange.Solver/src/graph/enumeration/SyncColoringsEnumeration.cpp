@@ -15,7 +15,7 @@ namespace graph
 	}
 
 	vector<GraphColoring::IdType> GenerateSyncColorings(const Graph& graph) {
-		StartTimer();
+		CreateTimestamp();
 
 		vector<GraphColoring::IdType> syncColorings;
 		int n = graph.VerticesCount();
@@ -47,7 +47,7 @@ namespace graph
 		  Current(0) { }
 
 	bool SyncColoringsEnumerator::MoveNext() {
-		StartTimer();
+		CreateTimestamp();
 		auto result = DoMoveNext();
 		UpdateTimer(SyncColoringsGenerationTime);
 		return result;

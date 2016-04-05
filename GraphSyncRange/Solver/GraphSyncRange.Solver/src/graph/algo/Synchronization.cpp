@@ -25,7 +25,7 @@ namespace graph
 	}
 
 	bool SynchronizationChecker::IsSynchronizing(const Graph& graph, const GraphColoring& coloring) {
-		StartTimer();
+		CreateTimestamp(DefaultTimestamp);
 
 		Clear();
 		BuildAutomata(graph, coloring);
