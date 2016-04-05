@@ -3,6 +3,8 @@
 #include <graph/algo/SyncRange.h>
 #include <graph/algo/Synchronization.h>
 #include <graph/GraphIO.h>
+#include <graph/algo/StrongConnectivity.h>
+#include <graph/algo/Aperiodicity.h>
 
 using namespace std;
 using namespace util;
@@ -16,6 +18,8 @@ namespace graph
 	double cntGraphs = 0;
 
 	void FindSyncRange(const Graph& graph, int minRange) {
+		assert(StrongConnectivityChecker_Simple().IsStronglyConnected(graph));
+		assert(AperiodicityChecker().IsAperiodic(graph));
 
 		//		PrintGraph(graph);
 		//		printf(" -> ");
@@ -25,13 +29,22 @@ namespace graph
 		int k = graph.OutDegree();
 
 		auto totalColoringsCount = GraphColoring::ColoringsCount(n, k);
-		auto syncColoringIds = GenerateSyncColorings(graph);
 
-		if (syncColoringIds.size() == 0) {
-			//			printf("No sync colorings found\n");
-			throw;
+		vector<int> distance(totalColoringsCount, -1);
+		vector<ColoringIdType> parent(totalColoringsCount);
+		queue<ColoringIdType> q;
+		SyncColoringsEnumerator coloringsEnumerator(graph);
+
+		auto syncCologingsCount = 0;
+		while (coloringsEnumerator.MoveNext()) {
+			auto& coloringId = coloringsEnumerator.Current;
+			q.push(coloringId);
+			distance[coloringId] = 0;
+			parent[coloringId] = coloringId;
+			++syncCologingsCount;
 		}
-		double syncRatio = (0.0 + syncColoringIds.size()) / totalColoringsCount;
+
+		double syncRatio = (0.0 + syncCologingsCount) / totalColoringsCount;
 		if (syncRatio < minSyncRatio) {
 			minGraph = graph;
 			minSyncRatio = syncRatio;
@@ -40,23 +53,12 @@ namespace graph
 		sumSqrSyncRatio += syncRatio * syncRatio;
 		++cntGraphs;
 
-		if (syncColoringIds.size() == totalColoringsCount) {
+		if (syncCologingsCount == totalColoringsCount) {
 			//			printf("All colorings are sync\n");
 			return;
 		}
 
-		vector<int> distance(totalColoringsCount, -1);
-		vector<ColoringIdType> parent(totalColoringsCount);
-		queue<ColoringIdType> q;
-
-		ColoringIdType coloringsProcessed = 0;;
-		for (auto& coloringId : syncColoringIds) {
-			q.push(coloringId);
-			distance[coloringId] = 0;
-			parent[coloringId] = coloringId;
-			++coloringsProcessed;
-		}
-
+		ColoringIdType coloringsProcessed = syncCologingsCount;
 		int farthestColoringId = -1;
 		while (coloringsProcessed < totalColoringsCount && !q.empty()) {
 			auto coloringId = q.front();

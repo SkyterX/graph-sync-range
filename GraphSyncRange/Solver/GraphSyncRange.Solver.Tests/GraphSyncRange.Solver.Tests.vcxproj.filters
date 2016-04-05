@@ -46,6 +46,9 @@
     <Filter Include="Source Files\src\graph\enumeration">
       <UniqueIdentifier>{1ab89af6-ecd9-4a51-83ba-966dc1050eb3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\tests\graph\enumeration">
+      <UniqueIdentifier>{76b137d5-d2c9-4b94-94bc-21ac980bb494}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -157,6 +160,9 @@
     </ClCompile>
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\enumeration\GraphEnumeration.cpp">
       <Filter>Source Files\src\graph\enumeration</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\graph\enumeration\SyncColoringsEnumeration_Tests.cpp">
+      <Filter>Source Files\tests\graph\enumeration</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

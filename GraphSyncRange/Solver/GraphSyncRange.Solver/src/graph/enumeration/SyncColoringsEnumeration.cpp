@@ -36,3 +36,35 @@ namespace graph
 		return syncColorings;
 	}
 }
+
+namespace graph
+{
+	SyncColoringsEnumerator::SyncColoringsEnumerator(const Graph& graph)
+		: isFirst(true),
+		  graph(graph),
+		  currentColoring(graph.VerticesCount(), graph.OutDegree()),
+		  syncChecker(graph.VerticesCount(), graph.OutDegree()),
+		  Current(0) { }
+
+	bool SyncColoringsEnumerator::MoveNext() {
+		StartTimer();
+		auto result = DoMoveNext();
+		UpdateTimer(SyncColoringsGenerationTime);
+		return result;
+	}
+
+	bool SyncColoringsEnumerator::DoMoveNext() {
+		if (isFirst) {
+			isFirst = false;
+			if (syncChecker.IsSynchronizing(graph, currentColoring))
+				return true;
+		}
+		while (currentColoring.NextColoring()) {
+			++Current;
+			if (syncChecker.IsSynchronizing(graph, currentColoring)) {
+				return true;
+			}			
+		}
+		return false;
+	}
+}
