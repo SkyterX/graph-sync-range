@@ -3,9 +3,15 @@
 #include <vector>
 #include <graph/Graph.h>
 #include <graph/GraphColoring.h>
+#include <graph/graph-stats.h>
 
 namespace graph
 {
+	namespace stats
+	{
+		extern TimeMeasure SynchronizationCheckTime;
+	}
+
 	class SynchronizationChecker {
 		std::queue<int> q;
 		std::vector<bool> used;

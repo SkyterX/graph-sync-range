@@ -13,3 +13,5 @@
 #include <graph/algo/Aperiodicity.h>
 
 #include <graph/enumeration/GraphEnumeration.h>
+
+#include <graph/graph-stats.h>

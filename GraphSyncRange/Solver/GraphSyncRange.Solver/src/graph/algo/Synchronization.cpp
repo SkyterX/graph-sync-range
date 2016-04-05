@@ -2,9 +2,15 @@
 #include <graph/algo/Synchronization.h>
 
 using namespace std;
+using namespace graph::stats;
 
 namespace graph
 {
+	namespace stats
+	{
+		TimeMeasure SynchronizationCheckTime;
+	}
+
 	// PG = Inversed P^2(A) graph of tuples and singletons
 	// For simplicity of indexing tuples, graph is of double size than needed
 	SynchronizationChecker::SynchronizationChecker(int nVertices, int outDegree)
@@ -19,10 +25,15 @@ namespace graph
 	}
 
 	bool SynchronizationChecker::IsSynchronizing(const Graph& graph, const GraphColoring& coloring) {
+		StartTimer();
+
 		Clear();
 		BuildAutomata(graph, coloring);
 		BuildPGraph();
-		return CheckReachability();
+		auto result = CheckReachability();
+
+		UpdateTimer(SynchronizationCheckTime);
+		return result;
 	}
 
 	void SynchronizationChecker::Clear() {

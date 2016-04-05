@@ -158,6 +158,7 @@
     <ClInclude Include="src\graph\enumeration\GraphEnumeration.h" />
     <ClInclude Include="src\graph\enumeration\SyncColoringsEnumeration.h" />
     <ClInclude Include="src\graph\graph-all.h" />
+    <ClInclude Include="src\graph\graph-stats.h" />
     <ClInclude Include="src\graph\Graph.h" />
     <ClInclude Include="src\graph\Graph6Reader.h" />
     <ClInclude Include="src\graph\GraphColoring.h" />

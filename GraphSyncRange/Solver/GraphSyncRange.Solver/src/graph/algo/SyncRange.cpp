@@ -9,8 +9,6 @@ using namespace util;
 
 namespace graph
 {
-
-
 	Graph minGraph(0);
 	double minSyncRatio = 1.0;
 	double sumSyncRatio = 0.0;

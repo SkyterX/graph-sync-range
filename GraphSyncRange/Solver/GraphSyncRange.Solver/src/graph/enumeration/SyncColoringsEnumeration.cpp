@@ -2,12 +2,21 @@
 #include <graph/Graph.h>
 #include <graph/GraphColoring.h>
 #include <graph/algo/Synchronization.h>
+#include <graph/graph-stats.h>
 
 using namespace std;
+using namespace graph::stats;
 
 namespace graph
 {
+	namespace stats
+	{
+		TimeMeasure SyncColoringsGenerationTime(0);
+	}
+
 	vector<GraphColoring::IdType> GenerateSyncColorings(const Graph& graph) {
+		StartTimer();
+
 		vector<GraphColoring::IdType> syncColorings;
 		int n = graph.VerticesCount();
 		int k = graph.OutDegree();
@@ -19,7 +28,11 @@ namespace graph
 				syncColorings.push_back(id);
 			}
 			++id;
-		} while (coloring.NextColoring());
+		}
+		while (coloring.NextColoring());
+
+		UpdateTimer(SyncColoringsGenerationTime);
+
 		return syncColorings;
 	}
 }

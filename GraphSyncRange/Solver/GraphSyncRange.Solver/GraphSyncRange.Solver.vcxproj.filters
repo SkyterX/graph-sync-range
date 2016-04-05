@@ -157,5 +157,8 @@
     <ClInclude Include="src\graph\enumeration\SyncColoringsEnumeration.h">
       <Filter>Header Files\graph\enumeration</Filter>
     </ClInclude>
+    <ClInclude Include="src\graph\graph-stats.h">
+      <Filter>Header Files\graph</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
