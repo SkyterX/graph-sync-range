@@ -17,12 +17,14 @@ namespace graph
 	class SyncColoringsEnumerator {
 
 		bool isFirst;
-		const Graph& graph;
+		const Graph* graph;
 		GraphColoring currentColoring;
 		SynchronizationChecker syncChecker;
 
 	public:
-		SyncColoringsEnumerator(const Graph& graph);
+		SyncColoringsEnumerator(int verticesCount, int outDegree);
+
+		void EnumerateColoringsOf(const Graph& graph);
 
 		GraphColoring::IdType Current;
 

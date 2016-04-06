@@ -39,12 +39,18 @@ namespace graph
 
 namespace graph
 {
-	SyncColoringsEnumerator::SyncColoringsEnumerator(const Graph& graph)
+	SyncColoringsEnumerator::SyncColoringsEnumerator(int verticesCount, int outDegree)
 		: isFirst(true),
-		  graph(graph),
-		  currentColoring(graph.VerticesCount(), graph.OutDegree()),
-		  syncChecker(graph.VerticesCount(), graph.OutDegree()),
+		  graph(nullptr),
+		  currentColoring(verticesCount, outDegree),
+		  syncChecker(verticesCount, outDegree),
 		  Current(0) { }
+
+	void SyncColoringsEnumerator::EnumerateColoringsOf(const Graph& graph) {
+		this->graph = &graph;
+		Current = 0;
+		isFirst = true;
+	}
 
 	bool SyncColoringsEnumerator::MoveNext() {
 		CreateTimestamp();
@@ -56,12 +62,12 @@ namespace graph
 	bool SyncColoringsEnumerator::DoMoveNext() {
 		if (isFirst) {
 			isFirst = false;
-			if (syncChecker.IsSynchronizing(graph, currentColoring))
+			if (syncChecker.IsSynchronizing(*graph, currentColoring))
 				return true;
 		}
 		while (currentColoring.NextColoring()) {
 			++Current;
-			if (syncChecker.IsSynchronizing(graph, currentColoring)) {
+			if (syncChecker.IsSynchronizing(*graph, currentColoring)) {
 				return true;
 			}			
 		}

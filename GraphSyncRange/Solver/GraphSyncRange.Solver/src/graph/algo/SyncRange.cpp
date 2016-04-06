@@ -7,33 +7,59 @@
 #include <graph/algo/Aperiodicity.h>
 
 using namespace std;
+using namespace graph::stats;
 using namespace util;
 
 namespace graph
 {
-	Graph minGraph(0);
-	double minSyncRatio = 1.0;
-	double sumSyncRatio = 0.0;
-	double sumSqrSyncRatio = 0.0;
-	double cntGraphs = 0;
+	namespace stats
+	{
+		Graph minGraph(0);
+		double minSyncRatio = 1.0;
+		double sumSyncRatio = 0.0;
+		double sumSqrSyncRatio = 0.0;
+		double cntGraphs = 0;
 
-	void FindSyncRange(const Graph& graph, int minRange) {
+		TimeMeasure SyncRangeComputationTime;
+	}
+
+	SyncRangeChecker::SyncRangeChecker(int verticesCount, int outDegree)
+		: n(verticesCount), k(outDegree),
+		  totalColoringsCount(GraphColoring::ColoringsCount(verticesCount, outDegree)),
+		  coloringsEnumerator(verticesCount, outDegree),
+		  MinRangeToLog(0) { }
+
+	int SyncRangeChecker::CheckSyncRange(const Graph& graph) {
 		assert(StrongConnectivityChecker_Simple().IsStronglyConnected(graph));
 		assert(AperiodicityChecker().IsAperiodic(graph));
 
-		//		PrintGraph(graph);
-		//		printf(" -> ");
-		using ColoringIdType = GraphColoring::IdType;
+		Clear();
 
-		int n = graph.VerticesCount();
-		int k = graph.OutDegree();
+		ColoringIdType syncColoringsCnt = ProcessSyncColorings(graph);
 
-		auto totalColoringsCount = GraphColoring::ColoringsCount(n, k);
+		if (syncColoringsCnt == totalColoringsCount) {
+			//			printf("All colorings are sync\n");
+			return 0;
+		}
 
-		vector<int> distance(totalColoringsCount, -1);
-		vector<ColoringIdType> parent(totalColoringsCount);
-		queue<ColoringIdType> q;
-		SyncColoringsEnumerator coloringsEnumerator(graph);
+		auto farthestColoringId = FindFarthestUnsyncColoring();
+
+		LogStats(graph, farthestColoringId);
+
+		return distance[farthestColoringId];
+	}
+
+	void SyncRangeChecker::Clear() {
+		distance.assign(totalColoringsCount, -1);
+		parent.assign(totalColoringsCount, 0);
+
+		while (!q.empty())
+			q.pop();
+	}
+
+	SyncRangeChecker::ColoringIdType SyncRangeChecker::ProcessSyncColorings(const Graph& graph) {
+
+		coloringsEnumerator.EnumerateColoringsOf(graph);
 
 		auto syncCologingsCount = 0;
 		while (coloringsEnumerator.MoveNext()) {
@@ -53,13 +79,13 @@ namespace graph
 		sumSqrSyncRatio += syncRatio * syncRatio;
 		++cntGraphs;
 
-		if (syncCologingsCount == totalColoringsCount) {
-			//			printf("All colorings are sync\n");
-			return;
-		}
+		return syncCologingsCount;
+	}
 
-		ColoringIdType coloringsProcessed = syncCologingsCount;
-		int farthestColoringId = -1;
+	SyncRangeChecker::ColoringIdType SyncRangeChecker::FindFarthestUnsyncColoring() {
+		CreateTimestamp();
+		ColoringIdType farthestColoringId = -1;
+		auto coloringsProcessed = q.size();
 		while (coloringsProcessed < totalColoringsCount && !q.empty()) {
 			auto coloringId = q.front();
 			q.pop();
@@ -72,7 +98,7 @@ namespace graph
 				for (int a = 0; a < k - 1; ++a) { // select first edge
 					for (int b = a + 1; b < k; ++b) { // select second edge
 						swap(permutation[a], permutation[b]); // recolor
-						coloring.edgeColors[v] = util::LazyPermutation(permutation);
+						coloring.edgeColors[v] = LazyPermutation(permutation);
 						swap(permutation[a], permutation[b]); // restore 
 						auto toId = coloring.GetId(); // generated neighbor
 
@@ -89,20 +115,26 @@ namespace graph
 				coloring.edgeColors[v] = originalPermutation; // restore original coloring of vertex
 			}
 		}
+		UpdateTimer(SyncRangeComputationTime);
 
-		assert(farthestColoringId != -1); // neighbors generation failed
+		assert(coloringsProcessed == totalColoringsCount); // neighbors generation failed
+		return farthestColoringId;
+	}
 
-		if (distance[farthestColoringId] < minRange) return;
-		PrintGraph(graph);
-		printf(" -> ");
-		printf("MaxDistance : %d from ", distance[farthestColoringId]);
-		PrintColoring(GraphColoring(n, k, farthestColoringId));
-		auto coloringId = farthestColoringId;
-		while (parent[coloringId] != coloringId) {
-			coloringId = parent[coloringId];
+	void SyncRangeChecker::LogStats(const Graph& graph, ColoringIdType farthestColoringId) {
+
+		if (MinRangeToLog > 0 && distance[farthestColoringId] >= MinRangeToLog) {
+			PrintGraph(graph);
+			printf(" -> ");
+			printf("MaxDistance : %d from ", distance[farthestColoringId]);
+			PrintColoring(GraphColoring(n, k, farthestColoringId));
+			auto coloringId = farthestColoringId;
+			while (parent[coloringId] != coloringId) {
+				coloringId = parent[coloringId];
+			}
+			printf(" to ");
+			PrintColoring(GraphColoring(n, k, coloringId));
+			printf("\n");
 		}
-		printf(" to ");
-		PrintColoring(GraphColoring(n, k, coloringId));
-		printf("\n");
 	}
 }

@@ -26,6 +26,8 @@ void FindMaxSyncRange(int n, int k) {
 	auto enumerator = SimpleGraphEnumerator(n, k);
 	StrongConnectivityChecker_Simple sccChecker;
 	AperiodicityChecker aperiodicityChecker;
+	SyncRangeChecker syncRangeChecker(n, k);
+	syncRangeChecker.MinRangeToLog = 3;
 
 	totalGraphs = 0;
 	do {
@@ -33,7 +35,7 @@ void FindMaxSyncRange(int n, int k) {
 		auto& graph = enumerator.Current;
 		if (sccChecker.IsStronglyConnected(graph)) {
 			if (aperiodicityChecker.IsAperiodic(graph)) {
-				FindSyncRange(graph);
+				syncRangeChecker.CheckSyncRange(graph);
 			}
 		}
 	}
@@ -53,11 +55,13 @@ void FindGraphSyncRange() {
 	auto g = ReadGraph();
 	int n = g->VerticesCount();
 	int k = g->OutDegree();
+	SyncRangeChecker syncRangeChecker(n, k);
+	syncRangeChecker.MinRangeToLog = 3;
 
 	CreateTimestamp();
 
 	Permutation::Generate(k);
-	FindSyncRange(*g);
+	syncRangeChecker.CheckSyncRange(*g);
 
 	UpdateTimer(TotalTime);
 }
@@ -69,6 +73,7 @@ void FindMaxSyncRangeFile(const char* fileName) {
 	Graph6Reader reader(fileName);
 
 	reader.MoveNext();
+	int n = reader.Current.VerticesCount();
 	int k = 0;
 	for (int v = 0; v < reader.Current.VerticesCount(); ++v) {
 		k = max(k, (int) reader.Current.edges[v].size());
@@ -78,16 +83,14 @@ void FindMaxSyncRangeFile(const char* fileName) {
 
 	StrongConnectivityChecker_Simple sccChecker;
 	AperiodicityChecker aperiodicityChecker;
+	SyncRangeChecker syncRangeChecker(n, k);
+	syncRangeChecker.MinRangeToLog = 3;
 
 	CreateTimestampVar(cycleStart);
 	totalGraphs = 0;
-	size_t skipGraphs = 30000000;
 	do {
 		++totalGraphs;
-		if (totalGraphs > skipGraphs)
-			break;
 		if (totalGraphs % 100000 == 0) {
-			auto endTime = chrono::system_clock::now();
 			auto duration = GetTimeByVar(cycleStart);
 			UpdateTimestampVar(cycleStart);
 			fprintf(stderr, "Processed %zu in %llds\n", totalGraphs, duration.count());
@@ -98,7 +101,7 @@ void FindMaxSyncRangeFile(const char* fileName) {
 				while (graph.edges[v].size() < k)
 					graph.AddEdge(v, v);
 			}
-			FindSyncRange(graph, 3);
+			syncRangeChecker.CheckSyncRange(graph);
 		}
 	}
 	while (reader.MoveNext());
@@ -109,7 +112,7 @@ void FindMaxSyncRangeFile(const char* fileName) {
 void PrintTimeStatsLine(const char* timerDescription, const TimeMeasure& timer, int indentationLevel) {
 	using OutputTime = chrono::milliseconds;
 
-	string description(2*indentationLevel, ' ');
+	string description(2 * indentationLevel, ' ');
 	description += timerDescription;
 
 	printf("%-30s : %lldms\n", description.c_str(), chrono::duration_cast<OutputTime>(timer).count());
@@ -121,7 +124,7 @@ void PrintStats() {
 	if (cntGraphs > 0) {
 		printf("\nTotal sync grahs : %d of %zu\n", (int)cntGraphs, totalGraphs);
 		double mean = sumSyncRatio / cntGraphs;
-		double variance = (sumSqrSyncRatio - sumSyncRatio * sumSyncRatio / cntGraphs) / (cntGraphs - 1);
+		double variance = cntGraphs == 1 ? 0 : (sumSqrSyncRatio - sumSyncRatio * sumSyncRatio / cntGraphs) / (cntGraphs - 1);
 		double stdDeviation = sqrt(variance);
 		printf("Sync ratio Mean     : %lf\n", mean);
 		printf("Sync ratio Variance : %lf\n", variance);
@@ -137,6 +140,7 @@ void PrintStats() {
 		PrintTimeStatsLine("Build automata", SynchronizationCheck_BuildAutomataTime, 3);
 		PrintTimeStatsLine("Build PG graph", SynchronizationCheck_BuildPGTime, 3);
 		PrintTimeStatsLine("Reachability check", SynchronizationCheck_ReachabilityCheckTime, 3);
+		PrintTimeStatsLine("Sync range computation", SyncRangeComputationTime, 1);
 	}
 }
 
@@ -144,7 +148,7 @@ int main(void) {
 	//	freopen("input.txt", "rt", stdin);
 	//	freopen("output.txt", "wt", stdout);
 
-	FindMaxSyncRangeFile(R"(D:\Projects\Study\graphs\directed_6_2_scc.d6)");
+	FindMaxSyncRangeFile(R"(D:\Projects\Study\graphs\directed_7_2_scc.d6)");
 	//	FindMaxSyncRange(6, 2);
 
 	PrintStats();

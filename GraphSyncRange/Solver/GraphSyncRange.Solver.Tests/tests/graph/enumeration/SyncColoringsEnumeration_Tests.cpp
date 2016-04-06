@@ -36,6 +36,7 @@ namespace graph_algo_tests
 			int n = reader.Current.VerticesCount();
 
 			Permutation::Generate(k);
+			SyncColoringsEnumerator coloringsEnumerator(n, k);
 
 			Timer::DurationType cTime(0), vTime(0);
 			vector<GraphColoring::IdType> expected, actual;
@@ -51,8 +52,9 @@ namespace graph_algo_tests
 						expected = GenerateSyncColorings(graph);
 					});
 
-				SyncColoringsEnumerator coloringsEnumerator(graph);
+
 				actual.clear();
+				coloringsEnumerator.EnumerateColoringsOf(graph);
 				while (true) {
 					bool hasNext = false;
 					cTime += Timer::Duration(
