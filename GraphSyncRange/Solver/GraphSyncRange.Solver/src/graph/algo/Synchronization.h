@@ -10,6 +10,9 @@ namespace graph
 	namespace stats
 	{
 		extern TimeMeasure SynchronizationCheckTime;
+		extern TimeMeasure SynchronizationCheck_BuildAutomataTime;
+		extern TimeMeasure SynchronizationCheck_BuildPGTime;
+		extern TimeMeasure SynchronizationCheck_ReachabilityCheckTime;
 	}
 
 	class SynchronizationChecker {

@@ -9,6 +9,9 @@ namespace graph
 	namespace stats
 	{
 		TimeMeasure SynchronizationCheckTime;
+		TimeMeasure SynchronizationCheck_BuildAutomataTime;
+		TimeMeasure SynchronizationCheck_BuildPGTime;
+		TimeMeasure SynchronizationCheck_ReachabilityCheckTime;
 	}
 
 	// PG = Inversed P^2(A) graph of tuples and singletons
@@ -46,15 +49,18 @@ namespace graph
 	}
 
 	void SynchronizationChecker::BuildAutomata(const Graph& graph, const GraphColoring& coloring) {
+		CreateTimestamp();
 		for (int v = 0; v < n; ++v) {
 			auto permutation = coloring.edgeColors[v].GetPermutation(k);
 			for (int j = 0; j < k; ++j) {
 				automata.edges[v][j] = graph.edges[v][permutation[j]];
 			}
 		}
+		UpdateTimer(SynchronizationCheck_BuildAutomataTime);
 	}
 
 	void SynchronizationChecker::BuildPGraph() {
+		CreateTimestamp();
 		for (int v = 0; v < n; ++v) {
 			// singleton vertex is tuple (v, v) and has index v * n + v
 			int w = v * n + v;
@@ -78,9 +84,11 @@ namespace graph
 				}
 			}
 		}
+		UpdateTimer(SynchronizationCheck_BuildPGTime);
 	}
 
 	bool SynchronizationChecker::CheckReachability() {
+		CreateTimestamp();
 		// Checking that every node in P^2(A) is reachable from singletons using BFS
 		int visitedCount = 0;
 		used.assign(pg.VerticesCount(), false);
@@ -103,6 +111,7 @@ namespace graph
 			}
 		}
 
+		UpdateTimer(SynchronizationCheck_ReachabilityCheckTime);
 		// actual number of nodes
 		return visitedCount == targetNodesCount;
 	}

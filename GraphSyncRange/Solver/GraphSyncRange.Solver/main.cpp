@@ -86,7 +86,7 @@ void FindMaxSyncRangeFile(const char* fileName) {
 		++totalGraphs;
 		if (totalGraphs > skipGraphs)
 			break;
-		if(totalGraphs % 100000 == 0) {
+		if (totalGraphs % 100000 == 0) {
 			auto endTime = chrono::system_clock::now();
 			auto duration = GetTimeByVar(cycleStart);
 			UpdateTimestampVar(cycleStart);
@@ -106,6 +106,15 @@ void FindMaxSyncRangeFile(const char* fileName) {
 	UpdateTimer(TotalTime);
 }
 
+void PrintTimeStatsLine(const char* timerDescription, const TimeMeasure& timer, int indentationLevel) {
+	using OutputTime = chrono::milliseconds;
+
+	string description(2*indentationLevel, ' ');
+	description += timerDescription;
+
+	printf("%-30s : %lldms\n", description.c_str(), chrono::duration_cast<OutputTime>(timer).count());
+}
+
 void PrintStats() {
 	using OutputTime = chrono::milliseconds;
 
@@ -122,9 +131,12 @@ void PrintStats() {
 		printf("\n");
 
 		printf("\nTime stats\n");
-		printf("Total time : %lldms\n", chrono::duration_cast<OutputTime>(TotalTime).count());
-		printf("Sync coloring enumeration : %lldms\n", chrono::duration_cast<OutputTime>(SyncColoringsGenerationTime).count());
-		printf("Synchronization check : %lldms\n", chrono::duration_cast<OutputTime>(SynchronizationCheckTime).count());
+		PrintTimeStatsLine("Total time", TotalTime, 0);
+		PrintTimeStatsLine("Sync coloring enumeration", SyncColoringsGenerationTime, 1);
+		PrintTimeStatsLine("Synchronization check", SynchronizationCheckTime, 2);
+		PrintTimeStatsLine("Build automata", SynchronizationCheck_BuildAutomataTime, 3);
+		PrintTimeStatsLine("Build PG graph", SynchronizationCheck_BuildPGTime, 3);
+		PrintTimeStatsLine("Reachability check", SynchronizationCheck_ReachabilityCheckTime, 3);
 	}
 }
 
@@ -132,8 +144,8 @@ int main(void) {
 	//	freopen("input.txt", "rt", stdin);
 	//	freopen("output.txt", "wt", stdout);
 
-	FindMaxSyncRangeFile(R"(D:\Projects\Study\graphs\directed_7_2_scc.d6)");
-//	FindMaxSyncRange(6, 2);
+	FindMaxSyncRangeFile(R"(D:\Projects\Study\graphs\directed_6_2_scc.d6)");
+	//	FindMaxSyncRange(6, 2);
 
 	PrintStats();
 
