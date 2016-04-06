@@ -62,15 +62,6 @@ namespace graph
 
 	void SynchronizationChecker::BuildPGraph() {
 		CreateTimestamp();
-		for (int v = 0; v < n; ++v) {
-			// singleton vertex is tuple (v, v) and has index v * n + v
-			int w = v * n + v;
-			for (int i = 0; i < k; ++i) {
-				// Inversing singleton edges
-				pg.AddEdge(automata.edges[v][i], w);
-			}
-		}
-
 		for (int v = 0; v < n - 1; ++v) {
 			for (int u = v + 1; u < n; ++u) {
 				// tuple vertex (v, u) has index v*n + u

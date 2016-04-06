@@ -148,7 +148,7 @@ int main(void) {
 	//	freopen("input.txt", "rt", stdin);
 	//	freopen("output.txt", "wt", stdout);
 
-	FindMaxSyncRangeFile(R"(D:\Projects\Study\graphs\directed_7_2_scc.d6)");
+	FindMaxSyncRangeFile(R"(D:\Projects\Diploma\graphs\directed_7_2_scc.d6)");
 	//	FindMaxSyncRange(6, 2);
 
 	PrintStats();

@@ -34,12 +34,12 @@ namespace collections
 		}
 
 		const TValue& Peek() const {
-			assert(!IsEmpty);
+			assert(!IsEmpty());
 			return innerQueue[qbeg];
 		}
 
 		const TValue& Pop() {
-			assert(!IsEmpty);
+			assert(!IsEmpty());
 			return innerQueue[qbeg++];
 		}
 
