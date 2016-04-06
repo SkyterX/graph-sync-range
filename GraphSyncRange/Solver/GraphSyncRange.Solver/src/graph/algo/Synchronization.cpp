@@ -17,7 +17,9 @@ namespace graph
 	// PG = Inversed P^2(A) graph of tuples and singletons
 	// For simplicity of indexing tuples, graph is of double size than needed
 	SynchronizationChecker::SynchronizationChecker(int nVertices, int outDegree)
-		: n(nVertices), k(outDegree),
+		: q(nVertices * (nVertices + 1) / 2),
+		  n(nVertices),
+		  k(outDegree),
 		  targetNodesCount(nVertices * (nVertices + 1) / 2),
 		  automata(nVertices),
 		  pg(nVertices * (nVertices + 1)) {
@@ -44,8 +46,7 @@ namespace graph
 		for (int v = 0; v < pg.VerticesCount(); ++v) {
 			pg.edges[v].clear();
 		}
-		while (!q.empty())
-			q.pop();
+		q.Clear();
 	}
 
 	void SynchronizationChecker::BuildAutomata(const Graph& graph, const GraphColoring& coloring) {
@@ -95,17 +96,16 @@ namespace graph
 		for (int v = 0; v < n; ++v) {
 			// Start BFS from singletons
 			int w = v * n + v;
-			q.push(w);
+			q.Push(w);
 			used[w] = true;
 			++visitedCount;
 		}
 
-		while (visitedCount < targetNodesCount && !q.empty()) {
-			int v = q.front();
-			q.pop();
+		while (visitedCount < targetNodesCount && !q.IsEmpty()) {
+			int v = q.Pop();
 			for (auto& to : pg.edges[v]) {
 				if (used[to]) continue;
-				q.push(to);
+				q.Push(to);
 				used[to] = true;
 				++visitedCount;
 			}

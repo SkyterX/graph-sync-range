@@ -2,6 +2,7 @@
 #include <graph/Graph.h>
 #include <graph/enumeration/SyncColoringsEnumeration.h>
 #include <graph/graph-stats.h>
+#include <collections/SimpleQueue.hpp>
 
 namespace graph
 {
@@ -24,7 +25,7 @@ namespace graph
 		int totalColoringsCount;
 		std::vector<int> distance;
 		std::vector<ColoringIdType> parent;
-		std::queue<ColoringIdType> q;
+		collections::SimpleQueue<ColoringIdType> q;
 		SyncColoringsEnumerator coloringsEnumerator;
 
 	public:

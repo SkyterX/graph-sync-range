@@ -1,9 +1,9 @@
 #pragma once
-#include <queue>
 #include <vector>
 #include <graph/Graph.h>
 #include <graph/GraphColoring.h>
 #include <graph/graph-stats.h>
+#include <collections/SimpleQueue.hpp>
 
 namespace graph
 {
@@ -15,8 +15,9 @@ namespace graph
 		extern TimeMeasure SynchronizationCheck_ReachabilityCheckTime;
 	}
 
+
 	class SynchronizationChecker {
-		std::queue<int> q;
+		collections::SimpleQueue<int> q;
 		std::vector<bool> used;
 		int n, k;
 		int targetNodesCount;

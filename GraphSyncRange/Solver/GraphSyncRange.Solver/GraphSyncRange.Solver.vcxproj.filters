@@ -37,6 +37,9 @@
     <Filter Include="Header Files\graph\enumeration">
       <UniqueIdentifier>{8966189f-d5a6-4c18-a852-cf655f84c347}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\collections">
+      <UniqueIdentifier>{912bb01e-28cd-4f7c-bea6-e6b10b840c3c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -159,6 +162,9 @@
     </ClInclude>
     <ClInclude Include="src\graph\graph-stats.h">
       <Filter>Header Files\graph</Filter>
+    </ClInclude>
+    <ClInclude Include="src\collections\SimpleQueue.hpp">
+      <Filter>Source Files\collections</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

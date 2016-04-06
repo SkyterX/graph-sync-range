@@ -49,6 +49,12 @@
     <Filter Include="Source Files\tests\graph\enumeration">
       <UniqueIdentifier>{76b137d5-d2c9-4b94-94bc-21ac980bb494}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\src\graph\collections">
+      <UniqueIdentifier>{af1a798f-3d5f-4595-a3d3-71a90a45e972}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\tests\collections">
+      <UniqueIdentifier>{f1e96a18-e80a-4cfe-974d-05259c110d23}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -68,6 +74,9 @@
     </ClInclude>
     <ClInclude Include="tests\test_tools\TimeLapse.hpp">
       <Filter>Header Files\test_tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GraphSyncRange.Solver\src\collections\SimpleQueue.hpp">
+      <Filter>Source Files\src\graph\collections</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +172,9 @@
     </ClCompile>
     <ClCompile Include="tests\graph\enumeration\SyncColoringsEnumeration_Tests.cpp">
       <Filter>Source Files\tests\graph\enumeration</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\collections\SimpleQueue_Tests.cpp">
+      <Filter>Source Files\tests\collections</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

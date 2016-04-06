@@ -27,7 +27,9 @@ namespace graph
 		: n(verticesCount), k(outDegree),
 		  totalColoringsCount(GraphColoring::ColoringsCount(verticesCount, outDegree)),
 		  coloringsEnumerator(verticesCount, outDegree),
-		  MinRangeToLog(0) { }
+		  MinRangeToLog(0) {
+		q.Resize(totalColoringsCount);
+	}
 
 	int SyncRangeChecker::CheckSyncRange(const Graph& graph) {
 		assert(StrongConnectivityChecker_Simple().IsStronglyConnected(graph));
@@ -53,8 +55,7 @@ namespace graph
 		distance.assign(totalColoringsCount, -1);
 		parent.assign(totalColoringsCount, 0);
 
-		while (!q.empty())
-			q.pop();
+		q.Clear();
 	}
 
 	SyncRangeChecker::ColoringIdType SyncRangeChecker::ProcessSyncColorings(const Graph& graph) {
@@ -64,7 +65,7 @@ namespace graph
 		auto syncCologingsCount = 0;
 		while (coloringsEnumerator.MoveNext()) {
 			auto& coloringId = coloringsEnumerator.Current;
-			q.push(coloringId);
+			q.Push(coloringId);
 			distance[coloringId] = 0;
 			parent[coloringId] = coloringId;
 			++syncCologingsCount;
@@ -79,16 +80,16 @@ namespace graph
 		sumSqrSyncRatio += syncRatio * syncRatio;
 		++cntGraphs;
 
+		assert(syncCologingsCount > 0);
 		return syncCologingsCount;
 	}
 
 	SyncRangeChecker::ColoringIdType SyncRangeChecker::FindFarthestUnsyncColoring() {
 		CreateTimestamp();
 		ColoringIdType farthestColoringId = -1;
-		auto coloringsProcessed = q.size();
-		while (coloringsProcessed < totalColoringsCount && !q.empty()) {
-			auto coloringId = q.front();
-			q.pop();
+		auto coloringsProcessed = q.Size();
+		while (coloringsProcessed < totalColoringsCount && !q.IsEmpty()) {
+			auto coloringId = q.Pop();
 
 			auto coloring = GraphColoring(n, k, coloringId);
 			// generate neighbors
@@ -106,7 +107,7 @@ namespace graph
 						if (distance[toId] != -1) continue;
 						distance[toId] = distance[coloringId] + 1;
 						parent[toId] = coloringId;
-						q.push(toId);
+						q.Push(toId);
 						++coloringsProcessed;
 
 						farthestColoringId = toId;
