@@ -90,7 +90,7 @@ void FindMaxSyncRangeFile(const char* fileName) {
 			auto endTime = chrono::system_clock::now();
 			auto duration = GetTimeByVar(cycleStart);
 			UpdateTimestampVar(cycleStart);
-			fprintf(stderr, "Processed %lu in %llds\n", totalGraphs, duration.count());
+			fprintf(stderr, "Processed %zu in %llds\n", totalGraphs, duration.count());
 		}
 		auto& graph = reader.Current;
 		if (aperiodicityChecker.IsAperiodic(graph)) {
@@ -110,7 +110,7 @@ void PrintStats() {
 	using OutputTime = chrono::milliseconds;
 
 	if (cntGraphs > 0) {
-		printf("\nTotal sync grahs : %d of %lu\n", (int)cntGraphs, totalGraphs);
+		printf("\nTotal sync grahs : %d of %zu\n", (int)cntGraphs, totalGraphs);
 		double mean = sumSyncRatio / cntGraphs;
 		double variance = (sumSqrSyncRatio - sumSyncRatio * sumSyncRatio / cntGraphs) / (cntGraphs - 1);
 		double stdDeviation = sqrt(variance);
@@ -132,7 +132,7 @@ int main(void) {
 	//	freopen("input.txt", "rt", stdin);
 	//	freopen("output.txt", "wt", stdout);
 
-	FindMaxSyncRangeFile(R"(D:\Projects\Diploma\graphs\directed_9_2_scc.d6)");
+	FindMaxSyncRangeFile(R"(D:\Projects\Study\graphs\directed_7_2_scc.d6)");
 //	FindMaxSyncRange(6, 2);
 
 	PrintStats();

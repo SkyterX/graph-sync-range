@@ -30,7 +30,10 @@ namespace graph
 
 
 	Graph6Reader::Graph6Reader(const char* filename) {
-		fopen_s(&inputFile, filename, "rt");
+		if(fopen_s(&inputFile, filename, "rt") != 0) {
+			fprintf(stderr, "Can't open file : %s\n", filename);
+			exit(EXIT_FAILURE);
+		}
 	}
 
 	Graph6Reader::Graph6Reader(FILE* inputFile)
