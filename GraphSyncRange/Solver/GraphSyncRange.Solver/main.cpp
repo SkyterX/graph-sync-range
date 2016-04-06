@@ -91,7 +91,7 @@ void FindMaxSyncRangeFile(const char* fileName) {
 	do {
 		++totalGraphs;
 		if (totalGraphs % 100000 == 0) {
-			auto duration = GetTimeByVar(cycleStart);
+			auto duration = chrono::duration_cast<chrono::seconds>(GetTimeByVar(cycleStart));
 			UpdateTimestampVar(cycleStart);
 			fprintf(stderr, "Processed %zu in %llds\n", totalGraphs, duration.count());
 		}
@@ -148,7 +148,7 @@ int main(void) {
 	//	freopen("input.txt", "rt", stdin);
 	//	freopen("output.txt", "wt", stdout);
 
-	FindMaxSyncRangeFile(R"(D:\Projects\Diploma\graphs\directed_7_2_scc.d6)");
+	FindMaxSyncRangeFile(R"(D:\Projects\Diploma\graphs\directed_9_2_scc.d6)");
 	//	FindMaxSyncRange(6, 2);
 
 	PrintStats();
