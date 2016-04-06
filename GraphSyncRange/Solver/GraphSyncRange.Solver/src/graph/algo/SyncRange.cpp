@@ -122,9 +122,12 @@ namespace graph
 		return farthestColoringId;
 	}
 
+	int maxRangeId = 0;
+
 	void SyncRangeChecker::LogStats(const Graph& graph, ColoringIdType farthestColoringId) {
 
 		if (MinRangeToLog > 0 && distance[farthestColoringId] >= MinRangeToLog) {
+			printf("%d : ", ++maxRangeId);
 			PrintGraph(graph);
 			printf(" -> ");
 			printf("MaxDistance : %d from ", distance[farthestColoringId]);

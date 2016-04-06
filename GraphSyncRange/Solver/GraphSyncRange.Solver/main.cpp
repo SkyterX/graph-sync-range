@@ -84,7 +84,7 @@ void FindMaxSyncRangeFile(const char* fileName) {
 	StrongConnectivityChecker_Simple sccChecker;
 	AperiodicityChecker aperiodicityChecker;
 	SyncRangeChecker syncRangeChecker(n, k);
-	syncRangeChecker.MinRangeToLog = 3;
+	syncRangeChecker.MinRangeToLog = 2;
 
 	CreateTimestampVar(cycleStart);
 	totalGraphs = 0;
@@ -148,7 +148,8 @@ int main(void) {
 	//	freopen("input.txt", "rt", stdin);
 	//	freopen("output.txt", "wt", stdout);
 
-	FindMaxSyncRangeFile(R"(D:\Projects\Diploma\graphs\directed_9_2_scc.d6)");
+
+	FindMaxSyncRangeFile(R"(D:\Projects\Diploma\graphs\directed_8_2_scc.d6)");
 	//	FindMaxSyncRange(6, 2);
 
 	PrintStats();

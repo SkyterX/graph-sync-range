@@ -52,7 +52,7 @@ namespace graph
 	void SynchronizationChecker::BuildAutomata(const Graph& graph, const GraphColoring& coloring) {
 		CreateTimestamp();
 		for (int v = 0; v < n; ++v) {
-			auto permutation = coloring.edgeColors[v].GetPermutation(k);
+			auto& permutation = coloring.edgeColors[v].GetPermutation(k);
 			for (int j = 0; j < k; ++j) {
 				automata.edges[v][j] = graph.edges[v][permutation[j]];
 			}
@@ -63,14 +63,14 @@ namespace graph
 	void SynchronizationChecker::BuildPGraph() {
 		CreateTimestamp();
 		for (int v = 0; v < n - 1; ++v) {
-			for (int u = v + 1; u < n; ++u) {
-				// tuple vertex (v, u) has index v*n + u
-				int w = v * n + u;
-				for (int i = 0; i < k; ++i) {
-					int vTo = automata.edges[v][i];
+			for (int i = 0; i < k; ++i) {
+				int vTo = automata.edges[v][i];
+				for (int u = v + 1; u < n; ++u) {
+					// tuple vertex (v, u) has index v*n + u
+					int w = v * n + u;
 					int uTo = automata.edges[u][i];
 					// min/max used because tuples are unordered
-					int wTo = min(vTo, uTo) * n + std::max(vTo, uTo);
+					int wTo = min(vTo, uTo) * n + max(vTo, uTo);
 					// Inversing tuple edge (v, u) -> (vTo, uTo)
 					pg.AddEdge(wTo, w);
 				}
@@ -83,7 +83,7 @@ namespace graph
 		CreateTimestamp();
 		// Checking that every node in P^2(A) is reachable from singletons using BFS
 		int visitedCount = 0;
-		used.assign(pg.VerticesCount(), false);
+		fill(used.begin(), used.end(), false);
 		for (int v = 0; v < n; ++v) {
 			// Start BFS from singletons
 			int w = v * n + v;

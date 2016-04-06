@@ -51,7 +51,7 @@ namespace util
 		return;
 	}
 
-	vector<int> LazyPermutation::GetPermutation(int pSize) const {
+	const vector<int>& LazyPermutation::GetPermutation(int pSize) const {
 		return Permutation::ById(pSize, permutationId);
 	}
 

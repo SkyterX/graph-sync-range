@@ -33,7 +33,7 @@ namespace util
 
 		explicit LazyPermutation(const std::vector<int>& p);
 
-		std::vector<int> GetPermutation(int pSize) const;
+		const std::vector<int>& GetPermutation(int pSize) const;
 
 		bool NextPermutation(int pSize);
 

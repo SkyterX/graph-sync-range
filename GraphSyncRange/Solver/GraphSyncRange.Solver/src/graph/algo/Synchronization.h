@@ -18,7 +18,7 @@ namespace graph
 
 	class SynchronizationChecker {
 		collections::SimpleQueue<int> q;
-		std::vector<bool> used;
+		std::vector<uint8_t> used;
 		int n, k;
 		int targetNodesCount;
 		Graph automata;
