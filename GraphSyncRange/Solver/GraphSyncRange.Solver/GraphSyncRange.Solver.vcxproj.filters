@@ -96,6 +96,9 @@
     <ClCompile Include="src\graph\enumeration\GraphEnumeration.cpp">
       <Filter>Source Files\graph\enumeration</Filter>
     </ClCompile>
+    <ClCompile Include="src\graph\enumeration\GraphColoringNeighborsEnumeration.cpp">
+      <Filter>Source Files\graph\enumeration</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="output.txt">
@@ -165,6 +168,9 @@
     </ClInclude>
     <ClInclude Include="src\collections\SimpleQueue.hpp">
       <Filter>Source Files\collections</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graph\enumeration\GraphColoringNeighborsEnumeration.h">
+      <Filter>Header Files\graph\enumeration</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

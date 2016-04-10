@@ -5,6 +5,7 @@
 #include <graph/GraphIO.h>
 #include <graph/algo/StrongConnectivity.h>
 #include <graph/algo/Aperiodicity.h>
+#include <graph/enumeration/GraphColoringNeighborsEnumeration.h>
 
 using namespace std;
 using namespace graph::stats;
@@ -90,31 +91,22 @@ namespace graph
 		auto coloringsProcessed = q.Size();
 		while (coloringsProcessed < totalColoringsCount && !q.IsEmpty()) {
 			auto coloringId = q.Pop();
-
 			auto coloring = GraphColoring(n, k, coloringId);
-			// generate neighbors
-			for (int v = 0; v < n; ++v) { // select vertex
-				auto originalPermutation = coloring.edgeColors[v]; // save original coloring
-				auto permutation = originalPermutation.GetPermutation(k);
-				for (int a = 0; a < k - 1; ++a) { // select first edge
-					for (int b = a + 1; b < k; ++b) { // select second edge
-						swap(permutation[a], permutation[b]); // recolor
-						coloring.edgeColors[v] = LazyPermutation(permutation);
-						swap(permutation[a], permutation[b]); // restore 
-						auto toId = coloring.GetId(); // generated neighbor
 
-						// bfs step
-						if (distance[toId] != -1) continue;
-						distance[toId] = distance[coloringId] + 1;
-						parent[toId] = coloringId;
-						q.Push(toId);
-						++coloringsProcessed;
+			GraphColoringNeighborsEnumerator neighborsEnumerator(coloring);
+			do {
+				auto toId = neighborsEnumerator.Current.GetId(); // generated neighbor
 
-						farthestColoringId = toId;
-					}
-				}
-				coloring.edgeColors[v] = originalPermutation; // restore original coloring of vertex
+				// bfs step
+				if (distance[toId] != -1) continue;
+				distance[toId] = distance[coloringId] + 1;
+				parent[toId] = coloringId;
+				q.Push(toId);
+				++coloringsProcessed;
+
+				farthestColoringId = toId;
 			}
+			while (neighborsEnumerator.MoveNext());
 		}
 		UpdateTimer(SyncRangeComputationTime);
 

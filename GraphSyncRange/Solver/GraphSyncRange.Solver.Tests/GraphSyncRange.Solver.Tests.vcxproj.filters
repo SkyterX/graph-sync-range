@@ -176,5 +176,11 @@
     <ClCompile Include="tests\collections\SimpleQueue_Tests.cpp">
       <Filter>Source Files\tests\collections</Filter>
     </ClCompile>
+    <ClCompile Include="..\GraphSyncRange.Solver\src\graph\enumeration\GraphColoringNeighborsEnumeration.cpp">
+      <Filter>Source Files\src\graph\enumeration</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\graph\enumeration\GraphColoringNeighborsEnumeration_Tests.cpp">
+      <Filter>Source Files\tests\graph\enumeration</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -149,7 +149,7 @@ void FindMaxSyncRangeRandom(int verticesCount, int outDegree, int logEvery = 100
 	StrongConnectivityChecker_Simple sccChecker;
 	AperiodicityChecker aperiodicityChecker;
 	SyncRangeChecker syncRangeChecker(n, k);
-	syncRangeChecker.MinRangeToLog = 3;
+	syncRangeChecker.MinRangeToLog = 2;
 
 	RandomGraphGenerator generator(n, k);
 
@@ -212,12 +212,12 @@ void PrintStats() {
 
 int main(void) {
 	//	freopen("input.txt", "rt", stdin);
-		freopen("output.txt", "wt", stdout);
+//		freopen("output.txt", "wt", stdout);
 
 
-//	FindMaxSyncRangeFile(R"(D:\Projects\Diploma\graphs\directed_8_2_scc.d6)");
+	FindMaxSyncRangeFile(R"(D:\Projects\Diploma\graphs\directed_6_2_scc.d6)");
 	//	FindMaxSyncRange(6, 2);
-	FindMaxSyncRangeRandom(20, 2, 10000);
+//	FindMaxSyncRangeRandom(20, 2, 10000);
 	PrintStats();
 
 	return 0;
