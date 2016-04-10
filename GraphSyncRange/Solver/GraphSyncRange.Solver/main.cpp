@@ -8,6 +8,7 @@
 #include <util/util-all.h>
 #include <graph/graph-all.h>
 #include <chrono>
+#include <random>
 
 using namespace std;
 
@@ -109,6 +110,71 @@ void FindMaxSyncRangeFile(const char* fileName) {
 	UpdateTimer(TotalTime);
 }
 
+class RandomGraphGenerator {
+
+	int n, k;
+	mt19937 generator;
+	uniform_int_distribution<int> vertexDistribution;
+public:
+	Graph Current;
+
+	RandomGraphGenerator(int verticesCount, int outDegree)
+		: n(verticesCount), k(outDegree),
+		  Current(verticesCount),
+		  generator(random_device()()),
+		  vertexDistribution(0, verticesCount - 1) {
+		for (int v = 0; v < n; ++v) {
+			Current.edges[v].resize(k);
+		}
+	}
+
+	bool MoveNext() {
+		for (int v = 0; v < n; ++v) {
+			for (int i = 0; i < k; ++i) {
+				Current.edges[v][i] = vertexDistribution(generator);
+			}
+		}
+		return true;
+	}
+};
+
+void FindMaxSyncRangeRandom(int verticesCount, int outDegree, int logEvery = 100000) {
+	CreateTimestamp();
+
+	int n = verticesCount;
+	int k = outDegree;
+
+	Permutation::Generate(k);
+
+	StrongConnectivityChecker_Simple sccChecker;
+	AperiodicityChecker aperiodicityChecker;
+	SyncRangeChecker syncRangeChecker(n, k);
+	syncRangeChecker.MinRangeToLog = 3;
+
+	RandomGraphGenerator generator(n, k);
+
+	CreateTimestampVar(cycleStart);
+	totalGraphs = 0;
+	while (generator.MoveNext()) {
+		++totalGraphs;
+		if (totalGraphs % logEvery == 0) {
+			auto duration = chrono::duration_cast<chrono::seconds>(GetTimeByVar(cycleStart));
+			UpdateTimestampVar(cycleStart);
+			fprintf(stderr, "Processed %zu in %llds\n", totalGraphs, duration.count());
+		}
+		auto& graph = generator.Current;
+		if (sccChecker.IsStronglyConnected(graph) && aperiodicityChecker.IsAperiodic(graph)) {
+			for (int v = 0; v < graph.VerticesCount(); ++v) {
+				while (graph.edges[v].size() < k)
+					graph.AddEdge(v, v);
+			}
+			syncRangeChecker.CheckSyncRange(graph);
+		}
+	}
+
+	UpdateTimer(TotalTime);
+}
+
 void PrintTimeStatsLine(const char* timerDescription, const TimeMeasure& timer, int indentationLevel) {
 	using OutputTime = chrono::milliseconds;
 
@@ -146,12 +212,12 @@ void PrintStats() {
 
 int main(void) {
 	//	freopen("input.txt", "rt", stdin);
-	//	freopen("output.txt", "wt", stdout);
+		freopen("output.txt", "wt", stdout);
 
 
-	FindMaxSyncRangeFile(R"(D:\Projects\Diploma\graphs\directed_8_2_scc.d6)");
+//	FindMaxSyncRangeFile(R"(D:\Projects\Diploma\graphs\directed_8_2_scc.d6)");
 	//	FindMaxSyncRange(6, 2);
-
+	FindMaxSyncRangeRandom(20, 2, 10000);
 	PrintStats();
 
 	return 0;
