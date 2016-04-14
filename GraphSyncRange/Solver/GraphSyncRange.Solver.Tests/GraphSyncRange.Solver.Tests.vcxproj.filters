@@ -185,5 +185,11 @@
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\enumeration\ColoringsGraph.cpp">
       <Filter>Source Files\src\graph\enumeration</Filter>
     </ClCompile>
+    <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\LazySyncRange.cpp">
+      <Filter>Source Files\src\graph\algo</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\graph\algo\SyncRange_Tests.cpp">
+      <Filter>Source Files\tests\graph\algo</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

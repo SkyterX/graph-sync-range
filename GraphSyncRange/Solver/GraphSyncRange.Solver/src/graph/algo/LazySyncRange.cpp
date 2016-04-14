@@ -1,5 +1,6 @@
 #include <vector>
 #include <cassert>
+#include <graph/algo/LazySyncRange.h>
 #include <graph/algo/SyncRange.h>
 #include <graph/algo/Synchronization.h>
 #include <graph/GraphIO.h>
@@ -13,21 +14,7 @@ using namespace util;
 
 namespace graph
 {
-	namespace stats
-	{
-		Graph minGraph(0);
-		double minSyncRatio = 1.0;
-		double sumSyncRatio = 0.0;
-		double sumSqrSyncRatio = 0.0;
-		double cntGraphs = 0;
-
-		TimeMeasure SyncRangeComputationTime;
-	}
-}
-
-namespace graph
-{
-	SyncRangeChecker::SyncRangeChecker(int verticesCount, int outDegree)
+	LazySyncRangeChecker::LazySyncRangeChecker(int verticesCount, int outDegree)
 		: n(verticesCount), k(outDegree),
 		  totalColoringsCount(GraphColoring::ColoringsCount(verticesCount, outDegree)),
 		  coloringsEnumerator(verticesCount, outDegree),
@@ -36,18 +23,16 @@ namespace graph
 		q.Resize(totalColoringsCount);
 		distance.resize(totalColoringsCount);
 		parent.resize(totalColoringsCount);
+		reachableColorings.resize(totalColoringsCount);
 	}
 
-	int SyncRangeChecker::CheckSyncRange(const Graph& graph) {
+	int LazySyncRangeChecker::CheckSyncRange(const Graph& graph) {
 		assert(StrongConnectivityChecker_Simple().IsStronglyConnected(graph));
 		assert(AperiodicityChecker().IsAperiodic(graph));
 
 		Clear();
 
-		ColoringIdType syncColoringsCnt = ProcessSyncColorings(graph);
-
-		if (syncColoringsCnt == 0 || syncColoringsCnt == totalColoringsCount) {
-			//			printf("All colorings are sync\n");
+		if (!ProcessSyncColorings(graph)) {
 			return 0;
 		}
 
@@ -58,24 +43,39 @@ namespace graph
 		return distance[farthestColoringId];
 	}
 
-	void SyncRangeChecker::Clear() {
+	void LazySyncRangeChecker::Clear() {
 		fill(distance.begin(), distance.end(), -1);
 		fill(parent.begin(), parent.end(), 0);
+		fill(reachableColorings.begin(), reachableColorings.end(), false);
 
 		q.Clear();
 	}
 
-	SyncRangeChecker::ColoringIdType SyncRangeChecker::ProcessSyncColorings(const Graph& graph) {
+	bool LazySyncRangeChecker::ProcessSyncColorings(const Graph& graph) {
 
 		coloringsEnumerator.EnumerateColoringsOf(graph);
 
 		auto syncColoringsCount = 0;
+		auto reachableColoringsCount = 0;
 		while (coloringsEnumerator.MoveNext()) {
 			auto& coloringId = coloringsEnumerator.Current;
 			q.Push(coloringId);
 			distance[coloringId] = 0;
 			parent[coloringId] = coloringId;
 			++syncColoringsCount;
+
+			if (!reachableColorings[coloringId]) {
+				++reachableColoringsCount;
+				reachableColorings[coloringId] = true;
+			}
+			for(const auto& neighborId : coloringsGraph.edges[coloringId]) {
+				if (reachableColorings[neighborId]) continue;
+				++reachableColoringsCount;
+				reachableColorings[neighborId] = true;
+			}
+			if (reachableColoringsCount == totalColoringsCount) {
+				return false;
+			}
 		}
 
 		double syncRatio = (0.0 + syncColoringsCount) / totalColoringsCount;
@@ -88,10 +88,10 @@ namespace graph
 		++cntGraphs;
 
 		assert(syncColoringsCount > 0);
-		return syncColoringsCount;
+		return 0 < syncColoringsCount && syncColoringsCount < totalColoringsCount;
 	}
 
-	SyncRangeChecker::ColoringIdType SyncRangeChecker::FindFarthestUnsyncColoring() {
+	LazySyncRangeChecker::ColoringIdType LazySyncRangeChecker::FindFarthestUnsyncColoring() {
 		CreateTimestamp();
 		ColoringIdType farthestColoringId = -1;
 		auto coloringsProcessed = q.Size();
@@ -115,12 +115,12 @@ namespace graph
 		return farthestColoringId;
 	}
 
-	int maxRangeId = 0;
+	int maxRangesFound = 0;
 
-	void SyncRangeChecker::LogStats(const Graph& graph, ColoringIdType farthestColoringId) {
+	void LazySyncRangeChecker::LogStats(const Graph& graph, ColoringIdType farthestColoringId) {
 
 		if (MinRangeToLog > 0 && distance[farthestColoringId] >= MinRangeToLog) {
-			printf("%d : ", ++maxRangeId);
+			printf("%d : ", ++maxRangesFound);
 			PrintGraph(graph);
 			printf(" -> ");
 			printf("MaxDistance : %d from ", distance[farthestColoringId]);

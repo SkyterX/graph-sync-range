@@ -102,6 +102,9 @@
     <ClCompile Include="src\graph\enumeration\ColoringsGraph.cpp">
       <Filter>Source Files\graph\enumeration</Filter>
     </ClCompile>
+    <ClCompile Include="src\graph\algo\LazySyncRange.cpp">
+      <Filter>Source Files\graph\algo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="output.txt">
@@ -177,6 +180,9 @@
     </ClInclude>
     <ClInclude Include="src\graph\enumeration\ColoringsGraph.h">
       <Filter>Header Files\graph\enumeration</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graph\algo\LazySyncRange.h">
+      <Filter>Header Files\graph\algo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

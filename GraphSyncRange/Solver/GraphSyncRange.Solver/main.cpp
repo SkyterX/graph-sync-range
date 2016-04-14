@@ -84,7 +84,7 @@ void FindMaxSyncRangeFile(const char* fileName) {
 
 	StrongConnectivityChecker_Simple sccChecker;
 	AperiodicityChecker aperiodicityChecker;
-	SyncRangeChecker syncRangeChecker(n, k);
+	LazySyncRangeChecker syncRangeChecker(n, k);
 	syncRangeChecker.MinRangeToLog = 2;
 
 	CreateTimestampVar(cycleStart);

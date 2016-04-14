@@ -166,6 +166,7 @@
   <ItemGroup>
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\Aperiodicity.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\Eulerian.cpp" />
+    <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\LazySyncRange.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\StrongConnectivity.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\StronglyConnectedComponents.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\Synchronization.cpp" />
@@ -187,6 +188,7 @@
     <ClCompile Include="tests\graph\algo\StronglyConnectedComponents_Tests.cpp" />
     <ClCompile Include="tests\graph\algo\Synchronicity_Tests.cpp" />
     <ClCompile Include="tests\graph\algo\SynchronizingWord_Tests.cpp" />
+    <ClCompile Include="tests\graph\algo\SyncRange_Tests.cpp" />
     <ClCompile Include="tests\graph\enumeration\GraphColoringNeighborsEnumeration_Tests.cpp" />
     <ClCompile Include="tests\graph\enumeration\SyncColoringsEnumeration_Tests.cpp" />
     <ClCompile Include="tests\graph\Graph6Reader_Tests.cpp" />
