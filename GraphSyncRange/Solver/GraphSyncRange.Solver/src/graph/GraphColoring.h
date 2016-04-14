@@ -14,6 +14,8 @@ namespace graph
 
 		GraphColoring(int nVertices, int nEdges, const IdType& id);
 
+		void Reset();
+
 		bool NextColoring();
 
 		IdType GetId() const;

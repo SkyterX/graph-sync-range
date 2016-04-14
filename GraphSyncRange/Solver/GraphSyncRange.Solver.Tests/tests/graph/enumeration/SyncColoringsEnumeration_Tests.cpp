@@ -52,6 +52,10 @@ namespace graph_algo_tests
 						expected = GenerateSyncColorings(graph);
 					});
 
+				coloringsEnumerator.EnumerateColoringsOf(graph);
+				for (int i = 0; i < expected.size() / 2; ++i) {
+					Assert::IsTrue(coloringsEnumerator.MoveNext());
+				}
 
 				actual.clear();
 				coloringsEnumerator.EnumerateColoringsOf(graph);
@@ -66,7 +70,6 @@ namespace graph_algo_tests
 					actual.push_back(coloringsEnumerator.Current);
 				}
 				Assert::AreEqual(expected, actual);
-
 			}
 			while (reader.MoveNext()); { }
 

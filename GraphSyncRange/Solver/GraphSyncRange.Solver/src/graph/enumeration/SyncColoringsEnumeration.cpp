@@ -50,6 +50,7 @@ namespace graph
 		this->graph = &graph;
 		Current = 0;
 		isFirst = true;
+		currentColoring.Reset();
 	}
 
 	bool SyncColoringsEnumerator::MoveNext() {

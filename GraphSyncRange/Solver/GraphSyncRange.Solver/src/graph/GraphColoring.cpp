@@ -20,6 +20,10 @@ namespace graph
 		}
 	}
 
+	void GraphColoring::Reset() {
+		fill(edgeColors.begin(), edgeColors.end(), LazyPermutation());
+	}
+
 	bool GraphColoring::NextColoring() {
 		for (int v = 0; v < edgeColors.size(); ++v) {
 			if (edgeColors[v].NextPermutation(nEdges))
