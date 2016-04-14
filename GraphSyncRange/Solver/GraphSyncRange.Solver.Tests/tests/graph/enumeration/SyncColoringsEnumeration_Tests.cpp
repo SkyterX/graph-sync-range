@@ -141,5 +141,67 @@ namespace graph_algo_tests
 			Message::WriteLineF("Sync colorings enumeration random : %lld ms", chrono::duration_cast<ResultTime>(rTime).count());
 		}
 
+
+		TEST_METHOD(SyncColoringsOptimalEnumeration_GraphsFile_Test) {
+
+			using Timer = Measure<chrono::nanoseconds>;
+			using ResultTime = chrono::milliseconds;
+
+			Graph6Reader reader(graphsFileName);
+			reader.MoveNext();
+			int k = 0;
+			for (int v = 0; v < reader.Current.VerticesCount(); ++v) {
+				k = max(k, static_cast<int>(reader.Current.edges[v].size()));
+			}
+			int n = reader.Current.VerticesCount();
+
+			Permutation::Generate(k);
+			SyncColoringsEnumerator coloringsEnumerator(n, k);
+			SyncColoringsOptimalEnumerator coloringsOptimalEnumerator(n, k);
+
+			Timer::DurationType nTime(0), oTime(0);
+			vector<GraphColoring::IdType> expected, actual;
+			do {
+				auto& graph = reader.Current;
+				for (int v = 0; v < graph.VerticesCount(); ++v) {
+					while (graph.edges[v].size() < k)
+						graph.AddEdge(v, v);
+				}
+
+				actual.clear();
+				expected.clear();
+				nTime += Timer::Duration(
+					[&coloringsEnumerator, &graph] {
+					coloringsEnumerator.EnumerateColoringsOf(graph);
+				});
+				oTime += Timer::Duration(
+					[&coloringsOptimalEnumerator, &graph] {
+					coloringsOptimalEnumerator.EnumerateColoringsOf(graph);
+				});
+				while (true) {
+					bool expectedHasNext, actualHasNext;
+					nTime += Timer::Duration(
+						[&coloringsEnumerator, &expectedHasNext] {
+						expectedHasNext = coloringsEnumerator.MoveNext();
+					});
+					oTime += Timer::Duration(
+						[&coloringsOptimalEnumerator, &actualHasNext] {
+						actualHasNext = coloringsOptimalEnumerator.MoveNext();
+					});
+
+					Assert::AreEqual(expectedHasNext, actualHasNext);
+					if (!expectedHasNext)
+						break;
+					expected.push_back(coloringsEnumerator.Current);
+					actual.push_back(coloringsEnumerator.Current);
+				}
+				stable_sort(actual.begin(), actual.end());
+				Assert::AreEqual(expected, actual);
+			} while (reader.MoveNext()); { }
+
+			Message::WriteLineF("Sync colorings enumeration normal : %lld ms", chrono::duration_cast<ResultTime>(nTime).count());
+			Message::WriteLineF("Sync colorings enumeration optimal : %lld ms", chrono::duration_cast<ResultTime>(oTime).count());
+		}
+
 	};
 }

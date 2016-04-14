@@ -2,6 +2,7 @@
 #include <graph/Graph.h>
 #include <graph/GraphColoring.h>
 #include <graph/algo/Synchronization.h>
+#include <graph/enumeration/ColoringsGraph.h>
 #include <graph/graph-stats.h>
 #include <algorithm>
 
@@ -80,6 +81,7 @@ namespace graph
 
 namespace graph
 {
+	// TODO : No shuffling, select random every time
 	SyncColoringsRandomEnumerator::SyncColoringsRandomEnumerator(int verticesCount, int outDegree)
 		: isFirst(true),
 		  graph(nullptr),
@@ -130,5 +132,90 @@ namespace graph
 			}
 		}
 		return false;
+	}
+}
+
+
+namespace graph
+{
+	SyncColoringsOptimalEnumerator::SyncColoringsOptimalEnumerator(int verticesCount, int outDegree)
+		: n(verticesCount), k(outDegree),
+		  graph(nullptr),
+		  syncChecker(verticesCount, outDegree),
+		  coloringsGraph(BuildColoringsGraph(verticesCount, outDegree)),
+		  Current(0) {
+
+		colorings.reserve(GraphColoring::ColoringsCount(verticesCount, outDegree));
+		GraphColoring coloring(n, k);
+		do {
+			colorings.push_back(coloring);
+		}
+		while (coloring.NextColoring());
+
+		bfsQueue.Resize(colorings.size());
+		bfsDistance.resize(colorings.size());
+		InitializeQueue();
+
+	}
+
+	void SyncColoringsOptimalEnumerator::EnumerateColoringsOf(const Graph& graph) {
+		this->graph = &graph;
+		Current = 0;
+		InitializeQueue();
+	}
+
+	bool SyncColoringsOptimalEnumerator::MoveNext() {
+		CreateTimestamp();
+		auto result = DoMoveNext();
+		UpdateTimer(SyncColoringsGenerationTime);
+		return result;
+	}
+
+	void SyncColoringsOptimalEnumerator::InitializeQueue() {
+		const int defaultDistance = numeric_limits<int>::max();
+
+		fill(bfsDistance.begin(), bfsDistance.end(), defaultDistance);
+		bfsQueue.Clear();
+		coloringsQueue.clear();
+
+		for (GraphColoring::IdType coloringId = 0; coloringId < colorings.size(); ++coloringId) {
+			coloringsQueue.insert({defaultDistance, coloringId});
+		}
+	}
+
+	bool SyncColoringsOptimalEnumerator::DoMoveNext() {
+		while (!coloringsQueue.empty()) {
+			auto coloringId = coloringsQueue.begin()->second;
+			coloringsQueue.erase(coloringsQueue.begin());
+			if (syncChecker.IsSynchronizing(*graph, colorings[coloringId])) {
+				Current = coloringId;
+				BFSUpdate(coloringId);
+
+				return true;
+			}
+		}
+		return false;
+	}
+
+	void SyncColoringsOptimalEnumerator::BFSUpdate(ColoringIdType startColoringId) {
+		bfsQueue.Clear();
+		bfsQueue.Push(startColoringId);
+		bfsDistance[startColoringId] = 0;
+
+		while (!bfsQueue.IsEmpty()) {
+			auto coloringId = bfsQueue.Pop();
+			auto curDistance = bfsDistance[coloringId];
+
+			for (const auto& neighborId : coloringsGraph.edges[coloringId]) {
+				if (bfsDistance[neighborId] <= curDistance + 1) continue;
+				auto it = coloringsQueue.find({bfsDistance[neighborId], neighborId});
+				if (it != coloringsQueue.end()) {
+					coloringsQueue.erase(it);
+					coloringsQueue.insert({curDistance + 1, neighborId});
+				}
+				bfsDistance[neighborId] = curDistance + 1;
+				bfsQueue.Push(neighborId);
+			}
+		}
 	}
 }

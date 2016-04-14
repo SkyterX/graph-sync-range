@@ -12,6 +12,7 @@ namespace graph
 		TimeMeasure SynchronizationCheck_BuildAutomataTime;
 		TimeMeasure SynchronizationCheck_BuildPGTime;
 		TimeMeasure SynchronizationCheck_ReachabilityCheckTime;
+		int SynchronizationChecksCount = 0;
 	}
 
 	// PG = Inversed P^2(A) graph of tuples and singletons
@@ -30,8 +31,8 @@ namespace graph
 	}
 
 	bool SynchronizationChecker::IsSynchronizing(const Graph& graph, const GraphColoring& coloring) {
+		++SynchronizationChecksCount;
 		CreateTimestamp(DefaultTimestamp);
-
 		Clear();
 		BuildAutomata(graph, coloring);
 		BuildPGraph();

@@ -199,6 +199,8 @@ void PrintStats() {
 		PrintGraph(minGraph);
 		printf("\n");
 
+		printf("\nTotal sync checks : %d\n", SynchronizationChecksCount);
+
 		printf("\nTime stats\n");
 		PrintTimeStatsLine("Total time", TotalTime, 0);
 		PrintTimeStatsLine("Sync coloring enumeration", SyncColoringsGenerationTime, 1);
