@@ -28,7 +28,7 @@ namespace collections
 			qend = 0;
 		}
 
-		void Push(int value) {
+		void Push(TValue value) {
 			assert(qend < innerQueue.size());
 			innerQueue[qend++] = value;
 		}
