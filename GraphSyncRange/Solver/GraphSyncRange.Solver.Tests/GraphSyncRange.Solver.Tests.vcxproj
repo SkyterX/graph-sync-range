@@ -171,6 +171,7 @@
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\Synchronization.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\SynchronizingWord.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\SyncRange.cpp" />
+    <ClCompile Include="..\GraphSyncRange.Solver\src\graph\enumeration\ColoringsGraph.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\enumeration\GraphColoringNeighborsEnumeration.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\enumeration\GraphEnumeration.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\enumeration\SyncColoringsEnumeration.cpp" />

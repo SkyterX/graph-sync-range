@@ -5,7 +5,7 @@
 #include <graph/GraphIO.h>
 #include <graph/algo/StrongConnectivity.h>
 #include <graph/algo/Aperiodicity.h>
-#include <graph/enumeration/GraphColoringNeighborsEnumeration.h>
+#include <graph/enumeration/ColoringsGraph.h>
 
 using namespace std;
 using namespace graph::stats;
@@ -28,6 +28,7 @@ namespace graph
 		: n(verticesCount), k(outDegree),
 		  totalColoringsCount(GraphColoring::ColoringsCount(verticesCount, outDegree)),
 		  coloringsEnumerator(verticesCount, outDegree),
+		  coloringsGraph(BuildColoringsGraph(verticesCount, outDegree)),
 		  MinRangeToLog(0) {
 		q.Resize(totalColoringsCount);
 	}
@@ -91,12 +92,9 @@ namespace graph
 		auto coloringsProcessed = q.Size();
 		while (coloringsProcessed < totalColoringsCount && !q.IsEmpty()) {
 			auto coloringId = q.Pop();
-			auto coloring = GraphColoring(n, k, coloringId);
 
-			GraphColoringNeighborsEnumerator neighborsEnumerator(coloring);
-			do {
-				auto toId = neighborsEnumerator.Current.GetId(); // generated neighbor
-
+			for(const auto& toId : coloringsGraph.edges[coloringId])
+			{
 				// bfs step
 				if (distance[toId] != -1) continue;
 				distance[toId] = distance[coloringId] + 1;
@@ -106,7 +104,6 @@ namespace graph
 
 				farthestColoringId = toId;
 			}
-			while (neighborsEnumerator.MoveNext());
 		}
 		UpdateTimer(SyncRangeComputationTime);
 

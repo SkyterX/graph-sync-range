@@ -215,7 +215,7 @@ int main(void) {
 //		freopen("output.txt", "wt", stdout);
 
 
-	FindMaxSyncRangeFile(R"(D:\Projects\Diploma\graphs\directed_6_2_scc.d6)");
+	FindMaxSyncRangeFile(R"(D:\Projects\Study\Diploma\graphs\directed_7_2_scc.d6)");
 	//	FindMaxSyncRange(6, 2);
 //	FindMaxSyncRangeRandom(20, 2, 10000);
 	PrintStats();

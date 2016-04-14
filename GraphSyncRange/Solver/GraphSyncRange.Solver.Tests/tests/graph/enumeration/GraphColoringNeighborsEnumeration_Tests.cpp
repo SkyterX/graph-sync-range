@@ -4,7 +4,9 @@
 #include <experimental/generator>
 #include <graph/GraphColoring.h>
 #include <graph/enumeration/GraphColoringNeighborsEnumeration.h>
+#include <graph/enumeration/ColoringsGraph.h>
 #include <test_tools/TimeLapse.hpp>
+#include <algorithm>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace test_tools;
@@ -56,8 +58,51 @@ namespace graph_algo_tests
 			}
 			while (coloring.NextColoring());
 
-			Message::WriteLineF("Graph coloring neighbors enumeration - brute force\t: %lld", chrono::duration_cast<ResultTime>(slowTime).count());
-			Message::WriteLineF("Graph coloring neighbors enumeration - fast \t\t: %lld", chrono::duration_cast<ResultTime>(fastTime).count());
+			Message::WriteLineF("Graph coloring neighbors enumeration - brute force\t: %lldms", chrono::duration_cast<ResultTime>(slowTime).count());
+			Message::WriteLineF("Graph coloring neighbors enumeration - fast \t\t: %lldms", chrono::duration_cast<ResultTime>(fastTime).count());
+		}
+
+		TEST_METHOD(GraphColoringNeighbors_ColoringGraph_Test) {
+			using Timer = Measure<chrono::nanoseconds>;
+			using ResultTime = chrono::microseconds;
+
+			const int graphSize = TestGraphSize + 1;
+
+			Permutation::Generate(TestGraphDegree);
+
+			Timer::DurationType graphTime(0), enumeratorTime(0);
+
+			Graph coloringsGraph;
+			auto buildGraphTime = Timer::Duration([&coloringsGraph, &graphSize] {
+				coloringsGraph = BuildColoringsGraph(graphSize, TestGraphDegree);
+			});
+
+			GraphColoring coloring(graphSize, TestGraphDegree);
+			do {
+				vector<GraphColoring::IdType> expected;
+				graphTime += Timer::Duration([&expected, &coloring, &coloringsGraph]() {
+					expected = coloringsGraph.edges[coloring.GetId()];
+					stable_sort(expected.begin(), expected.end());
+				});
+
+
+				vector<GraphColoring::IdType> actual;
+				enumeratorTime += Timer::Duration([&actual, &coloring]() {
+					GraphColoringNeighborsEnumerator fastEnumerator(coloring);
+					do {
+						actual.push_back(fastEnumerator.Current.GetId());
+					}
+					while (fastEnumerator.MoveNext());
+					stable_sort(actual.begin(), actual.end());
+				});
+
+				Assert::AreEqual(expected, actual);
+			}
+			while (coloring.NextColoring());
+
+			Message::WriteLineF("Build coloring graph time \t: %lldus", chrono::duration_cast<ResultTime>(buildGraphTime).count());
+			Message::WriteLineF("Graph coloring neighbors from graph \t: %lldus", chrono::duration_cast<ResultTime>(graphTime).count());
+			Message::WriteLineF("Graph coloring neighbors enumeration  \t: %lldus", chrono::duration_cast<ResultTime>(enumeratorTime).count());
 		}
 	};
 }

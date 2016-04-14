@@ -132,6 +132,7 @@
     <ClCompile Include="src\graph\algo\Synchronization.cpp" />
     <ClCompile Include="src\graph\algo\SynchronizingWord.cpp" />
     <ClCompile Include="src\graph\algo\SyncRange.cpp" />
+    <ClCompile Include="src\graph\enumeration\ColoringsGraph.cpp" />
     <ClCompile Include="src\graph\enumeration\GraphColoringNeighborsEnumeration.cpp" />
     <ClCompile Include="src\graph\enumeration\GraphEnumeration.cpp" />
     <ClCompile Include="src\graph\enumeration\SyncColoringsEnumeration.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="src\graph\algo\Synchronization.h" />
     <ClInclude Include="src\graph\algo\SynchronizingWord.h" />
     <ClInclude Include="src\graph\algo\SyncRange.h" />
+    <ClInclude Include="src\graph\enumeration\ColoringsGraph.h" />
     <ClInclude Include="src\graph\enumeration\GraphColoringNeighborsEnumeration.h" />
     <ClInclude Include="src\graph\enumeration\GraphEnumeration.h" />
     <ClInclude Include="src\graph\enumeration\SyncColoringsEnumeration.h" />

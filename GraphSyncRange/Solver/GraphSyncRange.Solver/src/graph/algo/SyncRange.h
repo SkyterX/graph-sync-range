@@ -27,6 +27,7 @@ namespace graph
 		std::vector<ColoringIdType> parent;
 		collections::SimpleQueue<ColoringIdType> q;
 		SyncColoringsEnumerator coloringsEnumerator;
+		Graph coloringsGraph;
 
 	public:
 
