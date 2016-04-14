@@ -6,6 +6,7 @@
 #include <graph/Graph6Reader.h>
 #include <graph/enumeration/SyncColoringsEnumeration.h>
 #include <test_tools/TimeLapse.hpp>
+#include <algorithm>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace test_tools;
@@ -75,6 +76,69 @@ namespace graph_algo_tests
 
 			Message::WriteLineF("Checker   : %lld", chrono::duration_cast<ResultTime>(cTime).count());
 			Message::WriteLineF("Validator : %lld", chrono::duration_cast<ResultTime>(vTime).count());
+		}
+
+		TEST_METHOD(SyncColoringsRandomEnumeration_GraphsFile_Test) {
+
+			using Timer = Measure<chrono::nanoseconds>;
+			using ResultTime = chrono::milliseconds;
+
+			Graph6Reader reader(graphsFileName);
+			reader.MoveNext();
+			int k = 0;
+			for (int v = 0; v < reader.Current.VerticesCount(); ++v) {
+				k = max(k, static_cast<int>(reader.Current.edges[v].size()));
+			}
+			int n = reader.Current.VerticesCount();
+
+			Permutation::Generate(k);
+			SyncColoringsEnumerator coloringsEnumerator(n, k);
+			SyncColoringsRandomEnumerator coloringsRandomEnumerator(n, k);
+			coloringsRandomEnumerator.SetRandomSeed(5358812812);
+
+			Timer::DurationType nTime(0), rTime(0);
+			vector<GraphColoring::IdType> expected, actual;
+			do {
+				auto& graph = reader.Current;
+				for (int v = 0; v < graph.VerticesCount(); ++v) {
+					while (graph.edges[v].size() < k)
+						graph.AddEdge(v, v);
+				}
+
+				actual.clear();
+				expected.clear();
+				nTime += Timer::Duration(
+					[&coloringsEnumerator, &graph] {
+						coloringsEnumerator.EnumerateColoringsOf(graph);
+					});
+				rTime += Timer::Duration(
+					[&coloringsRandomEnumerator, &graph] {
+						coloringsRandomEnumerator.EnumerateColoringsOf(graph);
+					});
+				while (true) {
+					bool expectedHasNext, actualHasNext;
+					nTime += Timer::Duration(
+						[&coloringsEnumerator, &expectedHasNext] {
+							expectedHasNext = coloringsEnumerator.MoveNext();
+						});
+					rTime += Timer::Duration(
+						[&coloringsRandomEnumerator, &actualHasNext] {
+							actualHasNext = coloringsRandomEnumerator.MoveNext();
+						});
+
+					Assert::AreEqual(expectedHasNext, actualHasNext);
+					if (!expectedHasNext)
+						break;
+					expected.push_back(coloringsEnumerator.Current);
+					actual.push_back(coloringsEnumerator.Current);
+				}
+				stable_sort(actual.begin(), actual.end());
+				Assert::AreEqual(expected, actual);
+			}
+			while (reader.MoveNext()); { }
+
+			Message::WriteLineF("Sync colorings enumeration normal : %lld ms", chrono::duration_cast<ResultTime>(nTime).count());
+			Message::WriteLineF("Sync colorings enumeration random : %lld ms", chrono::duration_cast<ResultTime>(rTime).count());
 		}
 
 	};
