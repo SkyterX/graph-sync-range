@@ -141,6 +141,8 @@
     <ClCompile Include="src\graph\Graph6Reader.cpp" />
     <ClCompile Include="src\graph\GraphColoring.cpp" />
     <ClCompile Include="src\graph\GraphIO.cpp" />
+    <ClCompile Include="src\graph\MultiGraphColoring.cpp" />
+    <ClCompile Include="src\util\Combinations.cpp" />
     <ClCompile Include="src\util\Factorial.cpp" />
     <ClCompile Include="src\util\UtilIO.cpp" />
     <ClCompile Include="src\util\MathUtils.hpp" />
@@ -163,6 +165,7 @@
     <ClInclude Include="src\graph\enumeration\ColoringsGraph.h" />
     <ClInclude Include="src\graph\enumeration\GraphColoringNeighborsEnumeration.h" />
     <ClInclude Include="src\graph\enumeration\GraphEnumeration.h" />
+    <ClInclude Include="src\graph\enumeration\MultiGraphEnumeration.hpp" />
     <ClInclude Include="src\graph\enumeration\SyncColoringsEnumeration.h" />
     <ClInclude Include="src\graph\graph-all.h" />
     <ClInclude Include="src\graph\graph-stats.h" />
@@ -170,6 +173,8 @@
     <ClInclude Include="src\graph\Graph6Reader.h" />
     <ClInclude Include="src\graph\GraphColoring.h" />
     <ClInclude Include="src\graph\GraphIO.h" />
+    <ClInclude Include="src\graph\MultiGraphColoring.h" />
+    <ClInclude Include="src\util\Combinations.h" />
     <ClInclude Include="src\util\Factorial.h" />
     <ClInclude Include="src\util\UtilIO.h" />
     <ClInclude Include="src\util\Permutations.h" />

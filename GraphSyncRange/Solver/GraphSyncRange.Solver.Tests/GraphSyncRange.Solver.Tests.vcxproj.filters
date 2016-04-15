@@ -191,5 +191,14 @@
     <ClCompile Include="tests\graph\algo\SyncRange_Tests.cpp">
       <Filter>Source Files\tests\graph\algo</Filter>
     </ClCompile>
+    <ClCompile Include="..\GraphSyncRange.Solver\src\graph\MultiGraphColoring.cpp">
+      <Filter>Source Files\src\graph</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GraphSyncRange.Solver\src\util\Combinations.cpp">
+      <Filter>Source Files\src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\util\Combinations_Tests.cpp">
+      <Filter>Source Files\tests\util</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -180,6 +180,8 @@
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\Graph6Reader.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\GraphColoring.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\GraphIO.cpp" />
+    <ClCompile Include="..\GraphSyncRange.Solver\src\graph\MultiGraphColoring.cpp" />
+    <ClCompile Include="..\GraphSyncRange.Solver\src\util\Combinations.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\util\MathUtils.hpp" />
     <ClCompile Include="tests\collections\SimpleQueue_Tests.cpp" />
     <ClCompile Include="tests\graph\algo\Aperiodicity_Tests.cpp" />
@@ -194,6 +196,7 @@
     <ClCompile Include="tests\graph\Graph6Reader_Tests.cpp" />
     <ClCompile Include="tests\graph\GraphColoring_Tests.cpp" />
     <ClCompile Include="tests\test_tools\Message.cpp" />
+    <ClCompile Include="tests\util\Combinations_Tests.cpp" />
     <ClCompile Include="tests\util\MathUtils_Tests.cpp" />
     <ClCompile Include="tests\util\Permutations_Tests.cpp" />
     <ClInclude Include="..\GraphSyncRange.Solver\src\collections\SimpleQueue.hpp" />
