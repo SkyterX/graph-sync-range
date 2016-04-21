@@ -6,26 +6,32 @@ using namespace std;
 
 namespace util
 {
-	vector<Factorial::IdType> Factorial::generateFactorials() {
-		vector<IdType> f = {1};
-		auto maxValue = numeric_limits<IdType>::max();
-		IdType n = 1, nF = 1;
-		while (nF <= maxValue / n) {
-			nF *= n;
-			f.push_back(nF);
-			++n;
+	namespace Factorial
+	{
+		namespace
+		{
+			vector<IdType> generateFactorials() {
+				vector<IdType> f = {1};
+				auto maxValue = numeric_limits<IdType>::max();
+				IdType n = 1, nF = 1;
+				while (nF <= maxValue / n) {
+					nF *= n;
+					f.push_back(nF);
+					++n;
+				}
+				return f;
+			}
+
+			vector<IdType> values = generateFactorials();
 		}
-		return f;
-	}
 
-	Factorial::IdType Factorial::Of(int n) {
-		assert(0 <= n && n < values.size());
-		return values[n];
-	}
+		IdType Of(int n) {
+			assert(0 <= n && n < values.size());
+			return values[n];
+		}
 
-	const vector<Factorial::IdType>& Factorial::All() {
-		return values;
+		const vector<IdType>& All() {
+			return values;
+		}
 	}
-
-	vector<Factorial::IdType> Factorial::values = generateFactorials();
 }

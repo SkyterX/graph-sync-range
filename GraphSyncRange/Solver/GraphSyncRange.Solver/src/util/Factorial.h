@@ -3,19 +3,11 @@
 
 namespace util
 {
-	class Factorial {
-	public:
+	namespace Factorial
+	{
 		using IdType = int;
 
-	private:
-
-		static std::vector<IdType> generateFactorials();
-
-		static std::vector<IdType> values;
-
-	public:
-
-		static IdType Of(int n);
-		static const std::vector<IdType>& All();
+		IdType Of(int n);
+		const std::vector<IdType>& All();
 	};
 }
