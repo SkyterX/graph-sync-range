@@ -87,6 +87,8 @@ void FindMaxSyncRangeFile(const char* fileName) {
 	LazySyncRangeChecker syncRangeChecker(n, k);
 	syncRangeChecker.MinRangeToLog = 2;
 
+	auto graphEnumeration = EnumerateMultiGraphs(k, reader);
+
 	CreateTimestampVar(cycleStart);
 	totalGraphs = 0;
 	do {
@@ -96,7 +98,7 @@ void FindMaxSyncRangeFile(const char* fileName) {
 			UpdateTimestampVar(cycleStart);
 			fprintf(stderr, "Processed %zu in %llds\n", totalGraphs, duration.count());
 		}
-		auto& graph = reader.Current;
+		auto& graph = graphEnumeration.Current;
 		if (aperiodicityChecker.IsAperiodic(graph)) {
 			for (int v = 0; v < graph.VerticesCount(); ++v) {
 				while (graph.edges[v].size() < k)
@@ -105,7 +107,7 @@ void FindMaxSyncRangeFile(const char* fileName) {
 			syncRangeChecker.CheckSyncRange(graph);
 		}
 	}
-	while (reader.MoveNext());
+	while (graphEnumeration.MoveNext());
 
 	UpdateTimer(TotalTime);
 }
