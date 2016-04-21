@@ -7,106 +7,124 @@ using namespace std;
 
 namespace util
 {
-	const int Combinations::MaxElementsCount = 10;
-	Combinations::CollectionOfCombinations Combinations::combinations = GenerateAllCombinations(MaxElementsCount);
+	namespace Combinations
+	{
+		const int MaxElementsCount = 10;
 
-	Combinations::CombinationsCollection Combinations::GenerateCombinations(int elementsCount, int subsetSize) {
-		CombinationsCollection combinationsNK;
+		namespace
+		{
+			using CollectionOfCombinations = vector<vector<CombinationsCollection>>;
 
-		vector<bool> v(elementsCount, false);
-		fill_n(v.begin(), subsetSize, true);
+			CombinationsCollection GenerateCombinations(int elementsCount, int subsetSize) {
+				CombinationsCollection combinationsNK;
 
-		do {
-			combinationsNK.push_back({});
-			for (int i = 0; i < v.size(); ++i) {
-				if (v[i])
-					combinationsNK.back().push_back(i);
+				vector<bool> v(elementsCount, false);
+				fill_n(v.begin(), subsetSize, true);
+
+				do {
+					combinationsNK.push_back({});
+					for (int i = 0; i < v.size(); ++i) {
+						if (v[i])
+							combinationsNK.back().push_back(i);
+					}
+				}
+				while (prev_permutation(v.begin(), v.end()));
+
+				return combinationsNK;
 			}
-		}
-		while (prev_permutation(v.begin(), v.end()));
 
-		return combinationsNK;
-	}
+			CollectionOfCombinations GenerateAllCombinations(int maxElementsCount) {
+				vector<vector<vector<vector<int>>>> allCombinations;
 
-	Combinations::CollectionOfCombinations Combinations::GenerateAllCombinations(int maxElementsCount) {
-		vector<vector<vector<vector<int>>>> allCombinations;
+				for (int elementsCount = 0; elementsCount < maxElementsCount; ++elementsCount) {
+					allCombinations.push_back({});
+					for (int subsetSize = 0; subsetSize <= elementsCount; ++subsetSize) {
+						allCombinations[elementsCount].push_back(GenerateCombinations(elementsCount, subsetSize));
+					}
+				}
 
-		for (int elementsCount = 0; elementsCount < maxElementsCount; ++elementsCount) {
-			allCombinations.push_back({});
-			for (int subsetSize = 0; subsetSize <= elementsCount; ++subsetSize) {
-				allCombinations[elementsCount].push_back(GenerateCombinations(elementsCount, subsetSize));
+				return allCombinations;
 			}
+
+			CollectionOfCombinations combinations = GenerateAllCombinations(MaxElementsCount);
 		}
 
-		return allCombinations;
-	}
-
-	const Combinations::CombinationsCollection& Combinations::Of(int elementsCount, int subsetSize) {
-		assert(0 <= elementsCount && elementsCount < combinations.size());
-		assert(0 <= subsetSize && subsetSize <= elementsCount);
-		return combinations[elementsCount][subsetSize];
-	}
-
-	size_t Combinations::Count(int elementsCount, int subsetSize) {
-		size_t result = 1;
-		for (int i = 1; i <= subsetSize; ++i) {
-			result *= elementsCount - subsetSize + i;
-			result /= i;
+		const CombinationsCollection& Of(int elementsCount, int subsetSize) {
+			assert(0 <= elementsCount && elementsCount < combinations.size());
+			assert(0 <= subsetSize && subsetSize <= elementsCount);
+			return combinations[elementsCount][subsetSize];
 		}
-		return result;
+
+		size_t Count(int elementsCount, int subsetSize) {
+			size_t result = 1;
+			for (int i = 1; i <= subsetSize; ++i) {
+				result *= elementsCount - subsetSize + i;
+				result /= i;
+			}
+			return result;
+		}
 	}
 }
 
 namespace util
 {
-	const int CombinationsWithRepetitions::MaxElementsCount = 15;
-	CombinationsWithRepetitions::CollectionOfCombinations CombinationsWithRepetitions::combinationsWithRepetitions = GenerateAllCombinationsWithRepetitions(MaxElementsCount);
+	namespace CombinationsWithRepetitions
+	{
+		using CollectionOfCombinations = vector<vector<CombinationsCollection>>;
 
-	CombinationsWithRepetitions::CombinationsCollection CombinationsWithRepetitions::GenerateCombinationsWithRepetitions(int elementsCount, int subsetSize) {
-		CombinationsCollection combinationsNK;
+		const int MaxElementsCount = 15;
 
-		vector<bool> v(elementsCount + subsetSize - 1, false);
-		fill_n(v.begin() + subsetSize, elementsCount - 1, true);
+		namespace
+		{
+			CombinationsCollection GenerateCombinationsWithRepetitions(int elementsCount, int subsetSize) {
+				CombinationsCollection combinationsNK;
 
-		do {
-			combinationsNK.push_back({});
-			int vertex = 0;
-			for (int i = 0; i < v.size(); ++i) {
-				if (v[i])
-					++vertex;
-				else
-					combinationsNK.back().push_back(vertex);
+				vector<bool> v(elementsCount + subsetSize - 1, false);
+				fill_n(v.begin() + subsetSize, elementsCount - 1, true);
+
+				do {
+					combinationsNK.push_back({});
+					int vertex = 0;
+					for (int i = 0; i < v.size(); ++i) {
+						if (v[i])
+							++vertex;
+						else
+							combinationsNK.back().push_back(vertex);
+					}
+				}
+				while (next_permutation(v.begin(), v.end()));
+
+				return combinationsNK;
 			}
-		}
-		while (next_permutation(v.begin(), v.end()));
 
-		return combinationsNK;
-	}
+			CollectionOfCombinations GenerateAllCombinationsWithRepetitions(int maxElementsCount) {
+				vector<vector<vector<vector<int>>>> allCombinationsWithRepetitions;
 
-	CombinationsWithRepetitions::CollectionOfCombinations CombinationsWithRepetitions::GenerateAllCombinationsWithRepetitions(int maxElementsCount) {
-		vector<vector<vector<vector<int>>>> allCombinationsWithRepetitions;
+				allCombinationsWithRepetitions.push_back({{{}}});
+				for (int subsetSize = 1; subsetSize < maxElementsCount; ++subsetSize)
+					allCombinationsWithRepetitions[0].push_back({});
+				for (int elementsCount = 1; elementsCount < maxElementsCount; ++elementsCount) {
+					allCombinationsWithRepetitions.push_back({});
+					for (int subsetSize = 0; elementsCount + subsetSize < maxElementsCount; ++subsetSize) {
+						allCombinationsWithRepetitions[elementsCount].push_back(GenerateCombinationsWithRepetitions(elementsCount, subsetSize));
+					}
+				}
 
-		allCombinationsWithRepetitions.push_back({{{}}});
-		for (int subsetSize = 1; subsetSize < maxElementsCount; ++subsetSize)
-			allCombinationsWithRepetitions[0].push_back({});
-		for (int elementsCount = 1; elementsCount < maxElementsCount; ++elementsCount) {
-			allCombinationsWithRepetitions.push_back({});
-			for (int subsetSize = 0; elementsCount + subsetSize < maxElementsCount; ++subsetSize) {
-				allCombinationsWithRepetitions[elementsCount].push_back(GenerateCombinationsWithRepetitions(elementsCount, subsetSize));
+				return allCombinationsWithRepetitions;
 			}
+
+			CollectionOfCombinations combinationsWithRepetitions = GenerateAllCombinationsWithRepetitions(MaxElementsCount);
 		}
 
-		return allCombinationsWithRepetitions;
-	}
+		const CombinationsCollection& Of(int elementsCount, int subsetSize) {
+			assert(0 <= subsetSize);
+			assert(0 <= elementsCount && elementsCount < combinationsWithRepetitions.size());
+			assert(elementsCount + subsetSize < MaxElementsCount);
+			return combinationsWithRepetitions[elementsCount][subsetSize];
+		}
 
-	const CombinationsWithRepetitions::CombinationsCollection& CombinationsWithRepetitions::Of(int elementsCount, int subsetSize) {
-		assert(0 <= subsetSize);
-		assert(0 <= elementsCount && elementsCount < combinationsWithRepetitions.size());
-		assert(elementsCount + subsetSize < MaxElementsCount);
-		return combinationsWithRepetitions[elementsCount][subsetSize];
-	}
-
-	size_t CombinationsWithRepetitions::Count(int elementsCount, int subsetSize) {
-		return Combinations::Count(elementsCount + subsetSize - 1, subsetSize);
+		size_t Count(int elementsCount, int subsetSize) {
+			return Combinations::Count(elementsCount + subsetSize - 1, subsetSize);
+		}
 	}
 }

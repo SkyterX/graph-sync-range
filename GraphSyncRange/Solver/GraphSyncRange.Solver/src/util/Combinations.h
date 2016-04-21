@@ -3,35 +3,25 @@
 
 namespace util
 {
-	class Combinations {
+	namespace Combinations
+	{
 		using CombinationsCollection = std::vector<std::vector<int>>;
-		using CollectionOfCombinations = std::vector<std::vector<CombinationsCollection>>;
 
-		static CollectionOfCombinations combinations;
-		static CombinationsCollection GenerateCombinations(int elementsCount, int subsetSize);
-		static CollectionOfCombinations GenerateAllCombinations(int maxElementsCount);
+		extern const int MaxElementsCount;
 
-	public:
-		static const int MaxElementsCount;
+		const CombinationsCollection& Of(int elementsCount, int subsetSize);
 
-		static const CombinationsCollection& Of(int elementsCount, int subsetSize);
-
-		static size_t Count(int elementsCount, int subsetSize);
+		size_t Count(int elementsCount, int subsetSize);
 	};
 
-	class CombinationsWithRepetitions {
+	namespace CombinationsWithRepetitions
+	{
 		using CombinationsCollection = std::vector<std::vector<int>>;
-		using CollectionOfCombinations = std::vector<std::vector<CombinationsCollection>>;
 
-		static CollectionOfCombinations combinationsWithRepetitions;
-		static CombinationsCollection GenerateCombinationsWithRepetitions(int elementsCount, int subsetSize);
-		static CollectionOfCombinations GenerateAllCombinationsWithRepetitions(int maxElementsCount);
+		extern const int MaxElementsCount;
 
-	public:
-		static const int MaxElementsCount;
+		const CombinationsCollection& Of(int elementsCount, int subsetSize);
 
-		static const CombinationsCollection& Of(int elementsCount, int subsetSize);
-
-		static size_t Count(int elementsCount, int subsetSize);
+		size_t Count(int elementsCount, int subsetSize);
 	};
 }
