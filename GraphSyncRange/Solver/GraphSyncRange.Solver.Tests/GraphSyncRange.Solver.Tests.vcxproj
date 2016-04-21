@@ -192,9 +192,11 @@
     <ClCompile Include="tests\graph\algo\SynchronizingWord_Tests.cpp" />
     <ClCompile Include="tests\graph\algo\SyncRange_Tests.cpp" />
     <ClCompile Include="tests\graph\enumeration\GraphColoringNeighborsEnumeration_Tests.cpp" />
+    <ClCompile Include="tests\graph\enumeration\MultiGraphEnumeration_Tests.cpp" />
     <ClCompile Include="tests\graph\enumeration\SyncColoringsEnumeration_Tests.cpp" />
     <ClCompile Include="tests\graph\Graph6Reader_Tests.cpp" />
     <ClCompile Include="tests\graph\GraphColoring_Tests.cpp" />
+    <ClCompile Include="tests\graph\MultiGraphColoring_Tests.cpp" />
     <ClCompile Include="tests\test_tools\Message.cpp" />
     <ClCompile Include="tests\util\Combinations_Tests.cpp" />
     <ClCompile Include="tests\util\MathUtils_Tests.cpp" />
@@ -203,6 +205,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="tests\test_tools\all-test-tools.h" />
+    <ClInclude Include="tests\test_tools\LiteralExtensions.hpp" />
     <ClInclude Include="tests\test_tools\Message.h" />
     <ClInclude Include="tests\test_tools\TimeLapse.hpp" />
     <ClInclude Include="tests\test_tools\ToStringExtensions.hpp" />

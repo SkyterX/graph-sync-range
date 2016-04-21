@@ -87,9 +87,11 @@ namespace util
 		vector<vector<vector<vector<int>>>> allCombinationsWithRepetitions;
 
 		allCombinationsWithRepetitions.push_back({{{}}});
+		for (int subsetSize = 1; subsetSize < maxElementsCount; ++subsetSize)
+			allCombinationsWithRepetitions[0].push_back({});
 		for (int elementsCount = 1; elementsCount < maxElementsCount; ++elementsCount) {
 			allCombinationsWithRepetitions.push_back({});
-			for (int subsetSize = 0; subsetSize <= elementsCount && elementsCount + subsetSize < maxElementsCount; ++subsetSize) {
+			for (int subsetSize = 0; elementsCount + subsetSize < maxElementsCount; ++subsetSize) {
 				allCombinationsWithRepetitions[elementsCount].push_back(GenerateCombinationsWithRepetitions(elementsCount, subsetSize));
 			}
 		}
@@ -98,9 +100,9 @@ namespace util
 	}
 
 	const CombinationsWithRepetitions::CombinationsCollection& CombinationsWithRepetitions::Of(int elementsCount, int subsetSize) {
-		assert(elementsCount + subsetSize < MaxElementsCount);
+		assert(0 <= subsetSize);
 		assert(0 <= elementsCount && elementsCount < combinationsWithRepetitions.size());
-		assert(0 <= subsetSize && subsetSize <= elementsCount);
+		assert(elementsCount + subsetSize < MaxElementsCount);
 		return combinationsWithRepetitions[elementsCount][subsetSize];
 	}
 

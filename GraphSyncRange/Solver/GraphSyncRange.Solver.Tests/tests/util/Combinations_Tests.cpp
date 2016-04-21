@@ -1,7 +1,6 @@
 #include <CppUnitTest.h>
 #include <util/Combinations.h>
-#include <test_tools/ToStringExtensions.hpp>
-#include <test_tools/Message.h>
+#include <test_tools/all-test-tools.h>
 #include <algorithm>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -32,8 +31,11 @@ namespace util_tests
 		}
 
 		TEST_METHOD(CombinationsWithRepetitions_Test) {
-			for (int n = 0; n < CombinationsWithRepetitions::MaxElementsCount; ++n) {
-				for (int k = 0; k <= n && n + k < CombinationsWithRepetitions::MaxElementsCount; ++k) {
+			Assert::AreEqual(1_z, CombinationsWithRepetitions::Count(0, 0));
+			for(int k = 1; k < CombinationsWithRepetitions::MaxElementsCount; ++k)
+				Assert::AreEqual(0_z, CombinationsWithRepetitions::Count(0, k));
+			for (int n = 1; n < CombinationsWithRepetitions::MaxElementsCount; ++n) {
+				for (int k = 0; n + k < CombinationsWithRepetitions::MaxElementsCount; ++k) {
 					auto& combinations = CombinationsWithRepetitions::Of(n, k);
 					auto expectedCount = CombinationsWithRepetitions::Count(n, k);
 					Assert::AreEqual(expectedCount, combinations.size(), L"Wrong count");

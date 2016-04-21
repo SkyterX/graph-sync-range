@@ -78,6 +78,9 @@
     <ClInclude Include="..\GraphSyncRange.Solver\src\collections\SimpleQueue.hpp">
       <Filter>Source Files\src\graph\collections</Filter>
     </ClInclude>
+    <ClInclude Include="tests\test_tools\LiteralExtensions.hpp">
+      <Filter>Source Files\tests\test_tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -199,6 +202,12 @@
     </ClCompile>
     <ClCompile Include="tests\util\Combinations_Tests.cpp">
       <Filter>Source Files\tests\util</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\graph\MultiGraphColoring_Tests.cpp">
+      <Filter>Source Files\tests\graph</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\graph\enumeration\MultiGraphEnumeration_Tests.cpp">
+      <Filter>Source Files\tests\graph\enumeration</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
