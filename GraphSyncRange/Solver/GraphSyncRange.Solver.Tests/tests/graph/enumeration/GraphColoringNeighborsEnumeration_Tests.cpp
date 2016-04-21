@@ -27,8 +27,6 @@ namespace graph_algo_tests
 			using Timer = Measure<chrono::nanoseconds>;
 			using ResultTime = chrono::milliseconds;
 
-			Permutation::Generate(TestGraphDegree);
-
 			Timer::DurationType slowTime(0), fastTime(0);
 
 			GraphColoring coloring(TestGraphSize, TestGraphDegree);
@@ -68,7 +66,7 @@ namespace graph_algo_tests
 
 			const int graphSize = TestGraphSize + 1;
 
-			Permutation::Generate(TestGraphDegree);
+			Permutation::GeneratePermutations(TestGraphDegree);
 
 			Timer::DurationType graphTime(0), enumeratorTime(0);
 

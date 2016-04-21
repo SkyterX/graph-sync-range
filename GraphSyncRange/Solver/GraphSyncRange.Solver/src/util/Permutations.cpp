@@ -1,44 +1,81 @@
 #include <util/Permutations.h>
+#include <map>
 #include <algorithm>
+#include <numeric>
 #include <cassert>
 
 using namespace std;
 
 namespace util
 {
-	vector<vector<vector<int>>> Permutation::permutations;
-	vector<map<vector<int>, Permutation::IdType>> Permutation::permutationIds;
+	namespace Permutation
+	{
+		extern const int Permutation::MaxElementsCount = 7;
 
-	void Permutation::Generate(int pSize) {
-		if (permutations.size() < pSize + 1) {
-			permutations.resize(pSize + 1);
-			permutationIds.resize(pSize + 1);
+		namespace
+		{
+			struct PermutationStorage {
+				using PermutationCollection = vector<vector<int>>;
+				using CollectionsOfPermutations = vector<PermutationCollection>;
+
+				CollectionsOfPermutations permutations;
+				vector<map<vector<int>, IdType>> permutationIds;
+
+				PermutationStorage() {
+					GenerateAllPermutations(MaxElementsCount);
+				}
+
+				void GenerateAllPermutations(int maxElementsCount) {
+					permutations.resize(maxElementsCount + 1);
+					permutationIds.resize(maxElementsCount + 1);
+					for (int elementsCount = 0; elementsCount <= maxElementsCount; ++elementsCount) {
+						GeneratePermutations(elementsCount);
+					}
+				}
+
+				void GeneratePermutations(int elementsCount) {
+					if (permutations.size() < elementsCount + 1) {
+						permutations.resize(elementsCount + 1);
+						permutationIds.resize(elementsCount + 1);
+					}
+
+					vector<int> permutation(elementsCount);
+					iota(permutation.begin(), permutation.end(), 0);
+
+					permutations[elementsCount].reserve(Factorial::Of(elementsCount));
+					int id = 0;
+					do {
+						permutations[elementsCount].push_back(permutation);
+						permutationIds[elementsCount][permutation] = id;
+						++id;
+					}
+					while (next_permutation(permutation.begin(), permutation.end()));
+				}
+
+				const vector<int>& ById(int pSize, int id) {
+					assert(0 < pSize && pSize < permutations.size());
+					assert(0 <= id && id < permutations[pSize].size());
+					return permutations[pSize][id];
+				}
+
+				IdType GetId(const vector<int>& p) {
+					assert(0 < p.size() && p.size() < permutationIds.size());
+					return permutationIds[p.size()][p];
+				}
+			} Storage;
 		}
 
-		vector<int> permutation(pSize);
-		for (int i = 0; i < pSize; ++i) {
-			permutation[i] = i;
+		void GeneratePermutations(int pSize) {
+			Storage.GeneratePermutations(pSize);
 		}
 
-		permutations[pSize].reserve(Factorial::Of(pSize));
-		int id = 0;
-		do {
-			permutations[pSize].push_back(permutation);
-			permutationIds[pSize][permutation] = id;
-			++id;
+		const vector<int>& ById(int pSize, int id) {
+			return Storage.ById(pSize, id);
 		}
-		while (next_permutation(permutation.begin(), permutation.end()));
-	}
 
-	const vector<int>& Permutation::ById(int pSize, int id) {
-		assert(0 < pSize && pSize < permutations.size());
-		assert(0 <= id && id < permutations[pSize].size());
-		return permutations[pSize][id];
-	}
-
-	Permutation::IdType Permutation::GetId(const vector<int>& p) {
-		assert(0 < p.size() && p.size() < permutationIds.size());
-		return permutationIds[p.size()][p];
+		IdType GetId(const vector<int>& p) {
+			return Storage.GetId(p);
+		}
 	}
 }
 

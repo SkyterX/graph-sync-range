@@ -23,7 +23,6 @@ namespace graph_algo_tests
 		TEST_METHOD(SynchronizingWord_BruteForceBuilder_Cerny_Test) {
 			const int n = CernyGraphSize;
 			const int k = 2;
-			Permutation::Generate(k);
 
 			Graph cernyGraph(n);
 			cernyGraph.AddEdge(0, 1);
@@ -52,7 +51,7 @@ namespace graph_algo_tests
 			}
 			int n = reader.Current.VerticesCount();
 
-			Permutation::Generate(k);
+			Permutation::GeneratePermutations(k);
 
 			ShortestSynchronizingWordBuilder_BruteForce builder(n, k);
 			GraphColoring coloring(n, k);

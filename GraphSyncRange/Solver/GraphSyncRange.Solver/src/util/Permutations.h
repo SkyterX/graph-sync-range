@@ -1,27 +1,21 @@
 #pragma once
 #include <vector>
-#include <map>
 
 #include <util/Factorial.h>
 
 namespace util
 {
-	class Permutation {
-	public:
+	namespace Permutation
+	{
 		using IdType = Factorial::IdType;
 
-	private:
+		extern const int MaxElementsCount;
+		void GeneratePermutations(int pSize);
 
-		static std::vector<std::vector<std::vector<int>>> permutations;
-		static std::vector<std::map<std::vector<int>, IdType>> permutationIds;
-	public:
+		const std::vector<int>& ById(int pSize, int id);
 
-		static void Generate(int pSize);
-
-		static const std::vector<int>& ById(int pSize, int id);
-
-		static IdType GetId(const std::vector<int>& p);
-	};
+		IdType GetId(const std::vector<int>& p);
+	}
 
 
 	struct LazyPermutation {

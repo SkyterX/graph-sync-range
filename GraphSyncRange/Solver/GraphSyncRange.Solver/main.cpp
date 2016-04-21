@@ -22,7 +22,7 @@ TimeMeasure TotalTime;
 void FindMaxSyncRange(int n, int k) {
 	CreateTimestamp();
 
-	Permutation::Generate(k);
+	Permutation::GeneratePermutations(k);
 
 	auto enumerator = SimpleGraphEnumerator(n, k);
 	StrongConnectivityChecker_Simple sccChecker;
@@ -61,7 +61,7 @@ void FindGraphSyncRange() {
 
 	CreateTimestamp();
 
-	Permutation::Generate(k);
+	Permutation::GeneratePermutations(k);
 	syncRangeChecker.CheckSyncRange(*g);
 
 	UpdateTimer(TotalTime);
@@ -80,7 +80,7 @@ void FindMaxSyncRangeFile(const char* fileName) {
 		k = max(k, (int) reader.Current.edges[v].size());
 	}
 
-	Permutation::Generate(k);
+	Permutation::GeneratePermutations(k);
 
 	StrongConnectivityChecker_Simple sccChecker;
 	AperiodicityChecker aperiodicityChecker;
@@ -146,7 +146,7 @@ void FindMaxSyncRangeRandom(int verticesCount, int outDegree, int logEvery = 100
 	int n = verticesCount;
 	int k = outDegree;
 
-	Permutation::Generate(k);
+	Permutation::GeneratePermutations(k);
 
 	StrongConnectivityChecker_Simple sccChecker;
 	AperiodicityChecker aperiodicityChecker;

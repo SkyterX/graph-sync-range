@@ -37,8 +37,6 @@ namespace graph_algo_tests
 			}
 			int n = reader.Current.VerticesCount();
 
-			Permutation::Generate(k);
-
 			SyncRangeChecker syncRangeChecker(n, k);
 			LazySyncRangeChecker lazySyncRangeChecker(n, k);
 			AperiodicityChecker aperiodicityChecker;

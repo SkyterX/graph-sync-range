@@ -18,6 +18,7 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+#include <numeric>
 #include <set>
 #include <map>
 #include <list>

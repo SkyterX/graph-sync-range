@@ -34,8 +34,6 @@ namespace graph_algo_tests
 			}
 			int n = reader.Current.VerticesCount();
 
-			Permutation::Generate(k);
-
 			ShortestSynchronizingWordBuilder_BruteForce builder(n, k);
 			SynchronizationChecker syncChecker(n, k);
 			GraphColoring coloring(n, k);

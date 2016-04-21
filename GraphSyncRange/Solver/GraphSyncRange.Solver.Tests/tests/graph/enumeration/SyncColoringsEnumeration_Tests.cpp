@@ -35,8 +35,6 @@ namespace graph_algo_tests
 				k = max(k, static_cast<int>(reader.Current.edges[v].size()));
 			}
 			int n = reader.Current.VerticesCount();
-
-			Permutation::Generate(k);
 			SyncColoringsEnumerator coloringsEnumerator(n, k);
 
 			Timer::DurationType cTime(0), vTime(0);
@@ -91,7 +89,7 @@ namespace graph_algo_tests
 			}
 			int n = reader.Current.VerticesCount();
 
-			Permutation::Generate(k);
+			Permutation::GeneratePermutations(k);
 			SyncColoringsEnumerator coloringsEnumerator(n, k);
 			SyncColoringsRandomEnumerator coloringsRandomEnumerator(n, k);
 			coloringsRandomEnumerator.SetRandomSeed(5358812812);
@@ -155,7 +153,7 @@ namespace graph_algo_tests
 			}
 			int n = reader.Current.VerticesCount();
 
-			Permutation::Generate(k);
+			Permutation::GeneratePermutations(k);
 			SyncColoringsEnumerator coloringsEnumerator(n, k);
 			SyncColoringsOptimalEnumerator coloringsOptimalEnumerator(n, k);
 
