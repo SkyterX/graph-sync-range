@@ -172,6 +172,7 @@
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\Synchronization.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\SynchronizingWord.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\SyncRange.cpp" />
+    <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\Transitivity.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\enumeration\ColoringsGraph.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\enumeration\GraphColoringNeighborsEnumeration.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\enumeration\GraphEnumeration.cpp" />
@@ -191,6 +192,7 @@
     <ClCompile Include="tests\graph\algo\Synchronicity_Tests.cpp" />
     <ClCompile Include="tests\graph\algo\SynchronizingWord_Tests.cpp" />
     <ClCompile Include="tests\graph\algo\SyncRange_Tests.cpp" />
+    <ClCompile Include="tests\graph\algo\Transitivity_Tests.cpp" />
     <ClCompile Include="tests\graph\enumeration\GraphColoringNeighborsEnumeration_Tests.cpp" />
     <ClCompile Include="tests\graph\enumeration\MultiGraphEnumeration_Tests.cpp" />
     <ClCompile Include="tests\graph\enumeration\SyncColoringsEnumeration_Tests.cpp" />

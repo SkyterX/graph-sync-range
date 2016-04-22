@@ -13,6 +13,7 @@
 #include <graph/algo/StronglyConnectedComponents.h>
 #include <graph/algo/Aperiodicity.h>
 #include <graph/algo/LazySyncRange.h>
+#include <graph/algo/Transitivity.h>
 
 #include <graph/enumeration/GraphEnumeration.h>
 #include <graph/enumeration/GraphColoringNeighborsEnumeration.h>

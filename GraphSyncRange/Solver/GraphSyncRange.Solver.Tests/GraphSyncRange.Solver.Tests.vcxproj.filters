@@ -209,5 +209,11 @@
     <ClCompile Include="tests\graph\enumeration\MultiGraphEnumeration_Tests.cpp">
       <Filter>Source Files\tests\graph\enumeration</Filter>
     </ClCompile>
+    <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\Transitivity.cpp">
+      <Filter>Source Files\src\graph\algo</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\graph\algo\Transitivity_Tests.cpp">
+      <Filter>Source Files\tests\graph\algo</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -111,6 +111,9 @@
     <ClCompile Include="src\util\Combinations.cpp">
       <Filter>Source Files\util</Filter>
     </ClCompile>
+    <ClCompile Include="src\graph\algo\Transitivity.cpp">
+      <Filter>Source Files\graph\algo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="output.txt">
@@ -198,6 +201,9 @@
     </ClInclude>
     <ClInclude Include="src\util\Combinations.h">
       <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graph\algo\Transitivity.h">
+      <Filter>Header Files\graph\algo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
