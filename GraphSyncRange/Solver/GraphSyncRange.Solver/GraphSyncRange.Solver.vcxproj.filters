@@ -205,5 +205,8 @@
     <ClInclude Include="src\graph\algo\Transitivity.h">
       <Filter>Header Files\graph\algo</Filter>
     </ClInclude>
+    <ClInclude Include="src\util\SkippingEnumerator.hpp">
+      <Filter>Source Files\util</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

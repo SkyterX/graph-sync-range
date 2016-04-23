@@ -178,6 +178,7 @@
     <ClInclude Include="src\graph\MultiGraphColoring.h" />
     <ClInclude Include="src\util\Combinations.h" />
     <ClInclude Include="src\util\Factorial.h" />
+    <ClInclude Include="src\util\SkippingEnumerator.hpp" />
     <ClInclude Include="src\util\UtilIO.h" />
     <ClInclude Include="src\util\Permutations.h" />
     <ClInclude Include="src\util\util-all.h" />

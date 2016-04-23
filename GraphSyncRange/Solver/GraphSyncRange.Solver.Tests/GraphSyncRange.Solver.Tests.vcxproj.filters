@@ -81,6 +81,9 @@
     <ClInclude Include="tests\test_tools\LiteralExtensions.hpp">
       <Filter>Source Files\tests\test_tools</Filter>
     </ClInclude>
+    <ClInclude Include="..\GraphSyncRange.Solver\src\util\SkippingEnumerator.hpp">
+      <Filter>Source Files\src\util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -214,6 +217,9 @@
     </ClCompile>
     <ClCompile Include="tests\graph\algo\Transitivity_Tests.cpp">
       <Filter>Source Files\tests\graph\algo</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\util\SkippingEnumerator_Tests.cpp">
+      <Filter>Source Files\tests\util</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

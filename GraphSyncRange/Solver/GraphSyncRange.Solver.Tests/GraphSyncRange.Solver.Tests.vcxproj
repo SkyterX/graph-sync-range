@@ -203,7 +203,9 @@
     <ClCompile Include="tests\util\Combinations_Tests.cpp" />
     <ClCompile Include="tests\util\MathUtils_Tests.cpp" />
     <ClCompile Include="tests\util\Permutations_Tests.cpp" />
+    <ClCompile Include="tests\util\SkippingEnumerator_Tests.cpp" />
     <ClInclude Include="..\GraphSyncRange.Solver\src\collections\SimpleQueue.hpp" />
+    <ClInclude Include="..\GraphSyncRange.Solver\src\util\SkippingEnumerator.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="tests\test_tools\all-test-tools.h" />
