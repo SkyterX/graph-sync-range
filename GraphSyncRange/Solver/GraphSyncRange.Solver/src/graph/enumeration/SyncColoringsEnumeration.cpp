@@ -86,7 +86,8 @@ namespace graph
 		: isFirst(true),
 		  graph(nullptr),
 		  syncChecker(verticesCount, outDegree),
-		  random(random_device()()) {
+		  random(random_device()()),
+		  shuffleCnt(shuffleEvery) {
 
 		colorings.reserve(GraphColoring::ColoringsCount(verticesCount, outDegree));
 		GraphColoring coloring(verticesCount, outDegree);
@@ -103,7 +104,10 @@ namespace graph
 	void SyncColoringsRandomEnumerator::EnumerateColoringsOf(const Graph& graph) {
 		this->graph = &graph;
 		isFirst = true;
-		shuffle(colorings.begin(), colorings.end(), random);
+		if (--shuffleCnt == 0) {
+			shuffle(colorings.begin(), colorings.end(), random);
+			shuffleCnt = shuffleEvery;
+		}
 		currentIt = colorings.begin();
 		Current = currentIt->first;
 	}

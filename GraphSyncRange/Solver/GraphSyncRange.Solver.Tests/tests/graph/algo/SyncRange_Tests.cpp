@@ -9,6 +9,7 @@
 #include <graph/algo/LazySyncRange.h>
 #include <graph/algo/Aperiodicity.h>
 #include <algorithm>
+#include <graph/enumeration/MultiGraphEnumeration.hpp>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace test_tools;
@@ -21,50 +22,65 @@ namespace graph_algo_tests
 {
 	TEST_CLASS(SyncRange_Tests) {
 	public:
-
+		using Timer = Measure<chrono::nanoseconds>;
+		using ResultTime = chrono::milliseconds;
 		static constexpr char* graphsFileName = R"(TestData\directed_6_2_scc.d6)";
 
+
 		TEST_METHOD(SyncRange_GraphsFile_Test) {
-			using Timer = Measure<chrono::nanoseconds>;
-			using ResultTime = chrono::milliseconds;
+
+			vector<int> expectedResults, actualResults;
+
+			auto srcTime = GetSyncRangeResults<SyncRangeChecker>(expectedResults, 0);
+
+			Message::WriteLineF("Sync range checker\t: %lld ms", chrono::duration_cast<ResultTime>(srcTime).count());
+			for (int minRange = 0; minRange < 4; ++minRange) {
+
+				auto lsrcTime = GetSyncRangeResults<LazySyncRangeChecker>(actualResults, minRange);
+				Assert::AreEqual(expectedResults.size(), actualResults.size());
+				for (int i = 0; i < expectedResults.size(); ++i)
+				{
+					auto expected = expectedResults[i];
+					auto actual = actualResults[i];
+					if (expected <= minRange)
+						Assert::IsTrue(actual <= minRange);
+					else
+						Assert::AreEqual(expected, actual);
+				}
+
+				Message::WriteLineF("Min Range = %d : Lazy sync range checker\t: %lld ms", minRange, chrono::duration_cast<ResultTime>(lsrcTime).count());
+			}
+		}
+
+		template <typename TChecker>
+		Timer::DurationType GetSyncRangeResults(vector<int>& results, int minRange) {
+			results.clear();
 
 			Graph6Reader reader(graphsFileName);
 
 			int k = reader.Current.MaxOutDegree();
 			int n = reader.Current.VerticesCount();
 
-			SyncRangeChecker syncRangeChecker(n, k);
-			LazySyncRangeChecker lazySyncRangeChecker(n, k);
+			TChecker syncRangeChecker(n, k, minRange);
+
+			auto enumerator = EnumerateMultiGraphs(k, reader);
+
 			AperiodicityChecker aperiodicityChecker;
 
-			Timer::DurationType srcTime(0), lsrcTime(0);
+			Timer::DurationType srcTime(0);
 			do {
-				auto& graph = reader.Current;
-				for (int v = 0; v < graph.VerticesCount(); ++v) {
-					while (graph.edges[v].size() < k)
-						graph.AddEdge(v, v);
-				}
+				auto& graph = enumerator.Current;
 				if (!aperiodicityChecker.IsAperiodic(graph))
 					continue;
 
-				int expected, actual;
-				lsrcTime += Timer::Duration(
-					[&graph, &lazySyncRangeChecker, &actual]() {
-						actual = lazySyncRangeChecker.CheckSyncRange(graph);
-					});
 				srcTime += Timer::Duration(
-					[&graph, &syncRangeChecker, &expected]() {
-						expected = syncRangeChecker.CheckSyncRange(graph);
+					[&graph, &syncRangeChecker, &results]() {
+						results.push_back(syncRangeChecker.CheckSyncRange(graph));
 					});
-				if (expected == 1)
-					Assert::AreEqual(expected, max(actual, 1));
-				else
-					Assert::AreEqual(expected, actual);
 			}
-			while (reader.MoveNext());
+			while (enumerator.MoveNext());
 
-			Message::WriteLineF("Sync range checker\t: %lld ms", chrono::duration_cast<ResultTime>(srcTime).count());
-			Message::WriteLineF("Lazy sync range checker\t: %lld ms", chrono::duration_cast<ResultTime>(lsrcTime).count());
+			return srcTime;
 		}
 
 	};

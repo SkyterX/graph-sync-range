@@ -41,7 +41,9 @@ namespace graph
 	class SyncColoringsRandomEnumerator {
 
 		using ColoringsCollection = std::vector<std::pair<GraphColoring::IdType, GraphColoring>>;
+		const int shuffleEvery = 10000;
 
+		int shuffleCnt;
 		bool isFirst;
 		const Graph* graph;
 		SynchronizationChecker syncChecker;

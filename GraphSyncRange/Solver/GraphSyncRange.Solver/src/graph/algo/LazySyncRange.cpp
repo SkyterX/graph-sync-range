@@ -7,6 +7,8 @@
 #include <graph/algo/StrongConnectivity.h>
 #include <graph/algo/Aperiodicity.h>
 #include <graph/enumeration/ColoringsGraph.h>
+#include <graph/algo/Transitivity.h>
+#include <algorithm>
 
 using namespace std;
 using namespace graph::stats;
@@ -19,7 +21,8 @@ namespace graph
 		  minRangeToLog(minRangeToLog),
 		  totalColoringsCount(GraphColoring::ColoringsCount(verticesCount, outDegree)),
 		  coloringsEnumerator(verticesCount, outDegree),
-		  coloringsGraph(BuildColoringsGraph(verticesCount, outDegree)) {
+		  coloringsGraph(BuildColoringsGraph(verticesCount, outDegree)),
+		  coloringsReachabilityGraph(BuildTranisitiveGraph(coloringsGraph, max(0, minRangeToLog-1))){
 		q.Resize(totalColoringsCount);
 		distance.resize(totalColoringsCount);
 		parent.resize(totalColoringsCount);
@@ -68,7 +71,7 @@ namespace graph
 				++reachableColoringsCount;
 				reachableColorings[coloringId] = true;
 			}
-			for (const auto& neighborId : coloringsGraph.edges[coloringId]) {
+			for (const auto& neighborId : coloringsReachabilityGraph.edges[coloringId]) {
 				if (reachableColorings[neighborId]) continue;
 				++reachableColoringsCount;
 				reachableColorings[neighborId] = true;

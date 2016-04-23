@@ -165,18 +165,17 @@ void PrintStats() {
 		printf("Sync ratio Min      : %lf\n", minSyncRatio);
 		PrintGraph(minGraph);
 		printf("\n");
-
-		printf("\nTotal sync checks : %d\n", SynchronizationChecksCount);
-
-		printf("\nTime stats\n");
-		PrintTimeStatsLine("Total time", TotalTime, 0);
-		PrintTimeStatsLine("Sync coloring enumeration", SyncColoringsGenerationTime, 1);
-		PrintTimeStatsLine("Synchronization check", SynchronizationCheckTime, 2);
-		PrintTimeStatsLine("Build automata", SynchronizationCheck_BuildAutomataTime, 3);
-		PrintTimeStatsLine("Build PG graph", SynchronizationCheck_BuildPGTime, 3);
-		PrintTimeStatsLine("Reachability check", SynchronizationCheck_ReachabilityCheckTime, 3);
-		PrintTimeStatsLine("Sync range computation", SyncRangeComputationTime, 1);
 	}
+	printf("\nTotal sync checks : %d\n", SynchronizationChecksCount);
+
+	printf("\nTime stats\n");
+	PrintTimeStatsLine("Total time", TotalTime, 0);
+	PrintTimeStatsLine("Sync coloring enumeration", SyncColoringsGenerationTime, 1);
+	PrintTimeStatsLine("Synchronization check", SynchronizationCheckTime, 2);
+	PrintTimeStatsLine("Build automata", SynchronizationCheck_BuildAutomataTime, 3);
+	PrintTimeStatsLine("Build PG graph", SynchronizationCheck_BuildPGTime, 3);
+	PrintTimeStatsLine("Reachability check", SynchronizationCheck_ReachabilityCheckTime, 3);
+	PrintTimeStatsLine("Sync range computation", SyncRangeComputationTime, 1);
 }
 
 int main(void) {
@@ -184,7 +183,7 @@ int main(void) {
 	//		freopen("output.txt", "wt", stdout);
 
 
-	FindMaxSyncRangeFile(R"(D:\Projects\Diploma\graphs\directed_7_2_scc.d6)");
+	FindMaxSyncRangeFile(R"(D:\Projects\Diploma\graphs\directed_6_3_scc.d6)", 3, 10000);
 	//	FindMaxSyncRange(6, 2);
 	//	FindMaxSyncRangeRandom(20, 2, 10000);
 	PrintStats();

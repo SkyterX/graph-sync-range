@@ -17,8 +17,9 @@ namespace graph
 		std::vector<ColoringIdType> parent;
 		std::vector<uint8_t> reachableColorings;
 		collections::SimpleQueue<ColoringIdType> q;
-		SyncColoringsEnumerator coloringsEnumerator;
+		SyncColoringsRandomEnumerator coloringsEnumerator;
 		Graph coloringsGraph;
+		Graph coloringsReachabilityGraph;
 
 	public:
 
