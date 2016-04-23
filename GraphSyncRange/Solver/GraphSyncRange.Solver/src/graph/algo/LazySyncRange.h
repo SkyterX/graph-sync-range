@@ -11,6 +11,7 @@ namespace graph
 
 		int n, k;
 
+		int minRangeToLog;
 		int totalColoringsCount;
 		std::vector<int> distance;
 		std::vector<ColoringIdType> parent;
@@ -21,9 +22,7 @@ namespace graph
 
 	public:
 
-		LazySyncRangeChecker(int verticesCount, int outDegree);
-
-		int MinRangeToLog;
+		LazySyncRangeChecker(int verticesCount, int outDegree, int minRangeToLog = 0);
 
 		int CheckSyncRange(const Graph& graph);
 

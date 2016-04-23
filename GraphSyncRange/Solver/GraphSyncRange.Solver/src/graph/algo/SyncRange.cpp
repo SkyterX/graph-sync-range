@@ -27,12 +27,12 @@ namespace graph
 
 namespace graph
 {
-	SyncRangeChecker::SyncRangeChecker(int verticesCount, int outDegree)
-		: n(verticesCount), k(outDegree),
+	SyncRangeChecker::SyncRangeChecker(int verticesCount, int outDegree, int minRangeToLog)
+		: n(verticesCount),k(outDegree),
+		  minRangeToLog(minRangeToLog),
 		  totalColoringsCount(GraphColoring::ColoringsCount(verticesCount, outDegree)),
 		  coloringsEnumerator(verticesCount, outDegree),
-		  coloringsGraph(BuildColoringsGraph(verticesCount, outDegree)),
-		  MinRangeToLog(0) {
+		  coloringsGraph(BuildColoringsGraph(verticesCount, outDegree)) {
 		q.Resize(totalColoringsCount);
 		distance.resize(totalColoringsCount);
 		parent.resize(totalColoringsCount);
@@ -119,7 +119,7 @@ namespace graph
 
 	void SyncRangeChecker::LogStats(const Graph& graph, ColoringIdType farthestColoringId) {
 
-		if (MinRangeToLog > 0 && distance[farthestColoringId] >= MinRangeToLog) {
+		if (minRangeToLog > 0 && distance[farthestColoringId] >= minRangeToLog) {
 			printf("%d : ", ++maxRangeId);
 			PrintGraph(graph);
 			printf(" -> ");

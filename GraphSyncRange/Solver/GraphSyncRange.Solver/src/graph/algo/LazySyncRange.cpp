@@ -14,12 +14,12 @@ using namespace util;
 
 namespace graph
 {
-	LazySyncRangeChecker::LazySyncRangeChecker(int verticesCount, int outDegree)
+	LazySyncRangeChecker::LazySyncRangeChecker(int verticesCount, int outDegree, int minRangeToLog)
 		: n(verticesCount), k(outDegree),
+		  minRangeToLog(minRangeToLog),
 		  totalColoringsCount(GraphColoring::ColoringsCount(verticesCount, outDegree)),
 		  coloringsEnumerator(verticesCount, outDegree),
-		  coloringsGraph(BuildColoringsGraph(verticesCount, outDegree)),
-		  MinRangeToLog(0) {
+		  coloringsGraph(BuildColoringsGraph(verticesCount, outDegree)) {
 		q.Resize(totalColoringsCount);
 		distance.resize(totalColoringsCount);
 		parent.resize(totalColoringsCount);
@@ -68,7 +68,7 @@ namespace graph
 				++reachableColoringsCount;
 				reachableColorings[coloringId] = true;
 			}
-			for(const auto& neighborId : coloringsGraph.edges[coloringId]) {
+			for (const auto& neighborId : coloringsGraph.edges[coloringId]) {
 				if (reachableColorings[neighborId]) continue;
 				++reachableColoringsCount;
 				reachableColorings[neighborId] = true;
@@ -119,7 +119,7 @@ namespace graph
 
 	void LazySyncRangeChecker::LogStats(const Graph& graph, ColoringIdType farthestColoringId) {
 
-		if (MinRangeToLog > 0 && distance[farthestColoringId] >= MinRangeToLog) {
+		if (minRangeToLog > 0 && distance[farthestColoringId] >= minRangeToLog) {
 			printf("%d : ", ++maxRangesFound);
 			PrintGraph(graph);
 			printf(" -> ");

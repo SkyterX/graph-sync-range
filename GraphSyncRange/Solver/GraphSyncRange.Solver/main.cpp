@@ -27,8 +27,7 @@ void FindMaxSyncRange(int n, int k) {
 	auto enumerator = SimpleGraphEnumerator(n, k);
 	StrongConnectivityChecker_Simple sccChecker;
 	AperiodicityChecker aperiodicityChecker;
-	SyncRangeChecker syncRangeChecker(n, k);
-	syncRangeChecker.MinRangeToLog = 3;
+	SyncRangeChecker syncRangeChecker(n, k, 3);
 
 	totalGraphs = 0;
 	do {
@@ -56,8 +55,7 @@ void FindGraphSyncRange() {
 	auto g = ReadGraph();
 	int n = g->VerticesCount();
 	int k = g->OutDegree();
-	SyncRangeChecker syncRangeChecker(n, k);
-	syncRangeChecker.MinRangeToLog = 3;
+	SyncRangeChecker syncRangeChecker(n, k, 3);
 
 	CreateTimestamp();
 
@@ -68,7 +66,7 @@ void FindGraphSyncRange() {
 }
 
 
-void FindMaxSyncRangeFile(const char* fileName) {
+void FindMaxSyncRangeFile(const char* fileName, int minRangeToLog = 2, int logEvery = 100000) {
 	CreateTimestamp();
 
 	Graph6Reader reader(fileName);
@@ -80,8 +78,7 @@ void FindMaxSyncRangeFile(const char* fileName) {
 
 	StrongConnectivityChecker_Simple sccChecker;
 	AperiodicityChecker aperiodicityChecker;
-	LazySyncRangeChecker syncRangeChecker(n, k);
-	syncRangeChecker.MinRangeToLog = 2;
+	LazySyncRangeChecker syncRangeChecker(n, k, minRangeToLog);
 
 	auto graphEnumeration = EnumerateMultiGraphs(k, reader);
 
@@ -89,7 +86,7 @@ void FindMaxSyncRangeFile(const char* fileName) {
 	totalGraphs = 0;
 	do {
 		++totalGraphs;
-		if (totalGraphs % 100000 == 0) {
+		if (totalGraphs % logEvery == 0) {
 			auto duration = chrono::duration_cast<chrono::seconds>(GetTimeByVar(cycleStart));
 			UpdateTimestampVar(cycleStart);
 			fprintf(stderr, "Processed %zu in %llds\n", totalGraphs, duration.count());
@@ -108,7 +105,7 @@ void FindMaxSyncRangeFile(const char* fileName) {
 	UpdateTimer(TotalTime);
 }
 
-void FindMaxSyncRangeRandom(int verticesCount, int outDegree, int logEvery = 100000) {
+void FindMaxSyncRangeRandom(int verticesCount, int outDegree, int minRangeToLog = 2, int logEvery = 100000) {
 	CreateTimestamp();
 
 	int n = verticesCount;
@@ -118,8 +115,7 @@ void FindMaxSyncRangeRandom(int verticesCount, int outDegree, int logEvery = 100
 
 	StrongConnectivityChecker_Simple sccChecker;
 	AperiodicityChecker aperiodicityChecker;
-	SyncRangeChecker syncRangeChecker(n, k);
-	syncRangeChecker.MinRangeToLog = 2;
+	SyncRangeChecker syncRangeChecker(n, k, minRangeToLog);
 
 	RandomGraphGenerator generator(n, k);
 

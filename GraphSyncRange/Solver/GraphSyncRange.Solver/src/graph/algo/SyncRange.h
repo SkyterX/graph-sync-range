@@ -22,6 +22,7 @@ namespace graph
 
 		int n, k;
 
+		int minRangeToLog;
 		int totalColoringsCount;
 		std::vector<int> distance;
 		std::vector<ColoringIdType> parent;
@@ -31,9 +32,9 @@ namespace graph
 
 	public:
 
-		SyncRangeChecker(int verticesCount, int outDegree);
+		SyncRangeChecker(int verticesCount, int outDegree, int minRangeToLog = 0);
 
-		int MinRangeToLog;
+		
 
 		int CheckSyncRange(const Graph& graph);
 
