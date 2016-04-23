@@ -1,5 +1,6 @@
 #pragma once
 #include <graph/Graph.h>
+#include <random>
 
 namespace graph
 {
@@ -35,5 +36,18 @@ namespace graph
 
 	private:
 		void GenerateEdgeVariants();
+	};
+
+	class RandomGraphGenerator {
+
+		int n, k;
+		std::mt19937 generator;
+		std::uniform_int_distribution<int> vertexDistribution;
+	public:
+		Graph Current;
+
+		RandomGraphGenerator(int verticesCount, int outDegree);
+
+		bool MoveNext();
 	};
 }

@@ -13,5 +13,7 @@ namespace graph
 		int VerticesCount() const;
 
 		int OutDegree() const;
+
+		size_t MaxOutDegree() const;
 	};
 }

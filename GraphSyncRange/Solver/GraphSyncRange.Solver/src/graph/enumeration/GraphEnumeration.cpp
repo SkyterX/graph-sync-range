@@ -3,6 +3,9 @@
 #include <graph/enumeration/GraphEnumeration.h>
 #include <graph/Graph.h>
 #include <util/MathUtils.hpp>
+#include <random>
+#include <random>
+#include <random>
 
 using namespace std;
 
@@ -103,5 +106,28 @@ namespace graph
 			edgeVariants.push_back(edges);
 		}
 		while (prev_permutation(v.begin(), v.end()));
+	}
+}
+
+namespace graph
+{
+	RandomGraphGenerator::RandomGraphGenerator(int verticesCount, int outDegree)
+		: n(verticesCount), k(outDegree),
+		  generator(std::random_device()()),
+		  vertexDistribution(0, verticesCount - 1),
+		  Current(verticesCount) {
+		for (int v = 0; v < n; ++v) {
+			Current.edges[v].resize(k);
+		}
+		MoveNext();
+	}
+
+	bool RandomGraphGenerator::MoveNext() {
+		for (int v = 0; v < n; ++v) {
+			for (int i = 0; i < k; ++i) {
+				Current.edges[v][i] = vertexDistribution(generator);
+			}
+		}
+		return true;
 	}
 }

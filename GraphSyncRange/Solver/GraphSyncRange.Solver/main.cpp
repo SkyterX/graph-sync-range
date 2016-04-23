@@ -73,12 +73,8 @@ void FindMaxSyncRangeFile(const char* fileName) {
 
 	Graph6Reader reader(fileName);
 
-	reader.MoveNext();
 	int n = reader.Current.VerticesCount();
-	int k = 0;
-	for (int v = 0; v < reader.Current.VerticesCount(); ++v) {
-		k = max(k, (int) reader.Current.edges[v].size());
-	}
+	int k = reader.Current.MaxOutDegree();
 
 	Permutation::GeneratePermutations(k);
 
@@ -112,34 +108,6 @@ void FindMaxSyncRangeFile(const char* fileName) {
 	UpdateTimer(TotalTime);
 }
 
-class RandomGraphGenerator {
-
-	int n, k;
-	mt19937 generator;
-	uniform_int_distribution<int> vertexDistribution;
-public:
-	Graph Current;
-
-	RandomGraphGenerator(int verticesCount, int outDegree)
-		: n(verticesCount), k(outDegree),
-		  Current(verticesCount),
-		  generator(random_device()()),
-		  vertexDistribution(0, verticesCount - 1) {
-		for (int v = 0; v < n; ++v) {
-			Current.edges[v].resize(k);
-		}
-	}
-
-	bool MoveNext() {
-		for (int v = 0; v < n; ++v) {
-			for (int i = 0; i < k; ++i) {
-				Current.edges[v][i] = vertexDistribution(generator);
-			}
-		}
-		return true;
-	}
-};
-
 void FindMaxSyncRangeRandom(int verticesCount, int outDegree, int logEvery = 100000) {
 	CreateTimestamp();
 
@@ -157,7 +125,7 @@ void FindMaxSyncRangeRandom(int verticesCount, int outDegree, int logEvery = 100
 
 	CreateTimestampVar(cycleStart);
 	totalGraphs = 0;
-	while (generator.MoveNext()) {
+	do {
 		++totalGraphs;
 		if (totalGraphs % logEvery == 0) {
 			auto duration = chrono::duration_cast<chrono::seconds>(GetTimeByVar(cycleStart));
@@ -173,6 +141,7 @@ void FindMaxSyncRangeRandom(int verticesCount, int outDegree, int logEvery = 100
 			syncRangeChecker.CheckSyncRange(graph);
 		}
 	}
+	while (generator.MoveNext());
 
 	UpdateTimer(TotalTime);
 }
@@ -216,12 +185,12 @@ void PrintStats() {
 
 int main(void) {
 	//	freopen("input.txt", "rt", stdin);
-//		freopen("output.txt", "wt", stdout);
+	//		freopen("output.txt", "wt", stdout);
 
 
-	FindMaxSyncRangeFile(R"(D:\Projects\Study\Diploma\graphs\directed_7_2_scc.d6)");
+	FindMaxSyncRangeFile(R"(D:\Projects\Diploma\graphs\directed_7_2_scc.d6)");
 	//	FindMaxSyncRange(6, 2);
-//	FindMaxSyncRangeRandom(20, 2, 10000);
+	//	FindMaxSyncRangeRandom(20, 2, 10000);
 	PrintStats();
 
 	return 0;

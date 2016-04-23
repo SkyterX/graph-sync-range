@@ -18,7 +18,7 @@ namespace util_tests
 		TEST_METHOD(Graph6Reader_Test) {
 			auto graph = ReadGraph(fopen(GraphFileName, "rt"));
 			auto reader = Graph6Reader(Graph6FileName);
-			Assert::IsTrue(reader.MoveNext(), L"Reader failed : no graph found.");
+			Assert::IsTrue(reader.Current.VerticesCount() > 0, L"Reader failed : no graph found.");
 			auto graph6 = reader.Current;
 			Assert::IsFalse(reader.MoveNext(), L"Reader failed : multiple graphs found.");
 			Assert::AreEqual(graph->VerticesCount(), graph6.VerticesCount(),

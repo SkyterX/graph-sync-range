@@ -32,7 +32,7 @@ namespace graph_algo_tests
 
 			Timer::DurationType cTime(0), vTime(0);
 			Graph6Reader reader(graphsFileName);
-			while (reader.MoveNext()) {
+			do {
 				bool expected, actual;
 				vTime += Timer::Duration(
 					[&validator](const Graph& graph, bool& result) {
@@ -44,6 +44,7 @@ namespace graph_algo_tests
 					}, reader.Current, actual);
 				Assert::AreEqual(expected, actual);
 			}
+			while (reader.MoveNext());
 
 			Message::WriteLineF("Checker   : %lld", chrono::duration_cast<ResultTime>(cTime).count());
 			Message::WriteLineF("Validator : %lld", chrono::duration_cast<ResultTime>(vTime).count());
@@ -52,9 +53,10 @@ namespace graph_algo_tests
 		TEST_METHOD(SimpleChecker_SCGraphsFile_Test) {
 			StrongConnectivityChecker_Simple checker;
 			Graph6Reader reader(scGraphsFileName);
-			while (reader.MoveNext()) {
+			do {
 				Assert::IsTrue(checker.IsStronglyConnected(reader.Current));
 			}
+			while (reader.MoveNext());
 		}
 	};
 }

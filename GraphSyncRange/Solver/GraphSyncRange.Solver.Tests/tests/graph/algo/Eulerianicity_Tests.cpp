@@ -25,7 +25,7 @@ namespace graph_algo_tests
 			Graph6Reader reader(graphsFileName);
 			vector<int> vertexDegreeDiffs;
 			int eulerianCount = 0, totalCount = 0;
-			while (reader.MoveNext()) {
+			do {
 				auto& graph = reader.Current;
 				auto n = graph.VerticesCount();
 				vertexDegreeDiffs.assign(n, 0);
@@ -44,6 +44,7 @@ namespace graph_algo_tests
 				eulerianCount += isEulerian;
 				++totalCount;
 			}
+			while (reader.MoveNext());
 
 			Message::WriteLineF("Total Eulerian graphs : %d of %d", eulerianCount, totalCount);
 		}

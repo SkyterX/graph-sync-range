@@ -41,11 +41,12 @@ namespace graph_algo_tests
 			Graph6Reader reader(graphsFileName);
 			vector<int> tResult, ksResult;
 			Timer::DurationType tTime(0), ksTime(0);
-			while(reader.MoveNext()) {
+			do {
 				tTime += Timer::Duration(tFunc, reader.Current, tResult);
 				ksTime += Timer::Duration(ksFunc, reader.Current, ksResult);
 				CompareSCC(tResult, ksResult);
 			}
+			while (reader.MoveNext());
 
 			Message::WriteLineF("Tarjan          : %lld", chrono::duration_cast<ResultTime>(tTime).count());
 			Message::WriteLineF("Kosaraju-Sharir : %lld", chrono::duration_cast<ResultTime>(ksTime).count());

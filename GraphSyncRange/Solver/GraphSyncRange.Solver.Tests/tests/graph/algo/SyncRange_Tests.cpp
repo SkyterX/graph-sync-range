@@ -30,11 +30,7 @@ namespace graph_algo_tests
 
 			Graph6Reader reader(graphsFileName);
 
-			reader.MoveNext();
-			int k = 0;
-			for (int v = 0; v < reader.Current.VerticesCount(); ++v) {
-				k = max(k, static_cast<int>(reader.Current.edges[v].size()));
-			}
+			int k = reader.Current.MaxOutDegree();
 			int n = reader.Current.VerticesCount();
 
 			SyncRangeChecker syncRangeChecker(n, k);

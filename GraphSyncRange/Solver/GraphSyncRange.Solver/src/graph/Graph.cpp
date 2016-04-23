@@ -1,4 +1,5 @@
 #include <graph/Graph.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -18,5 +19,13 @@ namespace graph
 
 	int Graph::OutDegree() const {
 		return edges[0].size();
+	}
+
+	size_t Graph::MaxOutDegree() const {
+		size_t result = 0;
+		for (int v = 0; v < edges.size(); ++v) {
+			result = max(result, edges[v].size());
+		}
+		return result;
 	}
 }

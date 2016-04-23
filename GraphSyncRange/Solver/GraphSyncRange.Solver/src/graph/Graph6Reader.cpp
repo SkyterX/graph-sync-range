@@ -30,18 +30,23 @@ namespace graph
 
 
 	Graph6Reader::Graph6Reader(const char* filename) {
-		if(fopen_s(&inputFile, filename, "rt") != 0) {
+		if (fopen_s(&inputFile, filename, "rt") != 0) {
 			fprintf(stderr, "Can't open file : %s\n", filename);
 			exit(EXIT_FAILURE);
 		}
+		MoveNext();
 	}
 
 	Graph6Reader::Graph6Reader(FILE* inputFile)
-		:inputFile(inputFile), Current(0) { }
+		:inputFile(inputFile), Current(0) {
+		MoveNext();
+	}
 
 	bool Graph6Reader::MoveNext() {
-		if (fscanf_s(inputFile, "%s", &buffer, BufferSize) == EOF)
+		if (fscanf_s(inputFile, "%s", &buffer, BufferSize) == EOF) {
+			Current.edges.clear();
 			return false;
+		}
 		ParseGraph();
 		return true;
 	}
