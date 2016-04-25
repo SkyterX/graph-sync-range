@@ -12,7 +12,9 @@ namespace graph
 		FILE* inputFile;
 
 	public:
-		Graph Current;
+		using ValueType = Graph;
+
+		ValueType Current;
 
 		Graph6Reader(const char* filename);
 

@@ -80,7 +80,10 @@ void FindMaxSyncRangeFile(const char* fileName, int minRangeToLog = 2, int logEv
 	AperiodicityChecker aperiodicityChecker;
 	LazySyncRangeChecker syncRangeChecker(n, k, minRangeToLog);
 
-	auto graphEnumeration = EnumerateMultiGraphs(k, reader);
+	int skipId;
+	cin >> skipId;
+
+	auto graphEnumeration = EnumerateMultiGraphs(k, TakeEvery(reader, 4, skipId));
 
 	CreateTimestampVar(cycleStart);
 	totalGraphs = 0;
@@ -180,10 +183,10 @@ void PrintStats() {
 
 int main(void) {
 	//	freopen("input.txt", "rt", stdin);
-	//		freopen("output.txt", "wt", stdout);
+	freopen("output.txt", "wt", stdout);
 
 
-	FindMaxSyncRangeFile(R"(D:\Projects\Diploma\graphs\directed_6_3_scc.d6)", 3, 10000);
+	FindMaxSyncRangeFile(R"(D:\Projects\Diploma\graphs\directed_7_3_scc.d6)", 3, 100000);
 	//	FindMaxSyncRange(6, 2);
 	//	FindMaxSyncRangeRandom(20, 2, 10000);
 	PrintStats();

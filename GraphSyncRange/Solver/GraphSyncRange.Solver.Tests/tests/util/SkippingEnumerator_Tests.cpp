@@ -30,7 +30,7 @@ namespace util_tests
 		TEST_METHOD(SkippingEnumerator_Test) {
 			for (int maxN = 10; maxN < 20; ++maxN) {
 				for (int mod = 1; mod <= maxN; ++mod) {
-					for (int remainder = 0; remainder < maxN; ++remainder) {
+					for (int remainder = 0; remainder < mod; ++remainder) {
 						BaseEnumerator baseEnumerator(maxN);
 						auto enumerator = TakeEvery(baseEnumerator, mod, remainder);
 						bool hasNext = true;

@@ -33,7 +33,7 @@ namespace util
 	};
 
 	template <typename TEnumerator>
-	SkippingEnumerator<TEnumerator> TakeEvery(TEnumerator& innerEnumerator, int takeEvery, int skipStart) {
+	SkippingEnumerator<TEnumerator> TakeEvery(TEnumerator& innerEnumerator, int takeEvery, int skipStart = 0) {
 		return SkippingEnumerator<TEnumerator>(innerEnumerator, takeEvery, skipStart);
 	}
 }
