@@ -4,25 +4,10 @@ using namespace std;
 
 namespace graph
 {
-	void BuildAutomata(const Graph& graph, const GraphColoring& coloring, Graph& automata) {
-		int n = graph.VerticesCount();
-		int k = graph.OutDegree();
-		for (int v = 0; v < n; ++v) {
-			auto permutation = coloring.edgeColors[v].GetPermutation(k);
-			automata.edges[v].resize(k);
-			for (int j = 0; j < k; ++j) {
-				automata.edges[v][j] = graph.edges[v][permutation[j]];
-			}
-		}
-	}
-}
-
-namespace graph
-{
 	bool IsSynchronizingWord(const vector<int>& word, const Graph& graph, const GraphColoring& coloring) {
 		int n = graph.VerticesCount();
 		Graph automata(n);
-		BuildAutomata(graph, coloring, automata);
+		coloring.Apply(graph, automata);
 
 		int targetState = -1;
 		for (int v = 0; v < n; ++v) {
@@ -46,7 +31,7 @@ namespace graph
 
 	vector<int> ShortestSynchronizingWordBuilder_BruteForce::FindSynchronizingWord(const Graph& graph, const GraphColoring& coloring) {
 		Clear();
-		BuildAutomata(graph, coloring, automata);
+		coloring.Apply(graph, automata);
 		return FindSynchronizingWord();
 	}
 

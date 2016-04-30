@@ -45,4 +45,22 @@ namespace graph
 		auto permutationsCount = LazyPermutation::PermutationsCount(nEdges);
 		return FastPower(permutationsCount, nVertices);
 	}
+
+	Graph GraphColoring::Apply(const Graph& baseGraph) const {
+		Graph targetGraph(baseGraph.VerticesCount());
+		Apply(baseGraph, targetGraph);
+		return targetGraph;
+	}
+
+	void GraphColoring::Apply(const Graph& baseGraph, Graph& targetGraph) const {
+		int n = baseGraph.VerticesCount();
+		int k = nEdges;
+		for (int v = 0; v < n; ++v) {
+			auto& permutation = edgeColors[v].GetPermutation(k);
+			targetGraph.edges[v].resize(k);
+			for (int j = 0; j < k; ++j) {
+				targetGraph.edges[v][j] = baseGraph.edges[v][permutation[j]];
+			}
+		}
+	}
 }

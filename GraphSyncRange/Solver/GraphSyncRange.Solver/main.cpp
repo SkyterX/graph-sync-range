@@ -50,6 +50,45 @@ void FindMaxSyncRangeInteractive() {
 	FindMaxSyncRange(n, k);
 }
 
+
+Graph BuildHypercubeGraph(int dimensions) {
+	if (dimensions == 0) {
+		Graph g(1);
+		g.AddEdge(0, 0);
+		return g;
+	}
+	else {
+		auto g1 = BuildHypercubeGraph(dimensions - 1);
+		auto n = g1.VerticesCount();
+		auto g = Graph(n * 2);
+		for (int v = 0; v < n; ++v) {
+			for (auto& to : g1.edges[v]) {
+				g.AddEdge(v, to);
+				g.AddEdge(v + n, to + n);
+			}
+			g.AddEdge(v, v + n);
+			g.AddEdge(v + n, v);
+		}
+		return g;
+	}
+}
+
+
+void FindAutomataSyncRange() {
+
+//	auto g = ReadAutomata();
+	auto g = BuildHypercubeGraph(5);
+
+	int n = g.VerticesCount();
+	int k = g.OutDegree();
+
+	Permutation::GeneratePermutations(k);
+	CreateTimestamp();
+	int syncRange = FindSyncRange(g, GraphColoring(n, k));
+	UpdateTimer(TotalTime);
+	printf("Sync range : %d\n", syncRange);
+}
+
 void FindGraphSyncRange() {
 
 	auto g = ReadGraph();
@@ -182,13 +221,18 @@ void PrintStats() {
 }
 
 int main(void) {
-	//	freopen("input.txt", "rt", stdin);
-	freopen("output.txt", "wt", stdout);
+	freopen("input.txt", "rt", stdin);
+	//	freopen("output.txt", "wt", stdout);
 
 
-	FindMaxSyncRangeFile(R"(D:\Projects\Diploma\graphs\directed_7_3_scc.d6)", 3, 100000);
+//	FindMaxSyncRangeFile(R"(D:\Projects\Diploma\graphs\directed_7_3_scc.d6)", 3, 100000);
 	//	FindMaxSyncRange(6, 2);
 	//	FindMaxSyncRangeRandom(20, 2, 10000);
+
+	FindAutomataSyncRange();
+
+
+
 	PrintStats();
 
 	return 0;

@@ -52,7 +52,7 @@ namespace util
 					while (next_permutation(permutation.begin(), permutation.end()));
 				}
 
-				const vector<int>& ById(int pSize, int id) {
+				const vector<int>& ById(int pSize, IdType id) {
 					assert(0 < pSize && pSize < permutations.size());
 					assert(0 <= id && id < permutations[pSize].size());
 					return permutations[pSize][id];

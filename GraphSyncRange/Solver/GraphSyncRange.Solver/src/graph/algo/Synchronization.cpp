@@ -52,12 +52,7 @@ namespace graph
 
 	void SynchronizationChecker::BuildAutomata(const Graph& graph, const GraphColoring& coloring) {
 		CreateTimestamp();
-		for (int v = 0; v < n; ++v) {
-			auto& permutation = coloring.edgeColors[v].GetPermutation(k);
-			for (int j = 0; j < k; ++j) {
-				automata.edges[v][j] = graph.edges[v][permutation[j]];
-			}
-		}
+		coloring.Apply(graph, automata);
 		UpdateTimer(SynchronizationCheck_BuildAutomataTime);
 	}
 

@@ -1,6 +1,7 @@
 #pragma once
 #include <util/util-all.h>
 #include <vector>
+#include <graph/Graph.h>
 
 namespace graph
 {
@@ -21,5 +22,8 @@ namespace graph
 		IdType GetId() const;
 
 		static IdType ColoringsCount(int nVertices, int nEdges);
+
+		Graph Apply(const Graph& baseGraph) const;
+		void Apply(const Graph& baseGraph, Graph& targetGraph) const;
 	};
 }

@@ -38,9 +38,8 @@ namespace graph_algo_tests
 						expected.push_back(slowEnumerator.Current.GetId());
 					}
 					while (slowEnumerator.MoveNext());
-					stable_sort(expected.begin(), expected.end());
 				});
-
+				stable_sort(expected.begin(), expected.end());
 
 				vector<GraphColoring::IdType> actual;
 				fastTime += Timer::Duration([&actual, &coloring]() {
@@ -49,8 +48,8 @@ namespace graph_algo_tests
 						actual.push_back(fastEnumerator.Current.GetId());
 					}
 					while (fastEnumerator.MoveNext());
-					stable_sort(actual.begin(), actual.end());
 				});
+				stable_sort(actual.begin(), actual.end());
 
 				Assert::AreEqual(expected, actual);
 			}

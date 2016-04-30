@@ -126,6 +126,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\graph\algo\Aperiodicity.cpp" />
+    <ClCompile Include="src\graph\algo\AutomataSyncRange.cpp" />
     <ClCompile Include="src\graph\algo\Eulerian.cpp" />
     <ClCompile Include="src\graph\algo\LazySyncRange.cpp" />
     <ClCompile Include="src\graph\algo\StrongConnectivity.cpp" />
@@ -156,6 +157,7 @@
   <ItemGroup>
     <ClInclude Include="src\collections\SimpleQueue.hpp" />
     <ClInclude Include="src\graph\algo\Aperiodicity.h" />
+    <ClInclude Include="src\graph\algo\AutomataSyncRange.h" />
     <ClInclude Include="src\graph\algo\Eulerian.h" />
     <ClInclude Include="src\graph\algo\LazySyncRange.h" />
     <ClInclude Include="src\graph\algo\StrongConnectivity.h" />

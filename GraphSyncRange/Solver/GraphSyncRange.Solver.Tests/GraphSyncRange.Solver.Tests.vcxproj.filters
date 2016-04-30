@@ -221,5 +221,8 @@
     <ClCompile Include="tests\util\SkippingEnumerator_Tests.cpp">
       <Filter>Source Files\tests\util</Filter>
     </ClCompile>
+    <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\AutomataSyncRange.cpp">
+      <Filter>Source Files\tests\graph\algo</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

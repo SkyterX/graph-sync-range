@@ -165,6 +165,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\Aperiodicity.cpp" />
+    <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\AutomataSyncRange.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\Eulerian.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\LazySyncRange.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\StrongConnectivity.cpp" />

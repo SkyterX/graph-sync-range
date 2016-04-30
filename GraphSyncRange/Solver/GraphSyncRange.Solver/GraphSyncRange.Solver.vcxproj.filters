@@ -114,6 +114,9 @@
     <ClCompile Include="src\graph\algo\Transitivity.cpp">
       <Filter>Source Files\graph\algo</Filter>
     </ClCompile>
+    <ClCompile Include="src\graph\algo\AutomataSyncRange.cpp">
+      <Filter>Source Files\graph\algo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="output.txt">
@@ -207,6 +210,9 @@
     </ClInclude>
     <ClInclude Include="src\util\SkippingEnumerator.hpp">
       <Filter>Source Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graph\algo\AutomataSyncRange.h">
+      <Filter>Header Files\graph\algo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

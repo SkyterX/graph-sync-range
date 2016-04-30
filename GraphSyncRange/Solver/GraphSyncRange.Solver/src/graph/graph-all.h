@@ -14,6 +14,7 @@
 #include <graph/algo/Aperiodicity.h>
 #include <graph/algo/LazySyncRange.h>
 #include <graph/algo/Transitivity.h>
+#include <graph/algo/AutomataSyncRange.h>
 
 #include <graph/enumeration/GraphEnumeration.h>
 #include <graph/enumeration/GraphColoringNeighborsEnumeration.h>

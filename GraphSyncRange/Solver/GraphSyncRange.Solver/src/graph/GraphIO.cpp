@@ -9,7 +9,7 @@ using namespace util;
 
 namespace graph
 {
-	unique_ptr<Graph> ReadGraph(FILE* inputFile) {
+	unique_ptr<Graph> ReadAutomata(FILE* inputFile) {
 		int n, m;
 		fscanf_s(inputFile, "%d%d", &n, &m);
 		auto g = make_unique<Graph>(n);
@@ -18,12 +18,19 @@ namespace graph
 			fscanf_s(inputFile, "%d%d", &u, &v);
 			g->AddEdge(u - 1, v - 1);
 		}
-		for (int v = 0; v < n; ++v) {
+		return g;
+	}
+
+	unique_ptr<Graph> ReadGraph(FILE* inputFile) {
+		auto g = ReadAutomata(inputFile);
+
+		for (int v = 0; v < g->VerticesCount(); ++v) {
 			sort(g->edges[v].begin(), g->edges[v].end());
 		}
 
 		return g;
 	}
+
 
 	void PrintGraph(const Graph& graph) {
 		printf(" {");
