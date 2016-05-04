@@ -50,34 +50,10 @@ void FindMaxSyncRangeInteractive() {
 	FindMaxSyncRange(n, k);
 }
 
-
-Graph BuildHypercubeGraph(int dimensions) {
-	if (dimensions == 0) {
-		Graph g(1);
-		g.AddEdge(0, 0);
-		return g;
-	}
-	else {
-		auto g1 = BuildHypercubeGraph(dimensions - 1);
-		auto n = g1.VerticesCount();
-		auto g = Graph(n * 2);
-		for (int v = 0; v < n; ++v) {
-			for (auto& to : g1.edges[v]) {
-				g.AddEdge(v, to);
-				g.AddEdge(v + n, to + n);
-			}
-			g.AddEdge(v, v + n);
-			g.AddEdge(v + n, v);
-		}
-		return g;
-	}
-}
-
-
 void FindAutomataSyncRange() {
 
 //	auto g = ReadAutomata();
-	auto g = BuildHypercubeGraph(5);
+	auto g = BuildHyperTriangularGraph(3);
 
 	int n = g.VerticesCount();
 	int k = g.OutDegree();
@@ -196,8 +172,8 @@ void PrintTimeStatsLine(const char* timerDescription, const TimeMeasure& timer, 
 void PrintStats() {
 	using OutputTime = chrono::milliseconds;
 
+	printf("\nTotal sync grahs : %d of %zu\n", (int)cntGraphs, totalGraphs);
 	if (cntGraphs > 0) {
-		printf("\nTotal sync grahs : %d of %zu\n", (int)cntGraphs, totalGraphs);
 		double mean = sumSyncRatio / cntGraphs;
 		double variance = cntGraphs == 1 ? 0 : (sumSqrSyncRatio - sumSyncRatio * sumSyncRatio / cntGraphs) / (cntGraphs - 1);
 		double stdDeviation = sqrt(variance);

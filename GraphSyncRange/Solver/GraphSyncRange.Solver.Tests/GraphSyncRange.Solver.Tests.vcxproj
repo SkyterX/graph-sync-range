@@ -180,6 +180,7 @@
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\enumeration\SyncColoringsEnumeration.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\Graph.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\Graph6Reader.cpp" />
+    <ClCompile Include="..\GraphSyncRange.Solver\src\graph\GraphBuilders.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\GraphColoring.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\GraphIO.cpp" />
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\MultiGraphColoring.cpp" />
@@ -198,6 +199,7 @@
     <ClCompile Include="tests\graph\enumeration\MultiGraphEnumeration_Tests.cpp" />
     <ClCompile Include="tests\graph\enumeration\SyncColoringsEnumeration_Tests.cpp" />
     <ClCompile Include="tests\graph\Graph6Reader_Tests.cpp" />
+    <ClCompile Include="tests\graph\GraphBuilders_Tests.cpp" />
     <ClCompile Include="tests\graph\GraphColoring_Tests.cpp" />
     <ClCompile Include="tests\graph\MultiGraphColoring_Tests.cpp" />
     <ClCompile Include="tests\test_tools\Message.cpp" />

@@ -5,6 +5,7 @@
 #include <graph/GraphIO.h>
 #include <graph/Graph6Reader.h>
 #include <graph/MultiGraphColoring.h>
+#include <graph/GraphBuilders.h>
 
 #include <graph/algo/StrongConnectivity.h>
 #include <graph/algo/Eulerian.h>

@@ -117,6 +117,9 @@
     <ClCompile Include="src\graph\algo\AutomataSyncRange.cpp">
       <Filter>Source Files\graph\algo</Filter>
     </ClCompile>
+    <ClCompile Include="src\graph\GraphBuilders.cpp">
+      <Filter>Source Files\graph</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="output.txt">
@@ -213,6 +216,9 @@
     </ClInclude>
     <ClInclude Include="src\graph\algo\AutomataSyncRange.h">
       <Filter>Header Files\graph\algo</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graph\GraphBuilders.h">
+      <Filter>Header Files\graph</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

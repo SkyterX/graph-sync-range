@@ -224,5 +224,11 @@
     <ClCompile Include="..\GraphSyncRange.Solver\src\graph\algo\AutomataSyncRange.cpp">
       <Filter>Source Files\tests\graph\algo</Filter>
     </ClCompile>
+    <ClCompile Include="..\GraphSyncRange.Solver\src\graph\GraphBuilders.cpp">
+      <Filter>Source Files\src\graph</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\graph\GraphBuilders_Tests.cpp">
+      <Filter>Source Files\tests\graph</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

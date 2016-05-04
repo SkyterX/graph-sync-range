@@ -141,6 +141,7 @@
     <ClCompile Include="src\graph\enumeration\SyncColoringsEnumeration.cpp" />
     <ClCompile Include="src\graph\Graph.cpp" />
     <ClCompile Include="src\graph\Graph6Reader.cpp" />
+    <ClCompile Include="src\graph\GraphBuilders.cpp" />
     <ClCompile Include="src\graph\GraphColoring.cpp" />
     <ClCompile Include="src\graph\GraphIO.cpp" />
     <ClCompile Include="src\graph\MultiGraphColoring.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="src\graph\graph-stats.h" />
     <ClInclude Include="src\graph\Graph.h" />
     <ClInclude Include="src\graph\Graph6Reader.h" />
+    <ClInclude Include="src\graph\GraphBuilders.h" />
     <ClInclude Include="src\graph\GraphColoring.h" />
     <ClInclude Include="src\graph\GraphIO.h" />
     <ClInclude Include="src\graph\MultiGraphColoring.h" />
