@@ -52,7 +52,7 @@ void FindMaxSyncRangeInteractive() {
 
 void FindAutomataSyncRange() {
 
-//	auto g = ReadAutomata();
+	//	auto g = ReadAutomata();
 	auto g = BuildHyperTriangularGraph(3);
 
 	int n = g.VerticesCount();
@@ -198,18 +198,20 @@ void PrintStats() {
 
 int main(void) {
 	freopen("input.txt", "rt", stdin);
-	//	freopen("output.txt", "wt", stdout);
+	freopen("output.txt", "wt", stdout);
+
+	auto g = BuildHypercubeGraph(4);
+	PrintDotGraph(g);
 
 
-//	FindMaxSyncRangeFile(R"(D:\Projects\Diploma\graphs\directed_7_3_scc.d6)", 3, 100000);
+	//	FindMaxSyncRangeFile(R"(D:\Projects\Diploma\graphs\directed_7_3_scc.d6)", 3, 100000);
 	//	FindMaxSyncRange(6, 2);
 	//	FindMaxSyncRangeRandom(20, 2, 10000);
 
-	FindAutomataSyncRange();
+	//	FindAutomataSyncRange();
 
 
-
-	PrintStats();
+//	PrintStats();
 
 	return 0;
 }

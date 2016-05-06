@@ -3,6 +3,7 @@
 #include <graph/GraphIO.h>
 #include <util/UtilIO.h>
 #include <algorithm>
+#include <string>
 
 using namespace std;
 using namespace util;
@@ -45,12 +46,34 @@ namespace graph
 		printf("} ");
 	}
 
-
 	void PrintColoring(const GraphColoring& coloring) {
 		printf(" {%d :", coloring.GetId());
 		for (auto& edgeColor : coloring.edgeColors) {
 			PrintPermutation(edgeColor, coloring.nEdges);
 		}
 		printf("} ");
+	}
+
+	void PrintDotGraph(const Graph& graph, FILE* file) {
+		vector<string> nodeLabels;
+		for (int v = 0; v < graph.VerticesCount(); ++v) {
+			nodeLabels.push_back(to_string(v));
+		}
+		PrintDotGraph(graph, nodeLabels, file);
+	}
+
+	void PrintDotGraph(const Graph& graph, const vector<string>& nodeLabels, FILE* file) {
+		fprintf_s(file, "digraph SomeDigraph {\n");
+		for (int v = 0; v < graph.VerticesCount(); ++v) {
+			auto& label = nodeLabels[v];
+			fprintf_s(file, "\t%d [label=\"%s\"];\n", v, label.c_str(), label.length());
+		}
+		for (int v = 0; v < graph.VerticesCount(); ++v) {
+			char label = 'a';
+			for(auto& to : graph.edges[v]) {
+				fprintf_s(file, "\t%d -> %d [label=\"%c\"];\n", v, to, label++);
+			}
+		}
+		fprintf_s(file, "}");
 	}
 }
