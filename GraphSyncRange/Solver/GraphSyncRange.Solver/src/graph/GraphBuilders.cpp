@@ -53,4 +53,14 @@ namespace graph
 			return g;
 		}
 	}
+
+	Graph BuildInverseGraph(const Graph& graph) {
+		Graph rG(graph.VerticesCount());
+		for(int v = 0; v < graph.VerticesCount();++v) {
+			for(auto& to : graph.edges[v]) {
+				rG.AddEdge(to, v);
+			}
+		}
+		return rG;
+	}
 }
