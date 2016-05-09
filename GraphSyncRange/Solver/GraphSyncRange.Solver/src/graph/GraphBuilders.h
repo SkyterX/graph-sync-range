@@ -8,5 +8,9 @@ namespace graph
 
 	Graph BuildHyperTriangularGraph(int dimensions);
 
+	Graph BuildHyperTriangularGraph2(int dimensions);
+
 	Graph BuildInverseGraph(const Graph& graph);
+
+	Graph BuildTuplesGraph(const Graph& graph);
 }

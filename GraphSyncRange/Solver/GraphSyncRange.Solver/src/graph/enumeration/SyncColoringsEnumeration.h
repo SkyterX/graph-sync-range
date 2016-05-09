@@ -98,4 +98,30 @@ namespace graph
 		void BFSUpdate(ColoringIdType coloring_id);
 		bool DoMoveNext();
 	};
+
+	class SyncColoringsOrderedEnumerator {
+
+		using ColoringsCollection = std::vector<std::pair<GraphColoring::IdType, GraphColoring>>;
+
+		bool isFirst;
+		const Graph* graph;
+		SynchronizationChecker syncChecker;
+		ColoringsCollection colorings;
+		ColoringsCollection::const_iterator currentIt;
+
+	public:
+		SyncColoringsOrderedEnumerator(int verticesCount, int outDegree, std::vector<GraphColoring::IdType> coloringsOrder);
+
+		void EnumerateColoringsOf(const Graph& graph);
+
+		GraphColoring::IdType Current;
+
+		bool MoveNext();
+
+	private:
+
+		bool DoMoveNext();
+	};
+
+	SyncColoringsOrderedEnumerator BuildOptimalSyncColoringsEnumerator(int verticesCount, int outDegree);
 }

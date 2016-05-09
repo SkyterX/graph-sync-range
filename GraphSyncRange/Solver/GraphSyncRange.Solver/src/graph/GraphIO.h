@@ -11,4 +11,5 @@ namespace graph
 	void PrintColoring(const GraphColoring& coloring);
 	void PrintDotGraph(const Graph& graph, FILE* file = stdout);
 	void PrintDotGraph(const Graph& graph, const std::vector<std::string>& nodeLabels, FILE* file = stdout);
+	void PrintTuplesDotGraph(const Graph& graph, FILE* file = stdout);
 }

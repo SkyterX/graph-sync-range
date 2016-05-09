@@ -53,7 +53,7 @@ void FindMaxSyncRangeInteractive() {
 void FindAutomataSyncRange() {
 
 	//	auto g = ReadAutomata();
-	auto g = BuildHyperTriangularGraph(3);
+	auto g = BuildHyperTriangularGraph2(2);
 
 	int n = g.VerticesCount();
 	int k = g.OutDegree();
@@ -95,10 +95,7 @@ void FindMaxSyncRangeFile(const char* fileName, int minRangeToLog = 2, int logEv
 	AperiodicityChecker aperiodicityChecker;
 	LazySyncRangeChecker syncRangeChecker(n, k, minRangeToLog);
 
-	int skipId;
-	cin >> skipId;
-
-	auto graphEnumeration = EnumerateMultiGraphs(k, TakeEvery(reader, 4, skipId));
+	auto graphEnumeration = EnumerateMultiGraphs(k, reader);
 
 	CreateTimestampVar(cycleStart);
 	totalGraphs = 0;
@@ -200,18 +197,28 @@ int main(void) {
 	freopen("input.txt", "rt", stdin);
 	freopen("output.txt", "wt", stdout);
 
-	auto g = BuildHypercubeGraph(4);
-	PrintDotGraph(g);
+
+//	auto g = BuildHyperTriangularGraph2(2);
+//	auto g = BuildHypercubeGraph(4);
+//	swap(g.edges[0][0], g.edges[0][1]);
+//	swap(g.edges[1][0], g.edges[1][2]);
+//	swap(g.edges[0][2], g.edges[0][3]);
+//	PrintDotGraph(g);
+
+//	PrintTuplesDotGraph(g);
+//	printf("\n");
 
 
-	//	FindMaxSyncRangeFile(R"(D:\Projects\Diploma\graphs\directed_7_3_scc.d6)", 3, 100000);
+
+
+	FindMaxSyncRangeFile(R"(D:\Projects\Diploma\graphs\directed_10_2_scc.d6)", 3, 100000);
 	//	FindMaxSyncRange(6, 2);
 	//	FindMaxSyncRangeRandom(20, 2, 10000);
 
-	//	FindAutomataSyncRange();
+//		FindAutomataSyncRange();
 
 
-//	PrintStats();
+		PrintStats();
 
 	return 0;
 }

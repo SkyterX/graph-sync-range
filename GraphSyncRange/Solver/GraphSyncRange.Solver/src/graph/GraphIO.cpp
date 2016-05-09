@@ -1,9 +1,12 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <graph/GraphIO.h>
+#include <graph/GraphBuilders.h>
 #include <util/UtilIO.h>
 #include <algorithm>
 #include <string>
+#include <vector>
+#include <cassert>
 
 using namespace std;
 using namespace util;
@@ -70,10 +73,38 @@ namespace graph
 		}
 		for (int v = 0; v < graph.VerticesCount(); ++v) {
 			char label = 'a';
-			for(auto& to : graph.edges[v]) {
+			for (auto& to : graph.edges[v]) {
 				fprintf_s(file, "\t%d -> %d [label=\"%c\"];\n", v, to, label++);
 			}
 		}
 		fprintf_s(file, "}");
+	}
+
+	void PrintTuplesDotGraph(const Graph& graph, FILE* file) {
+		auto pg = BuildTuplesGraph(graph);
+		int n = graph.VerticesCount();
+		assert(n*n == pg.VerticesCount());
+
+		vector<int> nodeMap(n * n, -1);
+		Graph compactPG(n * (n + 1) / 2);
+		vector<string> nodeLabels;
+
+		int nodeId = 0;
+		for (int v = 0; v < n; ++v) {
+			for (int u = v; u < n; ++u) {
+				int w = v * n + u;
+				nodeMap[w] = nodeId++;
+				if(u == v)
+					nodeLabels.push_back(to_string(v));
+				else
+					nodeLabels.push_back("(" + to_string(v) + ", " + to_string(u) + ")");
+			}
+		}
+		for (int w = 0; w < pg.VerticesCount(); ++w) {
+			for (int to : pg.edges[w]) {
+				compactPG.AddEdge(nodeMap[w], nodeMap[to]);
+			}
+		}
+		PrintDotGraph(compactPG, nodeLabels, file);
 	}
 }

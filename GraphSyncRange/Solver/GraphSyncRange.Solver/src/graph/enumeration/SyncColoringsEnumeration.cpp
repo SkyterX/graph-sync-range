@@ -223,3 +223,100 @@ namespace graph
 		}
 	}
 }
+
+
+namespace graph
+{
+	SyncColoringsOrderedEnumerator::SyncColoringsOrderedEnumerator(int verticesCount, int outDegree, vector<GraphColoring::IdType> coloringsOrder)
+		: isFirst(true),
+		  graph(nullptr),
+		  syncChecker(verticesCount, outDegree){
+		colorings.reserve(coloringsOrder.size());
+		for (auto& coloringId : coloringsOrder) {
+			colorings.push_back({coloringId, GraphColoring(verticesCount, outDegree, coloringId)});
+		}
+		currentIt = colorings.begin();
+		Current = currentIt->first;
+	}
+
+	void SyncColoringsOrderedEnumerator::EnumerateColoringsOf(const Graph& graph) {
+		this->graph = &graph;
+		isFirst = true;
+		currentIt = colorings.begin();
+		Current = currentIt->first;
+	}
+
+	bool SyncColoringsOrderedEnumerator::MoveNext() {
+		CreateTimestamp();
+		auto result = DoMoveNext();
+		UpdateTimer(SyncColoringsGenerationTime);
+		return result;
+	}
+
+	bool SyncColoringsOrderedEnumerator::DoMoveNext() {
+		if (isFirst) {
+			isFirst = false;
+			if (syncChecker.IsSynchronizing(*graph, currentIt->second))
+				return true;
+		}
+		while (++currentIt != colorings.end()) {
+			if (syncChecker.IsSynchronizing(*graph, currentIt->second)) {
+				Current = currentIt->first;
+				return true;
+			}
+		}
+		return false;
+	}
+
+	SyncColoringsOrderedEnumerator BuildOptimalSyncColoringsEnumerator(int verticesCount, int outDegree) {
+		
+		const double aging = 0.99999;
+		const double edgeMultiplier = 0.99;
+		using IdType = GraphColoring::IdType;
+
+		auto coloringsGraph = BuildColoringsGraph(verticesCount, outDegree);
+		auto coloringsCount = GraphColoring::ColoringsCount(verticesCount, outDegree);
+		vector<IdType> order;
+		order.reserve(coloringsCount);
+		vector<bool> usedColorings(coloringsCount), visited;
+		vector<double> score(coloringsCount, 0), updateScore;
+		collections::SimpleQueue<IdType> queue;
+		queue.Resize(coloringsCount);
+
+		while (order.size() < coloringsCount) {
+
+			IdType bestColoringId = 0;
+			for (IdType id = 1; id < coloringsCount; ++id) {
+				if (usedColorings[id]) continue;
+				if (usedColorings[bestColoringId] || score[id] < score[bestColoringId])
+					bestColoringId = id;
+			}
+
+			usedColorings[bestColoringId] = true;
+			order.push_back(bestColoringId);
+
+			updateScore.assign(coloringsCount, 0);
+			visited.assign(coloringsCount, false);
+			queue.Clear();
+			queue.Push(bestColoringId);
+			visited[bestColoringId] = true;
+			updateScore[bestColoringId] = 1.0;
+			score[bestColoringId] += updateScore[bestColoringId];
+
+			IdType visitedCnt = 1;
+			while (visitedCnt < coloringsCount && !queue.IsEmpty()) {
+				auto id = queue.Pop();
+				for (auto& to : coloringsGraph.edges[id]) {
+					if (visited[to]) continue;
+					visited[to] = true;
+					updateScore[to] = updateScore[id] * edgeMultiplier;
+					score[to] = score[to] * aging + updateScore[to];
+					queue.Push(to);
+					++visitedCnt;
+				}
+			}
+		}
+
+		return SyncColoringsOrderedEnumerator(verticesCount, outDegree, order);
+	}
+}

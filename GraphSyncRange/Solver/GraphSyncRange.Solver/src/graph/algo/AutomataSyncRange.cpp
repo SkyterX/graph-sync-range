@@ -1,6 +1,7 @@
 #include <graph/algo/AutomataSyncRange.h>
 #include <graph/algo/Synchronization.h>
 #include <graph/enumeration/GraphColoringNeighborsEnumeration.h>
+#include <graph/GraphIO.h>
 #include <queue>
 #include <map>
 #include <cassert>
@@ -75,8 +76,10 @@ namespace graph
 			do {
 				auto neighbor = enumerator.Current;
 				if (distance[neighbor] > 0) continue;
-				if (syncChecker.IsSynchronizing(graph, neighbor))
+				if (syncChecker.IsSynchronizing(graph, neighbor)) {
+					PrintColoring(neighbor);
 					return curDistance;
+				}
 				distance[neighbor] = curDistance + 1;
 				q.push(neighbor);
 			}

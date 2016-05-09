@@ -20,7 +20,8 @@ namespace graph
 		: n(verticesCount), k(outDegree),
 		  minRangeToLog(minRangeToLog),
 		  totalColoringsCount(GraphColoring::ColoringsCount(verticesCount, outDegree)),
-		  coloringsEnumerator(verticesCount, outDegree),
+//		  coloringsEnumerator(verticesCount, outDegree),
+		  coloringsEnumerator(BuildOptimalSyncColoringsEnumerator(verticesCount, outDegree)),
 		  coloringsGraph(BuildColoringsGraph(verticesCount, outDegree)),
 		  coloringsReachabilityGraph(BuildTranisitiveGraph(coloringsGraph, max(0, minRangeToLog-1))){
 		q.Resize(totalColoringsCount);
@@ -124,7 +125,10 @@ namespace graph
 
 		if (minRangeToLog > 0 && distance[farthestColoringId] >= minRangeToLog) {
 			printf("%d : ", ++maxRangesFound);
-			PrintGraph(graph);
+			auto automata = GraphColoring(n, k, farthestColoringId).Apply(graph);
+			PrintDotGraph(automata);
+//			PrintTuplesDotGraph(automata);
+			printf("\n");
 			printf(" -> ");
 			printf("MaxDistance : %d from ", distance[farthestColoringId]);
 			PrintColoring(GraphColoring(n, k, farthestColoringId));
